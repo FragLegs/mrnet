@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd /domino/datasets/output/raw
 wget http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/metadata.csv
 
 for i in '01' '02' '03' '04' '05' '06' '07' '08' '09' '10'
