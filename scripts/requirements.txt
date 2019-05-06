@@ -1,0 +1,17 @@
+certifi=2018.8.24
+cffi=1.11.5
+mkl_fft=1.0.4
+mkl_random=1.0.1
+ninja=1.8.2
+numpy=1.15.1
+numpy-base=1.15.1
+olefile=0.45.1
+pillow=5.2.0
+pycparser=2.18
+scikit-learn=0.19.1
+scipy=1.1.0
+setuptools=40.2.0
+six=1.11.0
+pytorch=0.4.1
+torchvision=0.2.1
+torch==0.4.1.post2
