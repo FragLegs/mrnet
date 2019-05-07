@@ -90,13 +90,13 @@ def load_data(diagnosis, use_gpu=False):
     test_dataset = Dataset(test_dirs, diagnosis, use_gpu)
 
     train_loader = data.DataLoader(
-        train_dataset, batch_size=1, num_workers=2, shuffle=True
+        train_dataset, batch_size=1, num_workers=1, shuffle=True
     )
     valid_loader = data.DataLoader(
-        valid_dataset, batch_size=1, num_workers=2, shuffle=False
+        valid_dataset, batch_size=1, num_workers=1, shuffle=False
     )
     test_loader = data.DataLoader(
-        test_dataset, batch_size=1, num_workers=2, shuffle=False
+        test_dataset, batch_size=1, num_workers=1, shuffle=False
     )
 
     return train_loader, valid_loader, test_loader
