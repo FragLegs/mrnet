@@ -54,7 +54,6 @@ class Dataset(data.Dataset):
         path = self.paths[index]
         real_path = os.path.join(BASE_DATA_DIR, path)
 
-        print('Loading {}'.format(real_path))
         # Must use rb - data is binary
         with open(real_path, 'rb') as file_handler:
             vol = pickle.load(file_handler).astype(np.int32)
@@ -91,13 +90,13 @@ def load_data(diagnosis, use_gpu=False):
     test_dataset = Dataset(test_dirs, diagnosis, use_gpu)
 
     train_loader = data.DataLoader(
-        train_dataset, batch_size=1, num_workers=1, shuffle=True
+        train_dataset, batch_size=1, num_workers=4, shuffle=True
     )
     valid_loader = data.DataLoader(
-        valid_dataset, batch_size=1, num_workers=1, shuffle=False
+        valid_dataset, batch_size=1, num_workers=4, shuffle=False
     )
     test_loader = data.DataLoader(
-        test_dataset, batch_size=1, num_workers=1, shuffle=False
+        test_dataset, batch_size=1, num_workers=4, shuffle=False
     )
 
     return train_loader, valid_loader, test_loader
