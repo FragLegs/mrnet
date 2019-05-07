@@ -6,22 +6,27 @@ import torch
 
 from datetime import datetime
 from pathlib import Path
-from sklearn import metrics
+# from sklearn import metrics
 
 from evaluate import run_model
 from loader import load_data
 from model import MRNet
 
+
 def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
     train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
-    
+
     model = MRNet()
-    
+
     if use_gpu:
         model = model.cuda()
 
-    optimizer = torch.optim.Adam(model.parameters(), learning_rate, weight_decay=.01)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=.3, threshold=1e-4)
+    optimizer = torch.optim.Adam(
+        model.parameters(), learning_rate, weight_decay=.01
+    )
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, patience=5, factor=.3, threshold=1e-4
+    )
 
     best_val_loss = float('inf')
 
@@ -29,9 +34,13 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
 
     for epoch in range(epochs):
         change = datetime.now() - start_time
-        print('starting epoch {}. time passed: {}'.format(epoch+1, str(change)))
-        
-        train_loss, train_auc, _, _ = run_model(model, train_loader, train=True, optimizer=optimizer)
+        print(
+            'starting epoch {}. time passed: {}'.format(epoch + 1, str(change))
+        )
+
+        train_loss, train_auc, _, _ = run_model(
+            model, train_loader, train=True, optimizer=optimizer
+        )
         print(f'train loss: {train_loss:0.4f}')
         print(f'train AUC: {train_auc:0.4f}')
 
@@ -44,9 +53,12 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
         if val_loss < best_val_loss:
             best_val_loss = val_loss
 
-            file_name = f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch+1}'
+            file_name = (
+                f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch + 1}'
+            )
             save_path = Path(rundir) / file_name
             torch.save(model.state_dict(), save_path)
+
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -61,17 +73,20 @@ def get_parser():
     parser.add_argument('--factor', default=0.3, type=float)
     return parser
 
+
 if __name__ == '__main__':
     args = get_parser().parse_args()
-    
+
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
     if args.gpu:
         torch.cuda.manual_seed_all(args.seed)
 
     os.makedirs(args.rundir, exist_ok=True)
-    
+
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
-    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu)
+    train(
+        args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu
+    )

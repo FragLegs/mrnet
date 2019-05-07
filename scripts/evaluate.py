@@ -1,7 +1,7 @@
 import argparse
-import matplotlib.pyplot as plt
-import os
-import numpy as np
+# import matplotlib.pyplot as plt
+# import os
+# import numpy as np
 import torch
 
 from sklearn import metrics
@@ -10,6 +10,7 @@ from torch.autograd import Variable
 from loader import load_data
 from model import MRNet
 
+
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', type=str, required=True)
@@ -17,6 +18,7 @@ def get_parser():
     parser.add_argument('--diagnosis', type=int, required=True)
     parser.add_argument('--gpu', action='store_true')
     return parser
+
 
 def run_model(model, loader, train=False, optimizer=None):
     preds = []
@@ -65,11 +67,14 @@ def run_model(model, loader, train=False, optimizer=None):
 
     return avg_loss, auc, preds, labels
 
+
 def evaluate(split, model_path, diagnosis, use_gpu):
     train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
 
     model = MRNet()
-    state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
+    state_dict = torch.load(
+        model_path, map_location=(None if use_gpu else 'cpu')
+    )
     model.load_state_dict(state_dict)
 
     if use_gpu:
@@ -90,6 +95,7 @@ def evaluate(split, model_path, diagnosis, use_gpu):
     print(f'{split} AUC: {auc:0.4f}')
 
     return preds, labels
+
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
