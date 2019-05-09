@@ -12,6 +12,6 @@ if __name__ == '__main__':
     s3.download_file(
         Bucket='mrnet-data',
         Key='MRNet-v1.0.tar.gz',
-        Filename='/domino/datasets/local/mrnet-data/MRNet-v1.0.tar.gz'
+        Filename='MRNet-v1.0.tar.gz'
     )
     print('Done!')
