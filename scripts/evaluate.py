@@ -1,14 +1,20 @@
 import argparse
+import logging
 # import matplotlib.pyplot as plt
 # import os
 # import numpy as np
 import torch
+import wandb
 
 from sklearn import metrics
 from torch.autograd import Variable
+from tqdm import tqdm
 
 from loader import load_data
 from model import MRNet
+
+
+log = logging.getLogger(__name__)
 
 
 def get_parser():
@@ -20,7 +26,7 @@ def get_parser():
     return parser
 
 
-def run_model(model, loader, train=False, optimizer=None):
+def run_model(model, loader, train=False, optimizer=None, log_every=25):
     preds = []
     labels = []
 
@@ -32,7 +38,7 @@ def run_model(model, loader, train=False, optimizer=None):
     total_loss = 0.
     num_batches = 0
 
-    for batch in loader:
+    for batch in tqdm(loader):
         if train:
             optimizer.zero_grad()
 
@@ -46,7 +52,16 @@ def run_model(model, loader, train=False, optimizer=None):
         logit = model.forward(vol)
 
         loss = loader.dataset.weighted_loss(logit, label)
-        total_loss += loss.item()
+        loss_val = loss.item()
+        total_loss += loss_val
+        if num_batches % log_every == 0:
+            # log.debug('{0}: {1:.3f} ({2:.3f})'.format(
+            #     num_batches, loss_val, total_loss
+            # ))
+            wandb.log({
+                'loss': loss_val,
+                'total_loss': total_loss
+            })
 
         pred = torch.sigmoid(logit)
         pred_npy = pred.data.cpu().numpy()[0][0]

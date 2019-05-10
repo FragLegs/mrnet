@@ -9,6 +9,7 @@ import pprint
 import numpy as np
 import pandas as pd
 import torch
+import wandb
 
 # from sklearn import metrics
 
@@ -36,6 +37,7 @@ def train(model_name,
           factor,
           full,
           gpu,
+          log_interval,
           **kwargs):
 
     # load the paths dataframe
@@ -52,6 +54,7 @@ def train(model_name,
     )
 
     model = MODELS[model_name]()  # MRNet()
+    wandb.watch(model)
 
     if gpu:
         model = model.cuda()
@@ -74,7 +77,8 @@ def train(model_name,
         )
 
         train_loss, train_auc, _, _ = run_model(
-            model, train_loader, train=True, optimizer=optimizer
+            model, train_loader, train=True,
+            optimizer=optimizer, log_every=log_interval
         )
         print(f'train loss: {train_loss:0.4f}')
         print(f'train AUC: {train_auc:0.4f}')
@@ -82,6 +86,14 @@ def train(model_name,
         val_loss, val_auc, _, _ = run_model(model, valid_loader)
         print(f'valid loss: {val_loss:0.4f}')
         print(f'valid AUC: {val_auc:0.4f}')
+
+        wandb.log({
+            'train_loss': train_loss,
+            'train_auc': train_auc,
+            'valid_loss': val_loss,
+            'valid_auc': val_auc,
+            'epoch': epoch
+        })
 
         scheduler.step(val_loss)
 
@@ -99,7 +111,9 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('model_name')
     parser.add_argument(
-        '--rundir', type=str, default='runs/{model_name}/{series}/{diagnosis}'
+        '--rundir',
+        type=str,
+        default='runs/{model_name}/{series}/{diagnosis}/{now}'
     )
     parser.add_argument(
         '-d',
@@ -121,6 +135,7 @@ def parse_args():
     parser.add_argument('--epochs', default=50, type=int)
     parser.add_argument('--max_patience', default=5, type=int)
     parser.add_argument('--factor', default=0.3, type=float)
+    parser.add_argument('--log-interval', default=25, type=int)
 
     verbosity_help = 'Verbosity level (default: %(default)s)'
     choices = [
@@ -155,6 +170,8 @@ if __name__ == '__main__':
     if args.gpu:
         torch.cuda.manual_seed_all(args.seed)
 
+    args.now = datetime.now().strftime('%m-%d_%H-%M')
+
     args.rundir = args.rundir.format(**args.__dict__)
 
     os.makedirs(args.rundir, exist_ok=True)
@@ -162,5 +179,14 @@ if __name__ == '__main__':
     log.debug(pprint.pformat(args.__dict__))
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
+
+    name = '{}--{}'.format(args.rundir, )
+
+    wandb.init(
+        name=args.rundir,
+        config=args,
+        project='mrnet',
+        dir=args.rundir
+    )
 
     train(**args.__dict__)
