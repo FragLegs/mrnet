@@ -36,7 +36,7 @@ def train(model_name,
 
     # load the paths dataframe
     paths = pd.read_csv(
-        '/mnt/mrnet-image-paths.csv', header=False, columns=['path']
+        '/mnt/mrnet-image-paths.csv', header=['path']
     ).path.values
 
     # load the labels dataframe
