@@ -62,7 +62,7 @@ class Dataset(data.Dataset):
                 idx: row[self.diagnosis] for idx, row in label_df.iterrows()
             }
 
-            neg_weight = np.mean(self.labels.values())
+            neg_weight = np.mean(list(self.labels.values()))
             self.weights = [neg_weight, 1 - neg_weight]
 
     def weighted_loss(self, prediction, target):
