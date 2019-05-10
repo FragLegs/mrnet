@@ -78,11 +78,12 @@ class Dataset(data.Dataset):
         return loss
 
     def __getitem__(self, index):
-        vol_tensor = load_volume(self.paths[self.cases[index]])
+        case = self.cases[index]
+        vol_tensor = load_volume(self.paths[case])
 
         label_tensor = (
             None if self.labels is None else
-            torch.FloatTensor([self.labels[index]])
+            torch.FloatTensor([self.labels[case]])
         )
 
         return vol_tensor, label_tensor
