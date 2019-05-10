@@ -153,10 +153,16 @@ def load_data(paths,
     log.debug('Valid dataset had {} instances'.format(len(valid_dataset)))
 
     train_loader = data.DataLoader(
-        train_dataset, batch_size=1, num_workers=1, shuffle=True
+        train_dataset,
+        batch_size=1,
+        num_workers=1 if use_gpu else 0,
+        shuffle=True
     )
     valid_loader = data.DataLoader(
-        valid_dataset, batch_size=1, num_workers=1, shuffle=False
+        valid_dataset,
+        batch_size=1,
+        num_workers=1 if use_gpu else 0,
+        shuffle=False
     )
 
     if test_df is not None:
@@ -169,7 +175,10 @@ def load_data(paths,
         )
         log.debug('Test dataset had {} instances'.format(len(test_dataset)))
         test_loader = data.DataLoader(
-            test_dataset, batch_size=1, num_workers=1, shuffle=False
+            test_dataset,
+            batch_size=1,
+            num_workers=1 if use_gpu else 0,
+            shuffle=False
         )
     else:
         test_loader = None
