@@ -35,7 +35,9 @@ def train(model_name,
           **kwargs):
 
     # load the paths dataframe
-    paths = pd.read_csv('/mnt/mrnet-image-paths.csv').values
+    paths = pd.read_csv(
+        '/mnt/mrnet-image-paths.csv', header=False, columns=['path']
+    ).path.values
 
     # load the labels dataframe
     label_df = pd.read_csv('/mnt/mrnet-labels.csv', index_col=0)
