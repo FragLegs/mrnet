@@ -4,6 +4,7 @@ import json
 import logging
 import os
 from pathlib import Path
+import pprint
 
 import numpy as np
 import pandas as pd
@@ -14,6 +15,9 @@ import torch
 from evaluate import run_model
 from loader import load_data
 from model import MRNet
+
+
+log = logging.getLogger(__name__)
 
 
 MODELS = {
@@ -40,7 +44,7 @@ def train(model_name,
     ).path.values
 
     # load the labels dataframe
-    label_df = pd.read_csv('/mnt/mrnet-labels.csv', index_col=0)
+    label_df = pd.read_csv('/mnt/mrnet-labels-3way.csv', index_col=0)
 
     train_loader, valid_loader, _ = load_data(
         paths=paths, series=series, label_df=label_df,
@@ -155,6 +159,7 @@ if __name__ == '__main__':
 
     os.makedirs(args.rundir, exist_ok=True)
 
+    log.debug(pprint.pformat(args.__dict__))
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
