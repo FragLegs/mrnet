@@ -65,6 +65,8 @@ class Dataset(data.Dataset):
             neg_weight = np.mean(list(self.labels.values()))
             self.weights = [neg_weight, 1 - neg_weight]
 
+        self.cases = sorted(list(self.paths.keys()))
+
     def weighted_loss(self, prediction, target):
         weights_npy = np.array([self.weights[int(t[0])] for t in target.data])
         weights_tensor = torch.FloatTensor(weights_npy)
@@ -76,7 +78,7 @@ class Dataset(data.Dataset):
         return loss
 
     def __getitem__(self, index):
-        vol_tensor = load_volume(self.paths[index])
+        vol_tensor = load_volume(self.paths[self.cases[index]])
 
         label_tensor = (
             None if self.labels is None else
@@ -86,7 +88,7 @@ class Dataset(data.Dataset):
         return vol_tensor, label_tensor
 
     def __len__(self):
-        return len(self.paths)
+        return len(self.cases)
 
 
 def paths_to_df(paths):
