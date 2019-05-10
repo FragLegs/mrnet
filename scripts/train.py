@@ -180,8 +180,6 @@ if __name__ == '__main__':
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
-    name = '{}--{}'.format(args.rundir, )
-
     wandb.init(
         name=args.rundir,
         config=args,
