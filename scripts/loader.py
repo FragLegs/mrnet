@@ -155,13 +155,13 @@ def load_data(paths,
     train_loader = data.DataLoader(
         train_dataset,
         batch_size=1,
-        num_workers=1 if use_gpu else 0,
+        num_workers=0,  # 1 if use_gpu else 0,
         shuffle=True
     )
     valid_loader = data.DataLoader(
         valid_dataset,
         batch_size=1,
-        num_workers=1 if use_gpu else 0,
+        num_workers=0,  # 1 if use_gpu else 0,
         shuffle=False
     )
 
@@ -177,7 +177,7 @@ def load_data(paths,
         test_loader = data.DataLoader(
             test_dataset,
             batch_size=1,
-            num_workers=1 if use_gpu else 0,
+            num_workers=0,  # 1 if use_gpu else 0,
             shuffle=False
         )
     else:

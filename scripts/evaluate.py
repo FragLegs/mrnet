@@ -60,7 +60,6 @@ def run_model(model, loader, train=False, optimizer=None, log_every=25):
             # ))
             wandb.log({
                 'loss': loss_val,
-                'total_loss': total_loss
             })
 
         pred = torch.sigmoid(logit)
