@@ -184,7 +184,7 @@ if __name__ == '__main__':
 
     os.makedirs(args.rundir, exist_ok=True)
 
-    log.debug(pprint.pformat(args.__dict__))
+    log.info(pprint.pformat(args.__dict__))
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
