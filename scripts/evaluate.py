@@ -4,7 +4,7 @@ import logging
 # import os
 # import numpy as np
 import torch
-import wandb
+# import wandb
 
 from sklearn import metrics
 from torch.autograd import Variable
@@ -54,13 +54,13 @@ def run_model(model, loader, train=False, optimizer=None, log_every=25):
         loss = loader.dataset.weighted_loss(logit, label)
         loss_val = loss.item()
         total_loss += loss_val
-        if num_batches % log_every == 0:
-            # log.debug('{0}: {1:.3f} ({2:.3f})'.format(
-            #     num_batches, loss_val, total_loss
-            # ))
-            wandb.log({
-                'loss': loss_val,
-            })
+        # if num_batches % log_every == 0:
+        #     # log.debug('{0}: {1:.3f} ({2:.3f})'.format(
+        #     #     num_batches, loss_val, total_loss
+        #     # ))
+        #     # wandb.log({
+        #     #     'loss': loss_val,
+        #     # })
 
         pred = torch.sigmoid(logit)
         pred_npy = pred.data.cpu().numpy()[0][0]

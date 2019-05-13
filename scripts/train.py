@@ -70,6 +70,9 @@ def train(model_name,
 
     start_time = datetime.now()
 
+    with open(Path(rundir) / 'metrics.csv', 'w') as fout:
+        fout.write('epoch,train_loss,val_loss,train_auc,val_auc\n')
+
     for epoch in range(epochs):
         change = datetime.now() - start_time
         print(
@@ -96,6 +99,11 @@ def train(model_name,
         })
 
         scheduler.step(val_loss)
+
+        with open(Path(rundir) / 'metrics.csv', 'a') as fout:
+            fout.write('{},{},{},{},{}\n'.format(
+                epoch, train_loss, val_loss, train_auc, val_auc
+            ))
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
