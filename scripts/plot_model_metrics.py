@@ -76,17 +76,22 @@ def plot(metrics, value):
     )
 
 
+def save_plot(path, metrics, y_axis):
+    facets = sns.FacetGrid(metrics, row='diagnosis', col='series', hue='split')
+    loss_graph = facets.map(sns.lineplot, 'epoch', y_axis)
+    loss_graph.savefig(path)
+
+
 def plot_data(model, output_dir, **kwargs):
     os.makedirs(output_dir, exist_ok=True)
 
     metrics = load_data(model)
 
-    facets = sns.FacetGrid(metrics, row='diagnosis', col='series', hue='split')
-    loss_graph = facets.map(sns.lineplot, 'epoch', 'loss')
-    auc_graph = facets.map(sns.lineplot, 'epoch', 'auc')
+    loss_path = os.path.join(output_dir, '{}_loss.png'.format(model))
+    save_plot(loss_path, metrics, 'loss')
 
-    loss_graph.savefig(os.path.join(output_dir, '{}_loss.png'.format(model)))
-    auc_graph.savefig(os.path.join(output_dir, '{}_auc.png'.format(model)))
+    auc_path = os.path.join(output_dir, '{}_auc.png'.format(model))
+    save_plot(auc_path, metrics, 'auc')
 
 
 def parse_args():
