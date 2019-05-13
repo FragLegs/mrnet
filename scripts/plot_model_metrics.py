@@ -82,8 +82,8 @@ def plot_data(model, output_dir, **kwargs):
     metrics = load_data(model)
 
     facets = sns.FacetGrid(metrics, row='diagnosis', col='series', hue='split')
-    loss_graph = facets.map(sns.line_plot, 'epoch', 'loss')
-    auc_graph = facets.map(sns.line_plot, 'epoch', 'auc')
+    loss_graph = facets.map(sns.lineplot, 'epoch', 'loss')
+    auc_graph = facets.map(sns.lineplot, 'epoch', 'auc')
 
     loss_graph.savefig(os.path.join(output_dir, '{}_loss.png'.format(model)))
     auc_graph.savefig(os.path.join(output_dir, '{}_auc.png'.format(model)))
