@@ -94,8 +94,7 @@ def train(model_name,
             'train_loss': train_loss,
             'train_auc': train_auc,
             'valid_loss': val_loss,
-            'valid_auc': val_auc,
-            'epoch': epoch
+            'valid_auc': val_auc
         })
 
         scheduler.step(val_loss)
