@@ -76,7 +76,7 @@ def plot(metrics, value):
     )
 
 
-def plot_data(model, output_dir):
+def plot_data(model, output_dir, **kwargs):
     os.makedirs(output_dir, exist_ok=True)
 
     metrics = load_data(model)
