@@ -79,6 +79,7 @@ def plot(metrics, value):
 def save_plot(path, metrics, y_axis):
     facets = sns.FacetGrid(metrics, row='diagnosis', col='series', hue='split')
     loss_graph = facets.map(sns.lineplot, 'epoch', y_axis)
+    loss_graph.add_legend()
     loss_graph.savefig(path)
 
 
