@@ -163,8 +163,8 @@ if __name__ == '__main__':
                 diagnosis=diagnosis, use_gpu=args.gpu, is_full=False
             )
 
-            log.info('Loading model from {}'.format(args.model_path))
-            model = load_model(args.model_path, args.gpu)
+            log.info('Loading model from {}'.format(model_path))
+            model = load_model(model_path, args.gpu)
 
             log.info('Validation')
 
