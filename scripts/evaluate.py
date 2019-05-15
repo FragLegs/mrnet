@@ -1,11 +1,10 @@
 import argparse
-from datetime import datetime
+import collections
 import logging
 # import matplotlib.pyplot as plt
 import os
 import pprint
 
-import numpy as np
 import pandas as pd
 import torch
 # import wandb
@@ -97,19 +96,8 @@ def evaluate(loader, model):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('model_path')
-    parser.add_argument(
-        '-d',
-        '--diagnosis',
-        choices=['abnormal', 'acl', 'meniscus', 'all'],
-        default='all'
-    )
-    parser.add_argument(
-        '-s',
-        '--series',
-        choices=['axial', 'coronal', 'sagittal', 'all'],
-        default='all'
-    )
+    parser.add_argument('model_name')
+    parser.add_argument('output_path')
     parser.add_argument('--gpu', action='store_true')
 
     verbosity_help = 'Verbosity level (default: %(default)s)'
@@ -140,18 +128,9 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    np.random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    if args.gpu:
-        torch.cuda.manual_seed_all(args.seed)
-
-    args.now = datetime.now().strftime('%m-%d_%H-%M')
-
-    args.rundir = args.rundir.format(**args.__dict__)
-
-    os.makedirs(args.rundir, exist_ok=True)
-
     log.info(pprint.pformat(args.__dict__))
+
+    os.makedirs(args.output_path, exist_ok=True)
 
     # load the paths dataframe
     paths = pd.read_csv(
@@ -161,32 +140,53 @@ if __name__ == '__main__':
     # load the labels dataframe
     label_df = pd.read_csv('/mnt/mrnet-labels-3way.csv', index_col=0)
 
-    _, valid_loader, test_loader = load_data(
-        paths=paths, series=args.series, label_df=label_df,
-        diagnosis=args.diagnosis, use_gpu=args.gpu, is_full=False
-    )
+    model_name = args.model_name
+    output_path = args.output_path
 
-    log.info('Loading model from {}'.format(args.model_path))
-    model = load_model(args.model_path, args.gpu)
+    val_cases = collections.defaultdict(dict)
+    test_cases = collections.defaultdict(dict)
 
-    log.info('Validation')
+    for series in ['axial', 'coronal', 'sagittal']:
+        for diagnosis in ['abnormal', 'acl', 'meniscus']:
+            log.info(f'{series}/{diagnosis}')
+            models_dir = f'runs/{model_name}/{series}/{diagnosis}'
+            most_recent = sorted(os.listdir(models_dir))[-1]
+            most_recent_path = os.path.join(models_dir, most_recent)
+            model_paths = sorted([
+                fn for fn in os.listdir(most_recent_path)
+                if fn.startswith('val')
+            ])
+            model_path = os.path.join(most_recent_path, model_paths[0])
 
-    val_preds, val_labels, val_cases = evaluate(valid_loader, model)
+            _, valid_loader, test_loader = load_data(
+                paths=paths, series=args.series, label_df=label_df,
+                diagnosis=args.diagnosis, use_gpu=args.gpu, is_full=False
+            )
 
-    log.info('Test')
+            log.info('Loading model from {}'.format(args.model_path))
+            model = load_model(args.model_path, args.gpu)
 
-    test_preds, test_labels, test_cases = evaluate(test_loader, model)
+            log.info('Validation')
 
-    model_dir = os.path.dirname(args.model_path)
+            for pred, label, case in zip(*evaluate(valid_loader, model)):
+                val_cases[case]['case'] = case
+                val_cases[case][f'{series}_{diagnosis}_label'] = label
+                val_cases[case][f'{series}_{diagnosis}_pred'] = pred
 
-    val = pd.DataFrame()
-    val['case'] = val_cases
-    val['label'] = val_labels
-    val['pred'] = val_preds
-    val.to_csv(os.path.join(model_dir, 'val_preds.csv'), index=False)
+            log.info('Test')
 
-    test = pd.DataFrame()
-    test['case'] = test_cases
-    test['label'] = test_labels
-    test['pred'] = test_preds
-    test.to_csv(os.path.join(model_dir, 'test_preds.csv'), index=False)
+            for pred, label, case in zip(*evaluate(test_loader, model)):
+                test_cases[case]['case'] = case
+                test_cases[case][f'{series}_{diagnosis}_label'] = label
+                test_cases[case][f'{series}_{diagnosis}_pred'] = pred
+
+    val = pd.DataFrame.from_records(list(val_cases.values()))
+    test = pd.DataFrame.from_records(list(test_cases.values()))
+
+    val_path = os.path.join(args.output_path, 'val_preds.csv')
+    log.info(f'Writing validation predictions to {val_path}')
+    val.to_csv(val, index=False)
+
+    test_path = os.path.join(args.output_path, 'test_preds.csv')
+    log.info(f'Writing test predictions to {test_path}')
+    test.to_csv(test, index=False)
