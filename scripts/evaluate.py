@@ -185,8 +185,8 @@ if __name__ == '__main__':
 
     val_path = os.path.join(args.output_path, model_name, 'val_preds.csv')
     log.info(f'Writing validation predictions to {val_path}')
-    val.to_csv(val, index=False)
+    val.to_csv(val_path, index=False)
 
     test_path = os.path.join(args.output_path, model_name, 'test_preds.csv')
     log.info(f'Writing test predictions to {test_path}')
-    test.to_csv(test, index=False)
+    test.to_csv(test_path, index=False)
