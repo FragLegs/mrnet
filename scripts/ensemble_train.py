@@ -5,6 +5,7 @@ import os
 import pickle
 import pprint
 
+import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
@@ -33,7 +34,10 @@ def load_data(eval_path, model_name, split='val'):
             f'sagittal_{diagnosis}_label'
         ]
         X[diagnosis] = df[X_cols].values
-        y[diagnosis] = df[y_cols].values
+
+        assert(np.all(df[y_cols[0]] == df[y_cols[1]]))
+        assert(np.all(df[y_cols[1]] == df[y_cols[2]]))
+        y[diagnosis] = df[y_cols[0]].values
 
     return X, y
 
