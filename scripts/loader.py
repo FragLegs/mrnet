@@ -25,7 +25,9 @@ def augmentation(img, flip, angle, shift):
     if flip:
         img = FT.hflip()
 
-    img = FT.affine(img, angle=angle, translate=(shift, 0))
+    img = FT.affine(
+        img, angle=angle, translate=(shift, 0), scale=1.0, shear=0.0
+    )
 
     return FT.to_tensor(img).numpy()
 
