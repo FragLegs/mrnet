@@ -183,10 +183,10 @@ if __name__ == '__main__':
     val = pd.DataFrame.from_records(list(val_cases.values()))
     test = pd.DataFrame.from_records(list(test_cases.values()))
 
-    val_path = os.path.join(args.output_path, 'val_preds.csv')
+    val_path = os.path.join(args.output_path, model_name, 'val_preds.csv')
     log.info(f'Writing validation predictions to {val_path}')
     val.to_csv(val, index=False)
 
-    test_path = os.path.join(args.output_path, 'test_preds.csv')
+    test_path = os.path.join(args.output_path, model_name, 'test_preds.csv')
     log.info(f'Writing test predictions to {test_path}')
     test.to_csv(test, index=False)
