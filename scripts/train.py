@@ -79,14 +79,16 @@ def train(model_name,
             'starting epoch {}. time passed: {}'.format(epoch + 1, str(change))
         )
 
-        train_loss, train_auc, _, _ = run_model(
-            model, train_loader, train=True,
-            optimizer=optimizer, log_every=log_interval
+        train_loss, train_auc, _, _, _ = (
+            run_model(
+                model, train_loader, train=True,
+                optimizer=optimizer, log_every=log_interval
+            )
         )
         print(f'train loss: {train_loss:0.4f}')
         print(f'train AUC: {train_auc:0.4f}')
 
-        val_loss, val_auc, _, _ = run_model(model, valid_loader)
+        val_loss, val_auc, _, _, _ = run_model(model, valid_loader)
         print(f'valid loss: {val_loss:0.4f}')
         print(f'valid AUC: {val_auc:0.4f}')
 

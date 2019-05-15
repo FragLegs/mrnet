@@ -1,0 +1,74 @@
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bien et~al.(2018)Bien, Rajpurkar, Ball, Irvin, Park, Jones, Bereket,
+  Patel, Yeom, Shpanskaya, et~al.]{bien2018deep}
+Bien, N., Rajpurkar, P., Ball, R.~L., Irvin, J., Park, A., Jones, E., Bereket,
+  M., Patel, B.~N., Yeom, K.~W., Shpanskaya, K., et~al.
+\newblock Deep-learning-assisted diagnosis for knee magnetic resonance imaging:
+  Development and retrospective validation of mrnet.
+\newblock \emph{PLoS medicine}, 15\penalty0 (11):\penalty0 e1002699, 2018.
+
+\bibitem[Gibson et~al.(2018)Gibson, Li, Sudre, Fidon, Shakir, Wang,
+  Eaton-Rosen, Gray, Doel, Hu, Whyntie, Nachev, Modat, Barratt, Ourselin,
+  Cardoso, and Vercauteren]{niftynet18}
+Gibson, E., Li, W., Sudre, C., Fidon, L., Shakir, D.~I., Wang, G., Eaton-Rosen,
+  Z., Gray, R., Doel, T., Hu, Y., Whyntie, T., Nachev, P., Modat, M., Barratt,
+  D.~C., Ourselin, S., Cardoso, M.~J., and Vercauteren, T.
+\newblock Niftynet: a deep-learning platform for medical imaging.
+\newblock 2018.
+\newblock \doi{https://doi.org/10.1016/j.cmpb.2018.01.025}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0169260717311823}.
+
+\bibitem[He et~al.(2016)He, Zhang, Ren, and Sun]{he2016deep}
+He, K., Zhang, X., Ren, S., and Sun, J.
+\newblock Deep residual learning for image recognition.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pp.\  770--778, 2016.
+
+\bibitem[Liu et~al.(2018)Liu, Pan, Li, Chen, Tang, Lu, and
+  Wang]{liu2018applications}
+Liu, J., Pan, Y., Li, M., Chen, Z., Tang, L., Lu, C., and Wang, J.
+\newblock Applications of deep learning to mri images: A survey.
+\newblock \emph{Big Data Mining and Analytics}, 1\penalty0 (1):\penalty0 1--18,
+  2018.
+
+\bibitem[Lundervold \& Lundervold(2018)Lundervold and
+  Lundervold]{lundervold2018overview}
+Lundervold, A.~S. and Lundervold, A.
+\newblock An overview of deep learning in medical imaging focusing on mri.
+\newblock \emph{Zeitschrift f{\"u}r Medizinische Physik}, 2018.
+
+\bibitem[Mishkin et~al.(2017)Mishkin, Sergievskiy, and
+  Matas]{mishkin2017systematic}
+Mishkin, D., Sergievskiy, N., and Matas, J.
+\newblock Systematic evaluation of convolution neural network advances on the
+  imagenet.
+\newblock \emph{Computer Vision and Image Understanding}, 161:\penalty0 11--19,
+  2017.
+
+\bibitem[Ny{\'u}l et~al.(2000)Ny{\'u}l, Udupa, and Zhang]{nyul2000new}
+Ny{\'u}l, L.~G., Udupa, J.~K., and Zhang, X.
+\newblock New variants of a method of mri scale standardization.
+\newblock \emph{IEEE transactions on medical imaging}, 19\penalty0
+  (2):\penalty0 143--150, 2000.
+
+\bibitem[Prasoon et~al.(2013)Prasoon, Petersen, Igel, Lauze, Dam, and
+  Nielsen]{prasoon2013deep}
+Prasoon, A., Petersen, K., Igel, C., Lauze, F., Dam, E., and Nielsen, M.
+\newblock Deep feature learning for knee cartilage segmentation using a
+  triplanar convolutional neural network.
+\newblock In \emph{International conference on medical image computing and
+  computer-assisted intervention}, pp.\  246--253. Springer, 2013.
+
+\bibitem[Simonyan \& Zisserman(2014)Simonyan and Zisserman]{simonyan2014very}
+Simonyan, K. and Zisserman, A.
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock \emph{arXiv preprint arXiv:1409.1556}, 2014.
+
+\end{thebibliography}

@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{bien2018deep}
+N.~Bien, P.~Rajpurkar, R.~L. Ball, J.~Irvin, A.~Park, E.~Jones, M.~Bereket,
+  B.~N. Patel, K.~W. Yeom, K.~Shpanskaya, et~al.
+\newblock Deep-learning-assisted diagnosis for knee magnetic resonance imaging:
+  Development and retrospective validation of mrnet.
+\newblock {\em PLoS medicine}, 15(11):e1002699, 2018.
+
+\bibitem{krizhevsky2012imagenet}
+A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton.
+\newblock Imagenet classification with deep convolutional neural networks.
+\newblock In {\em Advances in neural information processing systems}, pages
+  1097--1105, 2012.
+
+\bibitem{vstajduhar2017semi}
+I.~{\v{S}}tajduhar, M.~Mamula, D.~Mileti{\'c}, and G.~{\"U}nal.
+\newblock Semi-automated detection of anterior cruciate ligament injury from
+  mri.
+\newblock {\em Computer methods and programs in biomedicine}, 140:151--164,
+  2017.
+
+\end{thebibliography}

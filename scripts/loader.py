@@ -86,7 +86,7 @@ class Dataset(data.Dataset):
             torch.FloatTensor([self.labels[case]])
         )
 
-        return vol_tensor, label_tensor
+        return vol_tensor, label_tensor, case
 
     def __len__(self):
         return len(self.cases)
