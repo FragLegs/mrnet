@@ -85,7 +85,7 @@ def train(model_name,
         train_loss, train_auc, _, _, _ = (
             run_model(
                 model, train_loader, train=True,
-                optimizer=optimizer, augment=augment
+                optimizer=optimizer
             )
         )
         print(f'train loss: {train_loss:0.4f}')
