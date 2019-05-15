@@ -54,12 +54,11 @@ def load_volume(path, augment=False):
         angle = (random.random() * 50.0) - 25.0
         shift = random.randint(-25, 25)
 
-        vol = np.stack(
+        vol = np.vstack(
             [
                 augmentation(v, flip, angle, shift)
                 for v in vol.astype(np.float32)
-            ],
-            axis=0
+            ]
         )
 
         shape_out = vol.shape
