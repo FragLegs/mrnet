@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex milestone"] 1557887021 "milestone.aux" "milestone.bbl" "milestone" 1557887022
+["bibtex milestone"] 1557949510 "milestone.aux" "milestone.bbl" "milestone" 1557949511
   "./ieee.bst" 1411502228 19623 f9cd22458ca68af2567100f1aed905e8 ""
   "egbib.bib" 1557847119 3991 33ee13637fe2554c5d8b3adb130b35c8 ""
-  "milestone.aux" 1557887022 2509 cdc5b0faff70c7f3c2c775d53e4960a7 ""
+  "milestone.aux" 1557949511 2493 c479e20b2447a14a7a29a531b2d6e4da ""
   "milestone.bcf" 0 -1 0 ""
   (generated)
   "milestone.bbl"
   "milestone.blg"
-["pdflatex"] 1557887021 "milestone.tex" "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf" "milestone" 1557887022
-  "../images/MRNet_auc.png" 1557777835 87230 eb269500d20793078860a5b56d428579 ""
-  "../images/MRNet_loss.png" 1557777867 110396 ffb4f3c7caa63dd04886de533153eb47 ""
+["pdflatex"] 1557949510 "milestone.tex" "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf" "milestone" 1557949511
+  "../images/MRNet-aug_auc.png" 1557949344 91733 f7e5b3721fb4956d2da3f1707056a298 ""
+  "../images/MRNet-aug_loss.png" 1557949347 107394 6d8ebdc27c29002596fc96aee5069f99 ""
   "/etc/texmf/web2c/texmf.cnf" 1533053732 1101 af7716885e081ab43982cab7b4672c1a ""
-  "/home/smiel/projects/mrnet/paper/milestone/milestone.aux" 1557887022 2509 cdc5b0faff70c7f3c2c775d53e4960a7 ""
+  "/home/smiel/projects/mrnet/paper/milestone/milestone.aux" 1557949511 2493 c479e20b2447a14a7a29a531b2d6e4da ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -107,12 +107,12 @@
   "cvpr.sty" 1473049876 8185 dd8231e8a92c383d16b745afe2ab996b ""
   "cvpr_eso.sty" 1411502228 3878 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1411502228 9460 d2935ae95b5cd343fcf5887ff530288d ""
-  "milestone.aux" 1557887022 2509 cdc5b0faff70c7f3c2c775d53e4960a7 ""
-  "milestone.bbl" 1557887021 913 d94fa2dc3994eabfb92a37d029181e15 "bibtex milestone"
-  "milestone.tex" 1557887020 26691 7ea02d1331af216ad91f9dc906cb8459 ""
+  "milestone.aux" 1557949511 2493 c479e20b2447a14a7a29a531b2d6e4da ""
+  "milestone.bbl" 1557949510 913 d94fa2dc3994eabfb92a37d029181e15 "bibtex milestone"
+  "milestone.tex" 1557949509 26619 a4dfa7abed528c297c915f646cb7cae2 ""
   (generated)
+  "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf"
+  "milestone.log"
   "milestone.aux"
   "milestone.pdf"
-  "milestone.log"
-  "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf"
   "/home/smiel/projects/mrnet/paper/milestone/milestone.log"

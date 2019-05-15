@@ -1,0 +1,82 @@
+2019-05-15 03:17:11 : INFO:__main__:axial/abnormal
+2019-05-15 03:17:41 : INFO:__main__:Validation
+2019-05-15 03:17:50 : INFO:__main__:loss: 0.1222
+2019-05-15 03:17:50 : INFO:__main__:AUC: 0.8993
+2019-05-15 03:17:50 : INFO:__main__:Test
+2019-05-15 03:18:03 : INFO:__main__:loss: 0.1389
+2019-05-15 03:18:03 : INFO:__main__:AUC: 0.9356
+
+2019-05-15 03:18:03 : INFO:__main__:axial/acl
+2019-05-15 03:18:05 : INFO:__main__:Loading model from runs/MRNet-aug/axial/acl/05-15_17-28/val0.0956_train0.1095_epoch23
+2019-05-15 03:18:06 : INFO:__main__:Validation
+2019-05-15 03:18:15 : INFO:__main__:loss: 0.0956
+2019-05-15 03:18:15 : INFO:__main__:AUC: 0.8806
+2019-05-15 03:18:15 : INFO:__main__:Test
+2019-05-15 03:18:23 : INFO:__main__:loss: 0.1662
+2019-05-15 03:18:23 : INFO:__main__:AUC: 0.9374
+
+2019-05-15 03:18:23 : INFO:__main__:axial/meniscus
+2019-05-15 03:18:25 : INFO:__main__:Loading model from runs/MRNet-aug/axial/meniscus/05-15_18-02/val0.1888_train0.1990_epoch22
+2019-05-15 03:18:26 : INFO:__main__:Validation
+2019-05-15 03:18:35 : INFO:__main__:loss: 0.1888
+2019-05-15 03:18:35 : INFO:__main__:AUC: 0.8966
+2019-05-15 03:18:35 : INFO:__main__:Test
+2019-05-15 03:18:43 : INFO:__main__:loss: 0.2828
+2019-05-15 03:18:43 : INFO:__main__:AUC: 0.7998
+
+2019-05-15 03:18:43 : INFO:__main__:coronal/abnormal
+2019-05-15 03:18:45 : INFO:__main__:Loading model from runs/MRNet-aug/coronal/abnormal/05-15_17-27/val0.1319_train0.1065_epoch20
+2019-05-15 03:18:46 : INFO:__main__:Validation
+2019-05-15 03:18:54 : INFO:__main__:loss: 0.1319
+2019-05-15 03:18:54 : INFO:__main__:AUC: 0.8902
+2019-05-15 03:18:54 : INFO:__main__:Test
+2019-05-15 03:19:05 : INFO:__main__:loss: 0.1737
+2019-05-15 03:19:05 : INFO:__main__:AUC: 0.8931
+
+2019-05-15 03:19:05 : INFO:__main__:coronal/acl
+2019-05-15 03:19:07 : INFO:__main__:Loading model from runs/MRNet-aug/coronal/acl/05-15_17-59/val0.1038_train0.1200_epoch22
+2019-05-15 03:19:08 : INFO:__main__:Validation
+2019-05-15 03:19:16 : INFO:__main__:loss: 0.1038
+2019-05-15 03:19:16 : INFO:__main__:AUC: 0.8540
+2019-05-15 03:19:16 : INFO:__main__:Test
+2019-05-15 03:19:23 : INFO:__main__:loss: 0.2006
+2019-05-15 03:19:23 : INFO:__main__:AUC: 0.9097
+
+2019-05-15 03:19:23 : INFO:__main__:coronal/meniscus
+2019-05-15 03:19:25 : INFO:__main__:Loading model from runs/MRNet-aug/coronal/meniscus/05-15_18-05/val0.2000_train0.2055_epoch22
+2019-05-15 03:19:27 : INFO:__main__:Validation
+2019-05-15 03:19:34 : INFO:__main__:loss: 0.2000
+2019-05-15 03:19:34 : INFO:__main__:AUC: 0.8809
+2019-05-15 03:19:34 : INFO:__main__:Test
+2019-05-15 03:19:42 : INFO:__main__:loss: 0.2594
+2019-05-15 03:19:42 : INFO:__main__:AUC: 0.8374
+
+2019-05-15 03:19:42 : INFO:__main__:sagittal/abnormal
+2019-05-15 03:19:44 : INFO:__main__:Loading model from runs/MRNet-aug/sagittal/abnormal/05-15_17-27/val0.1360_train0.1006_epoch15
+2019-05-15 03:19:45 : INFO:__main__:Validation
+2019-05-15 03:19:53 : INFO:__main__:loss: 0.1360
+2019-05-15 03:19:53 : INFO:__main__:AUC: 0.8793
+2019-05-15 03:19:53 : INFO:__main__:Test
+2019-05-15 03:20:05 : INFO:__main__:loss: 0.1273
+2019-05-15 03:20:05 : INFO:__main__:AUC: 0.9398
+
+2019-05-15 03:20:05 : INFO:__main__:sagittal/acl
+2019-05-15 03:20:07 : INFO:__main__:Loading model from runs/MRNet-aug/sagittal/acl/05-15_18-01/val0.1081_train0.1276_epoch24
+2019-05-15 03:20:09 : INFO:__main__:Validation
+2019-05-15 03:20:16 : INFO:__main__:loss: 0.1081
+2019-05-15 03:20:16 : INFO:__main__:AUC: 0.8394
+2019-05-15 03:20:16 : INFO:__main__:Test
+2019-05-15 03:20:24 : INFO:__main__:loss: 0.1968
+2019-05-15 03:20:24 : INFO:__main__:AUC: 0.9097
+
+2019-05-15 03:20:24 : INFO:__main__:sagittal/meniscus
+2019-05-15 03:20:26 : INFO:__main__:Loading model from runs/MRNet-aug/sagittal/meniscus/05-15_18-33/val0.2368_train0.2015_epoch23
+2019-05-15 03:20:27 : INFO:__main__:Validation
+2019-05-15 03:20:35 : INFO:__main__:loss: 0.2368
+2019-05-15 03:20:35 : INFO:__main__:AUC: 0.8084
+2019-05-15 03:20:35 : INFO:__main__:Test
+2019-05-15 03:20:42 : INFO:__main__:loss: 0.2957
+2019-05-15 03:20:42 : INFO:__main__:AUC: 0.7675
+2019-05-15 03:20:42 : INFO:__main__:Writing validation predictions to evals/MRNet-aug/val_preds.csv
+2019-05-15 03:20:42 : INFO:__main__:Writing test predictions to evals/MRNet-aug/test_preds.csv
+2019-05-15 03:20:46 : Checking for local changes...

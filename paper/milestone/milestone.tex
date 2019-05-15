@@ -181,10 +181,10 @@ Note that this data has already been preprocessed as described in \cite{bien2018
 \section{Preliminary results}
 
 I have been able to successfully recreate the data loading and training pipeline,
-but have not yet completed the data augmentation or ensembling steps.
+as well as the data augmentation steps,
+but have not yet completed the ensembling portion of the model.
 Figure \ref{fig:mrnet_loss} shows the loss curves for training and validation
-for each series and diagnosis. My hope is that the data augmentation steps will
-fix the obvious overfitting that is currently happening.
+for each series and diagnosis.
 
 
 I have also plotted the AUC values for training and validation at each
@@ -201,17 +201,17 @@ results, so I do not expect to get exactly the same results.
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.8\linewidth]{../images/MRNet_loss.png}
+\includegraphics[width=0.8\linewidth]{../images/MRNet-aug_loss.png}
 \end{center}
-   \caption{Pre-baseline loss for each diagnosis and series.}
+   \caption{Baseline loss for each diagnosis and series.}
 \label{fig:mrnet_loss}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.8\linewidth]{../images/MRNet_auc.png}
+\includegraphics[width=0.8\linewidth]{../images/MRNet-aug_auc.png}
 \end{center}
-   \caption{Pre-baseline AUC for each diagnosis and series.}
+   \caption{Baseline AUC for each diagnosis and series.}
 \label{fig:mrnet_auc}
 \end{figure}
 
@@ -222,7 +222,7 @@ results, so I do not expect to get exactly the same results.
 Model & Abnormal & ACL & Meniscus \\
 \hline\hline
 MRNet (reported) & 0.937 & 0.965 & 0.847 \\
-MRNet (milestone) & 0.831 - 0.943 & 0.913 - 0.956 & 0.751 - 0.829 \\
+MRNet (milestone) & 0.893 - 0.940 & 0.910 - 0.937 & 0.768 - 0.837 \\
 \hline
 \end{tabular}
 \end{center}

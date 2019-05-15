@@ -11,7 +11,6 @@ import torch
 
 from sklearn import metrics
 from torch.autograd import Variable
-from tqdm import tqdm
 
 from loader import load_data
 from model import MRNet
@@ -177,10 +176,11 @@ if __name__ == '__main__':
 
             log.info('Test')
 
-            for pred, label, case in zip(*evaluate(test_loader, model)):
-                test_cases[case]['case'] = case
-                test_cases[case][f'{series}_{diagnosis}_label'] = label
-                test_cases[case][f'{series}_{diagnosis}_pred'] = pred
+            if test_loader is not None:
+                for pred, label, case in zip(*evaluate(test_loader, model)):
+                    test_cases[case]['case'] = case
+                    test_cases[case][f'{series}_{diagnosis}_label'] = label
+                    test_cases[case][f'{series}_{diagnosis}_pred'] = pred
 
     val = pd.DataFrame.from_records(list(val_cases.values()))
     test = pd.DataFrame.from_records(list(test_cases.values()))
