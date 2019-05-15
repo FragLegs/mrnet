@@ -45,6 +45,8 @@ def load_volume(path, augment=False):
     # normalize
     vol = (vol - MEAN) / STDDEV
 
+    shape_in = vol.shape
+
     if augment:
         # ensure we flip, rotate and shift all images in the volume
         # by the same amount
@@ -59,6 +61,15 @@ def load_volume(path, augment=False):
             ],
             axis=0
         )
+
+        shape_out = vol.shape
+
+        if shape_out != shape_in:
+            msg = (
+                f'Shape changed! Shape in: {shape_in}, Shape out: {shape_out}'
+            )
+            log.error(msg)
+            raise Exception(msg)
 
     # convert to RGB
     vol = np.stack((vol,) * 3, axis=1)
