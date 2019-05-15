@@ -8,6 +8,7 @@
 \usepackage{amssymb}
 \usepackage{multirow}
 \usepackage[utf8]{inputenc}
+\usepackage{stfloats}
 
 % Include other packages here, before hyperref.
 
@@ -153,6 +154,7 @@ Diagnosis & Label & Train & Validation & Test \\
 \label{tab:dataset}
 \end{table}
 
+
 They have designated a training/validation split and have withheld the test set
 for leaderboard evaluation. In order to assess the
 changes I will be making, I am calling their validation set the test set, and
@@ -160,64 +162,73 @@ splitting their training set into a training and validation set. Counts of
 cases and labels for each set can be seen in Table \ref{tab:dataset}.
 
 Note that this data has already been preprocessed as described in \cite{bien2018deep}:
-\begin{quotation}
-\noindent
-   Images were extracted from Digital Imaging and Communications in Medicine
-   (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network
-   Graphics (PNG) format using the Python programming language (version 2.7)
-   and the pydicom library (version 0.9.9).
+% \begin{quotation}
+% \noindent
+%    Images were extracted from Digital Imaging and Communications in Medicine
+%    (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network
+%    Graphics (PNG) format using the Python programming language (version 2.7)
+%    and the pydicom library (version 0.9.9).
 
-   To account for variable pixel intensity scales within the MRI series, a
-   histogram-based intensity standardization algorithm was applied to the images.
-   For each series, a representative intensity distribution was learned from the
-   training set exams. Then, the parameters of this distribution were used to
-   adjust the pixel intensities of exams in all datasets (training, tuning, and
-   validation). Under this transformation, pixels with similar values correspond
-   to similar tissue types. After intensity standardization, pixel values were
-   clipped between 0 and 255, the standard range for PNG images.
-\end{quotation}
+%    To account for variable pixel intensity scales within the MRI series, a
+%    histogram-based intensity standardization algorithm was applied to the images.
+%    For each series, a representative intensity distribution was learned from the
+%    training set exams. Then, the parameters of this distribution were used to
+%    adjust the pixel intensities of exams in all datasets (training, tuning, and
+%    validation). Under this transformation, pixels with similar values correspond
+%    to similar tissue types. After intensity standardization, pixel values were
+%    clipped between 0 and 255, the standard range for PNG images.
+% \end{quotation}
 \section{Preliminary results}
 
 I have been able to successfully recreate the data loading and training pipeline,
-but have not yet completed the data augmentation, inference and ensembling steps.
+but have not yet completed the data augmentation or ensembling steps.
 Figure \ref{fig:mrnet_loss} shows the loss curves for training and validation
 for each series and diagnosis. My hope is that the data augmentation steps will
 fix the obvious overfitting that is currently happening.
 
-\begin{table*}
-\begin{center}
-\begin{tabular}{|lc|c|c|c|}
-\hline
-Model & Ensembled & Abnormal & ACL & Meniscus \\
-\hline\hline
-MRNet (reported) & yes & 0.937 & 0.965 & 0.847 \\
-MRNet (milestone)& no & ? & ? & ? \\
-\hline
-\end{tabular}
-\end{center}
-\caption{AUC on the test set}
-\label{tab:results}
-\end{table*}
 
 I have also plotted the AUC values for training and validation at each
 epoch in Figure \ref{fig:mrnet_auc}. The model is memorizing the
 training set and strong regularization is needed to reach the performance.
 
-\begin{figure*}
+Table \ref{tab:results} shows the AUC on the test set as reported in
+\cite{bien2018deep} and the current range of AUC scores from the series-specific
+models in my reproduction. Between the data augmentation and ensembling work,
+I am confident that I will be able to match their results. It is worth noting,
+however, that I do not have access to the test set that they used for reporting
+results, so I do not expect to get exactly the same results.
+
+
+\begin{figure}
 \begin{center}
 \includegraphics[width=0.8\linewidth]{../images/MRNet_loss.png}
 \end{center}
-   \caption{Baseline loss for each diagnosis and series.}
+   \caption{Pre-baseline loss for each diagnosis and series.}
 \label{fig:mrnet_loss}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}
+\begin{figure}
 \begin{center}
 \includegraphics[width=0.8\linewidth]{../images/MRNet_auc.png}
 \end{center}
-   \caption{Baseline AUC for each diagnosis and series.}
+   \caption{Pre-baseline AUC for each diagnosis and series.}
 \label{fig:mrnet_auc}
-\end{figure*}
+\end{figure}
+
+\begin{table}[bp]
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Model & Abnormal & ACL & Meniscus \\
+\hline\hline
+MRNet (reported) & 0.937 & 0.965 & 0.847 \\
+MRNet (milestone) & 0.831 - 0.943 & 0.913 - 0.956 & 0.751 - 0.829 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{AUC on the test set}
+\label{tab:results}
+\end{table}
 
 {\small
 \bibliographystyle{ieee}

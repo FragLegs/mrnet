@@ -1,4 +1,5 @@
 import logging
+import random
 
 import numpy as np
 import pandas as pd
@@ -7,6 +8,7 @@ import torch.nn.functional as F
 import torch.utils.data as data
 
 from torch.autograd import Variable
+import torchvision.transforms.functional as FT
 
 
 log = logging.getLogger(__name__)
@@ -17,7 +19,18 @@ MEAN = 58.09
 STDDEV = 49.73
 
 
-def load_volume(path):
+def augmentation(img, flip, angle, shift):
+    img = FT.to_pil_image(img)
+
+    if flip:
+        img = FT.hflip()
+
+    img = FT.affine(img, angle=angle, translate=(shift, 0))
+
+    return FT.to_tensor(img).numpy()
+
+
+def load_volume(path, augment=False):
     vol = np.load(path)
 
     # crop middle
@@ -29,6 +42,18 @@ def load_volume(path):
 
     # normalize
     vol = (vol - MEAN) / STDDEV
+
+    if augment:
+        # ensure we flip, rotate and shift all images in the volume
+        # by the same amount
+        flip = random.random() > 0.5
+        angle = (random.random() * 50.0) - 25.0
+        shift = random.randint(-25, 25)
+
+        vol = np.stack(
+            [augmentation(v, flip, angle, shift) for v in vol],
+            axis=0
+        )
 
     # convert to RGB
     vol = np.stack((vol,) * 3, axis=1)
@@ -42,10 +67,12 @@ class Dataset(data.Dataset):
                  path_df,
                  diagnosis=None,
                  label_df=None,
-                 use_gpu=True):
+                 use_gpu=True,
+                 augment=False):
         super().__init__()
         self.use_gpu = use_gpu
         self.series = series
+        self.augment = augment
 
         self.paths = {
             idx: row[self.series] for idx, row in path_df.iterrows()
@@ -79,7 +106,7 @@ class Dataset(data.Dataset):
 
     def __getitem__(self, index):
         case = self.cases[index]
-        vol_tensor = load_volume(self.paths[case])
+        vol_tensor = load_volume(self.paths[case], self.augment)
 
         label_tensor = (
             None if self.labels is None else
@@ -108,7 +135,8 @@ def load_data(paths,
               label_df=None,
               diagnosis=None,
               use_gpu=False,
-              is_full=False):
+              is_full=False,
+              augment=False):
 
     path_df = paths_to_df(paths)
 
@@ -140,7 +168,8 @@ def load_data(paths,
         path_df=path_df,
         diagnosis=diagnosis,
         label_df=train_df,
-        use_gpu=use_gpu
+        use_gpu=use_gpu,
+        augment=augment
     )
     log.debug('Train dataset had {} instances'.format(len(train_dataset)))
     valid_dataset = Dataset(

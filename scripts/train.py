@@ -22,7 +22,8 @@ log = logging.getLogger(__name__)
 
 
 MODELS = {
-    'MRNet': MRNet
+    'MRNet': MRNet,
+    'MRNet-aug': MRNet
 }
 
 
@@ -38,6 +39,7 @@ def train(model_name,
           full,
           gpu,
           log_interval,
+          augment,
           **kwargs):
 
     # load the paths dataframe
@@ -50,7 +52,8 @@ def train(model_name,
 
     train_loader, valid_loader, _ = load_data(
         paths=paths, series=series, label_df=label_df,
-        diagnosis=diagnosis, use_gpu=gpu, is_full=full
+        diagnosis=diagnosis, use_gpu=gpu, is_full=full,
+        augment=augment
     )
 
     model = MODELS[model_name]()  # MRNet()
@@ -82,7 +85,7 @@ def train(model_name,
         train_loss, train_auc, _, _, _ = (
             run_model(
                 model, train_loader, train=True,
-                optimizer=optimizer, log_every=log_interval
+                optimizer=optimizer, augment=augment
             )
         )
         print(f'train loss: {train_loss:0.4f}')
@@ -145,6 +148,7 @@ def parse_args():
     parser.add_argument('--max_patience', default=5, type=int)
     parser.add_argument('--factor', default=0.3, type=float)
     parser.add_argument('--log-interval', default=25, type=int)
+    parser.add_argument('--augment', action='store_true')
 
     verbosity_help = 'Verbosity level (default: %(default)s)'
     choices = [

@@ -20,7 +20,7 @@ from model import MRNet
 log = logging.getLogger(__name__)
 
 
-def run_model(model, loader, train=False, optimizer=None, log_every=25):
+def run_model(model, loader, train=False, optimizer=None):
     preds = []
     labels = []
 
@@ -33,11 +33,12 @@ def run_model(model, loader, train=False, optimizer=None, log_every=25):
     num_batches = 0
     cases = []
 
-    for batch in tqdm(loader):
+    for batch in loader:
         if train:
             optimizer.zero_grad()
 
         vol, label, case = batch
+
         cases.append(case)
         if loader.dataset.use_gpu:
             vol = vol.cuda()
@@ -143,7 +144,6 @@ if __name__ == '__main__':
     label_df = pd.read_csv('/mnt/mrnet-labels-3way.csv', index_col=0)
 
     model_name = args.model_name
-    output_path = args.output_path
 
     val_cases = collections.defaultdict(dict)
     test_cases = collections.defaultdict(dict)
