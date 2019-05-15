@@ -159,8 +159,8 @@ if __name__ == '__main__':
             model_path = os.path.join(most_recent_path, model_paths[0])
 
             _, valid_loader, test_loader = load_data(
-                paths=paths, series=args.series, label_df=label_df,
-                diagnosis=args.diagnosis, use_gpu=args.gpu, is_full=False
+                paths=paths, series=series, label_df=label_df,
+                diagnosis=diagnosis, use_gpu=args.gpu, is_full=False
             )
 
             log.info('Loading model from {}'.format(args.model_path))
