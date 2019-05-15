@@ -23,7 +23,7 @@ def augmentation(img, flip, angle, shift):
     img = FT.to_pil_image(img)
 
     if flip:
-        img = FT.hflip()
+        img = FT.hflip(img)
 
     img = FT.affine(
         img, angle=angle, translate=(shift, 0), scale=1.0, shear=0.0
