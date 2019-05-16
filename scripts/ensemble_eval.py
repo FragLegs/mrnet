@@ -70,6 +70,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('model_path')
     parser.add_argument('output_path')
+    parser.add_argument('evals_path')
 
     verbosity_help = 'Verbosity level (default: %(default)s)'
     choices = [
@@ -116,11 +117,16 @@ if __name__ == '__main__':
     log.info(f'Found {model_name} ensembles')
 
     preds = {}
+    df = pd.DataFrame()
 
     for diagnosis in ['abnormal', 'acl', 'meniscus']:
         print(diagnosis)
-        preds[diagnosis] = (
-            ensembles[diagnosis].predict_proba(test_X[diagnosis])[:, 1].ravel()
-        )
+        model = ensembles[diagnosis]
+        preds = model.predict_proba(test_X[diagnosis])[:, 1].ravel()
 
-        print_eval(preds[diagnosis], test_y[diagnosis])
+        print_eval(preds, test_y[diagnosis])
+        df[diagnosis] = preds
+        df[f'{diagnosis}_truth'] = test_y[diagnosis]
+
+    df_path = os.path.join(output_path, f'{model_name}_ensemble_preds.csv')
+    df.to_csv(df_path, index=False)
