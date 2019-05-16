@@ -106,15 +106,15 @@ if __name__ == '__main__':
 
     os.makedirs(output_path, exist_ok=True)
 
-    test_X, test_y = load_data(args.evals_path, args.model_name, split='test')
-
     model_path = args.model_path
-    log.info(f'Loading moel from {model_path}')
+    log.info(f'Loading ensembles from {model_path}')
     with open(model_path, 'rb') as fin:
         ensembles = pickle.load(fin)
 
     model_name = ensembles['name']
     log.info(f'Found {model_name} ensembles')
+
+    test_X, test_y = load_data(args.evals_path, model_name, split='test')
 
     preds = {}
     df = pd.DataFrame()
@@ -129,4 +129,5 @@ if __name__ == '__main__':
         df[f'{diagnosis}_truth'] = test_y[diagnosis]
 
     df_path = os.path.join(output_path, f'{model_name}_ensemble_preds.csv')
+    log.info(f'Saving predictions to {df_path}')
     df.to_csv(df_path, index=False)
