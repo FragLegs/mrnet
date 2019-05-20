@@ -63,8 +63,10 @@ Stanford, CA, USA\\
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
-Reading and interpreting MRIs is a time-consuming process that requires trained
-professionals. Improving the automated identification of abnormalities in knee MRIs
+Reading and interpreting MRIs is a time-consuming process. Even with trained
+professionals, it is easy for a clinician to misdiagnose an injury based on
+an MRI reading. Improving the automated identification of abnormalities in
+knee MRIs
 could help prioritize which MRIs to examine first, as well as provide better early
 results for patients whose scans appear normal. Model predictions could
 also provide a ``second opinion'' which would reduce the possibility of missed
@@ -87,15 +89,18 @@ The main purpose of this study is to replicate the results achieved by Bien, et
 al's MRNet model \cite{bien2018deep}. They use a pretrained AlexNet \cite{krizhevsky2012imagenet}
 model to extract features from each 2D slice of the 3D MRI volume, followed by
 a global
-average pooling per slice and then max pooling across the volume, and finally
-a fully connected layer and sigmoid activation to predict a binary label for
-the series. Each series prediction (axial, coronal, and sagittal) is then used
-as a feature in a simple logistic regression to predict the final label in question.
+average pooling per slice to flatten the image, and a max pooling across the
+volume. Finally,
+a fully connected layer and sigmoid activation are used to predict a binary
+label for each series. Those three predictions (axial, coronal, and sagittal) are
+then used as features in a simple logistic regression to predict the final label
+in question.
 This process is repeated for each of the three independent labels.
 
 An important aspect of the MRNet model is the data augmentation done during training.
-They randomly flipped, shifted, and rotated each MRI volume every time it was seen
-in order to prevent the model from overfitting the small data set.
+Every volume is randomly flipped horizontally, shifted horizontally by -25 to 25
+pixels, and rotated by -25 to 25 degrees each time it is seen during training.
+This helps prevent the model from overfitting the small data set.
 
 
 \section{Technical approach}
@@ -104,14 +109,18 @@ My goals for this project are fairly simple:
 \begin{enumerate}
    \item Reproduce the results obtained by Bien, et al. in \cite{bien2018deep}.
    \item Experiment with using different pretrained networks to extract features,
-   specifically replacing AlexNet with GoogLeNet, ResNet, and SENets.
-   \item If time allows, try replacing the global average pooling and
-   max pooling layers with a 3D convolutional layer across the MRI slices.
+   specifically replacing AlexNet with GoogLeNet \cite{szegedy2015going} as Chi, et al.
+   did for ultrasound images \cite{chi2017thyroid},
+   ResNet \cite{he2016deep} as done in \cite{korfiatis2017residual},
+   and Inception-v3 \cite{szegedy2016rethinking} as done in \cite{kim2018artificial}.
+   \item If time allows, try replacing the logistic regression ensemble with
+   a direct concatenation of the features from each of the three series before
+   going through the fully connected layer.
 \end{enumerate}
 
-Unfortunately, while the Bien, et al. did release code for the architecture of
+Unfortunately, while Bien, et al. did release code for the architecture of
 their MRNet model, they did not release the data loading, hyperparameters, data
-augmentation, ensembling, or training code.
+augmentation, ensembling, or training, or evaluation code.
 This means that more of the effort for this project will be focused on simply
 reproducing their results.\footnote{I wrote to the authors hoping that they
 would share their code privately so that I could spend more time on enhancements,
@@ -119,7 +128,8 @@ but they said that the code is not avaialble.}
 
 However, they did release source code for training MRNet on a set of external
 validation data from the 2017 Štajduhar et al. study \cite{vstajduhar2017semi}.
-This provides a good start for trying replicate their pipeline on the MRNet dataset.
+This provides a good starting place for trying replicate their pipeline on
+the MRNet dataset.
 
 \section{Dataset}
 
@@ -162,73 +172,75 @@ splitting their training set into a training and validation set. Counts of
 cases and labels for each set can be seen in Table \ref{tab:dataset}.
 
 Note that this data has already been preprocessed as described in \cite{bien2018deep}:
-% \begin{quotation}
-% \noindent
-%    Images were extracted from Digital Imaging and Communications in Medicine
-%    (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network
-%    Graphics (PNG) format using the Python programming language (version 2.7)
-%    and the pydicom library (version 0.9.9).
+\begin{quotation}
+\noindent
+   Images were extracted from Digital Imaging and Communications in Medicine
+   (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network
+   Graphics (PNG) format using the Python programming language (version 2.7)
+   and the pydicom library (version 0.9.9).
 
-%    To account for variable pixel intensity scales within the MRI series, a
-%    histogram-based intensity standardization algorithm was applied to the images.
-%    For each series, a representative intensity distribution was learned from the
-%    training set exams. Then, the parameters of this distribution were used to
-%    adjust the pixel intensities of exams in all datasets (training, tuning, and
-%    validation). Under this transformation, pixels with similar values correspond
-%    to similar tissue types. After intensity standardization, pixel values were
-%    clipped between 0 and 255, the standard range for PNG images.
-% \end{quotation}
+   To account for variable pixel intensity scales within the MRI series, a
+   histogram-based intensity standardization algorithm was applied to the images.
+   For each series, a representative intensity distribution was learned from the
+   training set exams. Then, the parameters of this distribution were used to
+   adjust the pixel intensities of exams in all datasets (training, tuning, and
+   validation). Under this transformation, pixels with similar values correspond
+   to similar tissue types. After intensity standardization, pixel values were
+   clipped between 0 and 255, the standard range for PNG images.
+\end{quotation}
 \section{Preliminary results}
 
 I have been able to successfully recreate the data loading and training pipeline,
-as well as the data augmentation steps,
-but have not yet completed the ensembling portion of the model.
-Figure \ref{fig:mrnet_loss} shows the loss curves for training and validation
-for each series and diagnosis.
+as well as the data augmentation steps, ensembling, and evaluation code.
+The hyperparameters and training process are the same for every model. It is unclear
+whether the current hyperparameters are the optimal ones, but the results look
+promising.
+Figure \ref{fig:mrnet_loss} shows the loss curves from the baseline MRNet
+model for training and validation on each series and diagnosis.
 
-
-I have also plotted the AUC values for training and validation at each
-epoch in Figure \ref{fig:mrnet_auc}. The model is memorizing the
-training set and strong regularization is needed to reach the performance.
+The AUC values for training and validation at each
+epoch can be seen in Figure \ref{fig:mrnet_auc}. The models appear to be learning
+and generalizing well. The validation scores are noisy though, which is most likely
+due to the extremely small data set sizes and imbalanced classes.
 
 Table \ref{tab:results} shows the AUC on the test set as reported in
-\cite{bien2018deep} and the current range of AUC scores from the series-specific
-models in my reproduction. Between the data augmentation and ensembling work,
-I am confident that I will be able to match their results. It is worth noting,
-however, that I do not have access to the test set that they used for reporting
-results, so I do not expect to get exactly the same results.
+\cite{bien2018deep} and the test set (their validation set) with my reproduction
+of the MRNet model. I do not have access to the test set that they used for
+reporting results, so I do not expect to get exactly the same results. The AUC
+is fairly close for all three diagnoses. My scores are slightly lower on
+ACL and Meniscus tears, which is most likely due to the smaller data set size and
+non-optimal hyperparameters.
 
-
-\begin{figure}
+\begin{figure*}
 \begin{center}
-\includegraphics[width=0.8\linewidth]{../images/MRNet-aug_loss.png}
+\includegraphics[width=0.5\linewidth]{../images/MRNet-aug_loss.png}
 \end{center}
    \caption{Baseline loss for each diagnosis and series.}
 \label{fig:mrnet_loss}
-\end{figure}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}
 \begin{center}
-\includegraphics[width=0.8\linewidth]{../images/MRNet-aug_auc.png}
+\includegraphics[width=0.5\linewidth]{../images/MRNet-aug_auc.png}
 \end{center}
    \caption{Baseline AUC for each diagnosis and series.}
 \label{fig:mrnet_auc}
-\end{figure}
+\end{figure*}
 
-\begin{table}[bp]
+\begin{table*}[bp]
 \begin{center}
 \begin{tabular}{|l|c|c|c|}
 \hline
 Model & Abnormal & ACL & Meniscus \\
 \hline\hline
 MRNet (reported) & 0.937 & 0.965 & 0.847 \\
-MRNet (milestone) & 0.893 - 0.940 & 0.910 - 0.937 & 0.768 - 0.837 \\
+MRNet (milestone) & 0.951 & 0.949 & 0.839 \\
 \hline
 \end{tabular}
 \end{center}
 \caption{AUC on the test set}
 \label{tab:results}
-\end{table}
+\end{table*}
 
 {\small
 \bibliographystyle{ieee}

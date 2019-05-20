@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex milestone"] 1557949510 "milestone.aux" "milestone.bbl" "milestone" 1557949511
+["bibtex milestone"] 1557971066 "milestone.aux" "milestone.bbl" "milestone" 1557971124
   "./ieee.bst" 1411502228 19623 f9cd22458ca68af2567100f1aed905e8 ""
-  "egbib.bib" 1557847119 3991 33ee13637fe2554c5d8b3adb130b35c8 ""
-  "milestone.aux" 1557949511 2493 c479e20b2447a14a7a29a531b2d6e4da ""
+  "egbib.bib" 1557971012 6043 b4c5f39ea2654ea5ec68bfd483579cd2 ""
+  "milestone.aux" 1557971124 2847 d33aa2218671ccfd1da6919193dc0b0a ""
   "milestone.bcf" 0 -1 0 ""
   (generated)
   "milestone.bbl"
   "milestone.blg"
-["pdflatex"] 1557949510 "milestone.tex" "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf" "milestone" 1557949511
+["pdflatex"] 1557971124 "milestone.tex" "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf" "milestone" 1557971124
   "../images/MRNet-aug_auc.png" 1557949344 91733 f7e5b3721fb4956d2da3f1707056a298 ""
   "../images/MRNet-aug_loss.png" 1557949347 107394 6d8ebdc27c29002596fc96aee5069f99 ""
   "/etc/texmf/web2c/texmf.cnf" 1533053732 1101 af7716885e081ab43982cab7b4672c1a ""
-  "/home/smiel/projects/mrnet/paper/milestone/milestone.aux" 1557949511 2493 c479e20b2447a14a7a29a531b2d6e4da ""
+  "/home/smiel/projects/mrnet/paper/milestone/milestone.aux" 1557971124 2847 d33aa2218671ccfd1da6919193dc0b0a ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -42,6 +42,8 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1136768653 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
@@ -107,12 +109,12 @@
   "cvpr.sty" 1473049876 8185 dd8231e8a92c383d16b745afe2ab996b ""
   "cvpr_eso.sty" 1411502228 3878 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1411502228 9460 d2935ae95b5cd343fcf5887ff530288d ""
-  "milestone.aux" 1557949511 2493 c479e20b2447a14a7a29a531b2d6e4da ""
-  "milestone.bbl" 1557949510 913 d94fa2dc3994eabfb92a37d029181e15 "bibtex milestone"
-  "milestone.tex" 1557949509 26619 a4dfa7abed528c297c915f646cb7cae2 ""
+  "milestone.aux" 1557971124 2847 d33aa2218671ccfd1da6919193dc0b0a ""
+  "milestone.bbl" 1557971066 2513 f7e935af140a1ee926710ed66101baff "bibtex milestone"
+  "milestone.tex" 1557971124 27332 e3c6150863e78f200d1011f59a375565 ""
   (generated)
   "/home/smiel/projects/mrnet/paper/milestone/milestone.pdf"
-  "milestone.log"
   "milestone.aux"
+  "milestone.log"
   "milestone.pdf"
   "/home/smiel/projects/mrnet/paper/milestone/milestone.log"
