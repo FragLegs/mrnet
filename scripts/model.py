@@ -29,7 +29,7 @@ class MRNetVGG(nn.Module):
 
     def forward(self, x):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
-        x, aux = self.model.features(x)
+        x = self.model.features(x)
         x = self.gap(x).view(x.size(0), -1)
         x = torch.max(x, 0, keepdim=True)[0]
         x = self.classifier(x)
@@ -45,7 +45,7 @@ class MRNetDense(nn.Module):
 
     def forward(self, x):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
-        x, aux = self.model.features(x)
+        x = self.model.features(x)
         x = self.gap(x).view(x.size(0), -1)
         x = torch.max(x, 0, keepdim=True)[0]
         x = self.classifier(x)
@@ -61,7 +61,7 @@ class MRNetSqueeze(nn.Module):
 
     def forward(self, x):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
-        x, aux = self.model.features(x)
+        x = self.model.features(x)
         x = self.gap(x).view(x.size(0), -1)
         x = torch.max(x, 0, keepdim=True)[0]
         x = self.classifier(x)
