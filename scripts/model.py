@@ -115,7 +115,9 @@ class MRNetResFixed(nn.Module):
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
 
-        for child in self.model.children()[6:]:
+        for i, child in enumerate(self.model.children()):
+            if i < 6:
+                continue
             for param in child.parameters():
                 param.requires_grad = False
 
