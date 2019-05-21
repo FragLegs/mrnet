@@ -77,6 +77,7 @@ def train(model_name,
     )
 
     best_val_loss = float('inf')
+    best_val_auc = float('inf')
 
     start_time = datetime.now()
 
@@ -118,12 +119,16 @@ def train(model_name,
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            best_val_auc = val_auc
 
             file_name = (
                 f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch + 1}'
             )
             save_path = Path(rundir) / file_name
             torch.save(model.state_dict(), save_path)
+
+    print(f'Best valid loss: {best_val_loss}')
+    print(f'Best valid AUC f{best_val_auc}')
 
 
 def parse_args():
