@@ -107,7 +107,8 @@ def train(model_name,
             'train_loss': train_loss,
             'train_auc': train_auc,
             'valid_loss': val_loss,
-            'valid_auc': val_auc
+            'valid_auc': val_auc,
+            'epoch': epoch
         })
 
         scheduler.step(val_loss)
@@ -129,6 +130,11 @@ def train(model_name,
 
     print(f'Best valid loss: {best_val_loss}')
     print(f'Best valid AUC f{best_val_auc}')
+
+    wandb.log({
+        'best_valid_loss': best_val_loss,
+        'best_valid_auc': best_val_auc
+    })
 
 
 def parse_args():
