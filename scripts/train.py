@@ -15,7 +15,7 @@ import wandb
 
 from evaluate import run_model
 from loader import load_data
-from model import MRNet
+from model import MRNet, MRNetVGG, MRNetDense, MRNetSqueeze, MRNetRes
 
 
 log = logging.getLogger(__name__)
@@ -23,6 +23,10 @@ log = logging.getLogger(__name__)
 
 MODELS = {
     'MRNet': MRNet,
+    'MRNet-VGG': MRNetVGG,
+    'MRNet-Dense': MRNetDense,
+    'MRNet-Squeeze': MRNetSqueeze,
+    'MRNet-Res': MRNetRes
 }
 
 
