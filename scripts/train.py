@@ -15,7 +15,7 @@ import wandb
 
 from evaluate import run_model
 from loader import load_data
-from model import MRNet, MRNetVGG, MRNetDense, MRNetSqueeze, MRNetRes
+from model import *
 
 
 log = logging.getLogger(__name__)
@@ -24,9 +24,11 @@ log = logging.getLogger(__name__)
 MODELS = {
     'MRNet': MRNet,
     'MRNet-VGG': MRNetVGG,
-    'MRNet-Dense': MRNetDense,
+    # 'MRNet-Dense': MRNetDense,
     'MRNet-Squeeze': MRNetSqueeze,
-    'MRNet-Res': MRNetRes
+    'MRNet-Res': MRNetRes,
+    'MRNet-VGG-Fixed': MRNetVGGFixed,
+    'MRNet-Res-Fixed': MRNetResFixed,
 }
 
 
@@ -66,7 +68,9 @@ def train(model_name,
         model = model.cuda()
 
     optimizer = torch.optim.Adam(
-        model.parameters(), learning_rate, weight_decay=weight_decay
+        [p for p in model.parameters() if p.requires_grad],
+        learning_rate,
+        weight_decay=weight_decay
     )
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, patience=max_patience, factor=factor, threshold=1e-4
