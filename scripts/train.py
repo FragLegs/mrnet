@@ -60,7 +60,7 @@ def train(model_name,
     )
 
     model = MODELS[model_name]()  # MRNet()
-    wandb.watch(model)
+    # wandb.watch(model)
 
     if gpu:
         model = model.cuda()
