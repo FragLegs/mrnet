@@ -115,8 +115,9 @@ class MRNetResFixed(nn.Module):
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
 
-        for param in self.model.parameters():
-            param.requires_grad = False
+        for child in self.model.children()[6:]:
+            for param in child.parameters():
+                param.requires_grad = False
 
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(512, 1)
