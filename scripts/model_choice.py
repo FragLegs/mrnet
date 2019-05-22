@@ -15,6 +15,7 @@ MODELS = {
     'MRNet-Res-7-1': MRNetRes7_1,
     'MRNet-Res-7-1-until6': MRNetRes7_1,
     'MRNet-Res-7-1-conv2': MRNetRes7_1_conv2,
+    'MRNet-Res-7-drop': MRNetRes7Dropout,
 }
 
 
