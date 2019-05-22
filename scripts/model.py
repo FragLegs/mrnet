@@ -167,11 +167,11 @@ class MRNetRes7_1(nn.Module):
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
 
-        assert(len(self.model.children()) == 8)
+        assert(len(list(self.model.children())) == 8)
 
         for i, child in enumerate(self.model.children()):
             if i == 7:
-                assert(len(child.children()) == 2)
+                assert(len(list(child.children())) == 2)
                 for param in child.children()[0].parameters():
                     param.requires_grad = False
                 for param in child.children()[1].parameters():
