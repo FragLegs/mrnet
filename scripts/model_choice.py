@@ -13,6 +13,7 @@ MODELS = {
     'MRNet-Res-Fixed': MRNetResFixed,
     'MRNet-Res-7': MRNetRes7,
     'MRNet-Res-7-1': MRNetRes7_1,
+    'MRNet-Res-7-1-conv2': MRNetRes7_1_conv2,
 }
 
 
