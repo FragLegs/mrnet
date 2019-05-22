@@ -7,7 +7,7 @@ import pprint
 
 from sklearn.linear_model import LogisticRegression
 
-from ensemble_data_load import load_data
+from ensemble_load_data import load_data
 
 
 log = logging.getLogger(__name__)
