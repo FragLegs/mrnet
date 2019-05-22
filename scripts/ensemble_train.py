@@ -5,41 +5,12 @@ import os
 import pickle
 import pprint
 
-import numpy as np
-import pandas as pd
 from sklearn.linear_model import LogisticRegression
+
+from ensemble_data_load import load_data
 
 
 log = logging.getLogger(__name__)
-
-
-def load_data(eval_path, model_name, split='val'):
-    path = os.path.join(eval_path, model_name, f'{split}_preds.csv')
-
-    log.info(f'Loading data from {path}')
-    df = pd.read_csv(path)
-
-    X = {}
-    y = {}
-
-    for diagnosis in ['abnormal', 'acl', 'meniscus']:
-        X_cols = [
-            f'axial_{diagnosis}_pred',
-            f'coronal_{diagnosis}_pred',
-            f'sagittal_{diagnosis}_pred'
-        ]
-        y_cols = [
-            f'axial_{diagnosis}_label',
-            f'coronal_{diagnosis}_label',
-            f'sagittal_{diagnosis}_label'
-        ]
-        X[diagnosis] = df[X_cols].values
-
-        assert(np.all(df[y_cols[0]] == df[y_cols[1]]))
-        assert(np.all(df[y_cols[1]] == df[y_cols[2]]))
-        y[diagnosis] = df[y_cols[0]].values
-
-    return X, y
 
 
 def train(seed, X, y):
