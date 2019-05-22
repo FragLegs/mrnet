@@ -74,6 +74,11 @@ def train(model_name,
         fout.write('epoch,train_loss,val_loss,train_auc,val_auc\n')
 
     for epoch in range(epochs):
+
+        if epoch == 6 and model_name == 'MRNet-Res-7-1-until6':
+            for param in model.model.children():
+                param.requires_grad = False
+
         change = datetime.now() - start_time
         print(
             'starting epoch {}. time passed: {}'.format(epoch + 1, str(change))
