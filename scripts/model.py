@@ -169,7 +169,7 @@ class MRNetRes7_1(nn.Module):
 
         for i, child in enumerate(self.model.children()):
             if i == 7:
-                for j, subchild in child.children():
+                for j, subchild in enumerate(child.children()):
                     if j == 0:
                         for param in subchild.parameters():
                             param.requires_grad = False

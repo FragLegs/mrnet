@@ -20,4 +20,5 @@ if __name__ == '__main__':
     model_name = sys.argv[1]
 
     model = MODELS[model_name]()
+
     print(model)
