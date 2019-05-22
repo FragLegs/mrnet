@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import sklearn.metrics as metrics
 
-from ensemble_data_load import load_data
+from ensemble_load_data import load_data
 
 
 log = logging.getLogger(__name__)
