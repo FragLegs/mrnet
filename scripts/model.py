@@ -256,3 +256,31 @@ class MRNetRes7Dropout(nn.Module):
         x = self.dropout(x)
         x = self.classifier(x)
         return x
+
+
+class MRNetRes7Dropout75(nn.Module):
+    def __init__(self):
+        super().__init__()
+        res = models.resnet18(pretrained=True)
+
+        # skip avg pool and fc
+        self.model = nn.Sequential(*list(res.children())[:-2])
+
+        finetune_above = 7
+
+        for i, child in enumerate(self.model.children()):
+            for param in child.parameters():
+                param.requires_grad = i >= finetune_above
+
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.dropout = nn.Dropout(p=0.75)
+        self.classifier = nn.Linear(512, 1)
+
+    def forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model(x)
+        x = self.gap(x).view(x.size(0), -1)
+        x = torch.max(x, 0, keepdim=True)[0]
+        x = self.dropout(x)
+        x = self.classifier(x)
+        return x
