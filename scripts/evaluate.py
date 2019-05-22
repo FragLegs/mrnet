@@ -13,7 +13,7 @@ from sklearn import metrics
 from torch.autograd import Variable
 
 from loader import load_data
-from model import MRNet
+from model_choice import MODELS
 
 
 log = logging.getLogger(__name__)
@@ -71,8 +71,8 @@ def run_model(model, loader, train=False, optimizer=None):
     return avg_loss, auc, preds, labels, cases
 
 
-def load_model(model_path, use_gpu):
-    model = MRNet()
+def load_model(model_name, model_path, use_gpu):
+    model = MODELS[model_name]()
     state_dict = torch.load(
         model_path, map_location=(None if use_gpu else 'cpu')
     )
@@ -165,7 +165,7 @@ if __name__ == '__main__':
             )
 
             log.info('Loading model from {}'.format(model_path))
-            model = load_model(model_path, args.gpu)
+            model = load_model(model_name, model_path, args.gpu)
 
             log.info('Validation')
 

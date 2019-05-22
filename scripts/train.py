@@ -15,21 +15,10 @@ import wandb
 
 from evaluate import run_model
 from loader import load_data
-from model import *
+from model_choice import MODELS
 
 
 log = logging.getLogger(__name__)
-
-
-MODELS = {
-    'MRNet': MRNet,
-    'MRNet-VGG': MRNetVGG,
-    # 'MRNet-Dense': MRNetDense,
-    'MRNet-Squeeze': MRNetSqueeze,
-    'MRNet-Res': MRNetRes,
-    'MRNet-VGG-Fixed': MRNetVGGFixed,
-    'MRNet-Res-Fixed': MRNetResFixed,
-}
 
 
 def train(model_name,
