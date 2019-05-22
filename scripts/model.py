@@ -116,7 +116,7 @@ class MRNetResFixed(nn.Module):
         self.model = nn.Sequential(*list(res.children())[:-2])
 
         for i, child in enumerate(self.model.children()):
-            if i < 6:
+            if i < 5:
                 continue
             for param in child.parameters():
                 param.requires_grad = False
