@@ -157,3 +157,36 @@ class MRNetRes7(nn.Module):
         x = torch.max(x, 0, keepdim=True)[0]
         x = self.classifier(x)
         return x
+
+
+class MRNetRes7_1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        res = models.resnet18(pretrained=True)
+
+        # skip avg pool and fc
+        self.model = nn.Sequential(*list(res.children())[:-2])
+
+        assert(len(self.model.children()) == 8)
+
+        for i, child in enumerate(self.model.children()):
+            if i == 7:
+                assert(len(child.children()) == 2)
+                for param in child.children()[0].parameters():
+                    param.requires_grad = False
+                for param in child.children()[1].parameters():
+                    param.requires_grad = True
+            else:
+                for param in child.parameters():
+                    param.requires_grad = False
+
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(512, 1)
+
+    def forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model(x)
+        x = self.gap(x).view(x.size(0), -1)
+        x = torch.max(x, 0, keepdim=True)[0]
+        x = self.classifier(x)
+        return x
