@@ -9,5 +9,5 @@ MODELS = {
     'MRNet-Res': MRNetRes,
     'MRNet-VGG-Fixed': MRNetVGGFixed,
     'MRNet-Res-Fixed': MRNetResFixed,
-    'MRNet-Res-Fixed-7': MRNetResFixed7,
+    'MRNet-Res-7': MRNetRes7,
 }

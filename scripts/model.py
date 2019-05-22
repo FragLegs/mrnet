@@ -115,7 +115,7 @@ class MRNetResFixed(nn.Module):
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
 
-        finetune_above = 6
+        finetune_above = -1
 
         for i, child in enumerate(self.model.children()):
             for param in child.parameters():
@@ -133,7 +133,7 @@ class MRNetResFixed(nn.Module):
         return x
 
 
-class MRNetResFixed7(nn.Module):
+class MRNetRes7(nn.Module):
     def __init__(self):
         super().__init__()
         res = models.resnet18(pretrained=True)
