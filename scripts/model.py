@@ -374,6 +374,11 @@ class MRNetLstm(nn.Module):
         hidden_size = 152
         self.h0 = torch.randn(1, 1, hidden_size, requires_grad=True)
         self.c0 = torch.zeros(1, 1, hidden_size)
+        try:
+            self.h0 = self.h0.cuda()
+            self.c0 = self.c0.cuda()
+        except AssertionError:
+            pass
         self.lstm = nn.LSTM(256, 152)
         self.classifier = nn.Linear(hidden_size, 1)
 
