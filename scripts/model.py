@@ -331,7 +331,7 @@ class MRNetResCut1_5(nn.Module):
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-4])
-        self.model2 = nn.Sequential(*list(res.layer3.children())[0])
+        self.model2 = nn.Sequential(res.layer3[0])
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(256, 1)
 
