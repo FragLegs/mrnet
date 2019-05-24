@@ -17,6 +17,8 @@ MODELS = {
     'MRNet-Res-7-1-conv2': MRNetRes7_1_conv2,
     'MRNet-Res-7-drop': MRNetRes7Dropout,
     'MRNet-Res-7-drop75': MRNetRes7Dropout75,
+    'MRNet-Res-cut1': MRNetResCut1,
+    'MRNet-Res-cut2': MRNetResCut2,
 }
 
 

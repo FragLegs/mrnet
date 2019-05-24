@@ -284,3 +284,41 @@ class MRNetRes7Dropout75(nn.Module):
         x = self.dropout(x)
         x = self.classifier(x)
         return x
+
+
+class MRNetResCut1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        res = models.resnet18(pretrained=True)
+
+        # skip avg pool and fc
+        self.model = nn.Sequential(*list(res.children())[:-3])
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(256, 1)
+
+    def forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model(x)
+        x = self.gap(x).view(x.size(0), -1)
+        x = torch.max(x, 0, keepdim=True)[0]
+        x = self.classifier(x)
+        return x
+
+
+class MRNetResCut2(nn.Module):
+    def __init__(self):
+        super().__init__()
+        res = models.resnet18(pretrained=True)
+
+        # skip avg pool and fc
+        self.model = nn.Sequential(*list(res.children())[:-4])
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(128, 1)
+
+    def forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model(x)
+        x = self.gap(x).view(x.size(0), -1)
+        x = torch.max(x, 0, keepdim=True)[0]
+        x = self.classifier(x)
+        return x
