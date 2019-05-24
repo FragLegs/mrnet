@@ -338,6 +338,7 @@ class MRNetResCut1_5(nn.Module):
     def forward(self, x):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
         x = self.model(x)
+        x = self.model2(x)
         x = self.gap(x).view(x.size(0), -1)
         x = torch.max(x, 0, keepdim=True)[0]
         x = self.classifier(x)
