@@ -345,19 +345,43 @@ class MRNetResCut1_5(nn.Module):
         return x
 
 
-# class MRNetLstm(nn.Module):
-#     def __init__(self):
-#         super().__init__()
-#         self.model = models.alexnet(pretrained=True)
-#         self.gap = nn.AdaptiveAvgPool2d(1)
-#         self.h0 = nn.
-#         self.lstm = nn.LSTM(256, 152)
-#         self.classifier = nn.Linear(256, 1)
+class MRNetResCut_5(nn.Module):
+    def __init__(self):
+        super().__init__()
+        res = models.resnet18(pretrained=True)
 
-#     def forward(self, x):
-#         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
-#         x = self.model.features(x)
-#         x = self.gap(x).view(x.size(0), 1, -1)  # (seq_len, "batch", n_feat)
-#         x =
-#         x = self.classifier(x)
-#         return x
+        # skip avg pool and fc
+        self.model = nn.Sequential(*list(res.children())[:-3])
+        self.model2 = nn.Sequential(res.layer4[0])
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(512, 1)
+
+    def forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model(x)
+        x = self.model2(x)
+        x = self.gap(x).view(x.size(0), -1)
+        x = torch.max(x, 0, keepdim=True)[0]
+        x = self.classifier(x)
+        return x
+
+
+class MRNetLstm(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = models.alexnet(pretrained=True)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        hidden_size = 152
+        self.h0 = torch.randn(1, 1, hidden_size, requires_grad=True)
+        self.c0 = torch.zeros(1, 1, hidden_size)
+        self.lstm = nn.LSTM(256, 152)
+        self.classifier = nn.Linear(hidden_size, 1)
+
+    def forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model.features(x)
+        x = self.gap(x).view(x.size(0), 1, -1)  # (seq_len, "batch", n_feat)
+        _, hc = self.lstm(x, (self.h0, self.c0))
+        x, _ = hc
+        x = self.classifier(x)
+        return x

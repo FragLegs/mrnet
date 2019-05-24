@@ -20,6 +20,7 @@ MODELS = {
     'MRNet-Res-cut1': MRNetResCut1,
     'MRNet-Res-cut2': MRNetResCut2,
     'MRNet-Res-cut1-5': MRNetResCut1_5,
+    'MRNet-LSTM': MRNetLstm,
 }
 
 
