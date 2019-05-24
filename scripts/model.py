@@ -371,22 +371,22 @@ class MRNetLstm(nn.Module):
         super().__init__()
         self.model = models.alexnet(pretrained=True)
         self.gap = nn.AdaptiveAvgPool2d(1)
-        hidden_size = 152
-        self.h0 = torch.randn(1, 1, hidden_size, requires_grad=True)
-        self.c0 = torch.zeros(1, 1, hidden_size)
+        self.hidden_size = 152
+        self.h0 = torch.randn(1, 1, self.hidden_size, requires_grad=True)
+        self.c0 = torch.zeros(1, 1, self.hidden_size)
         try:
             self.h0 = self.h0.cuda()
             self.c0 = self.c0.cuda()
         except AssertionError:
             pass
         self.lstm = nn.LSTM(256, 152)
-        self.classifier = nn.Linear(hidden_size, 1)
+        self.classifier = nn.Linear(self.hidden_size, 1)
 
     def forward(self, x):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
         x = self.model.features(x)
         x = self.gap(x).view(x.size(0), 1, -1)  # (seq_len, "batch", n_feat)
         _, hc = self.lstm(x, (self.h0, self.c0))
-        x, _ = hc
+        x, _ = hc.view(1, self.hidden_size)
         x = self.classifier(x)
         return x
