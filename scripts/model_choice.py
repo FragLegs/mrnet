@@ -22,6 +22,7 @@ MODELS = {
     'MRNet-Res-cut1-5': MRNetResCut1_5,
     'MRNet-LSTM': MRNetLstm,
     'MRNet-BiLSTM': MRNetBiLstm,
+    'MRNet-Attend': MRNetAttention,
 }
 
 
