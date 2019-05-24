@@ -387,6 +387,6 @@ class MRNetLstm(nn.Module):
         x = self.model.features(x)
         x = self.gap(x).view(x.size(0), 1, -1)  # (seq_len, "batch", n_feat)
         _, hc = self.lstm(x, (self.h0, self.c0))
-        x, _ = hc.view(1, self.hidden_size)
-        x = self.classifier(x)
+        x, _ = hc
+        x = self.classifier(x.view(1, self.hidden_size))
         return x
