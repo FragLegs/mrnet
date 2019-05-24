@@ -430,7 +430,7 @@ class MRNetAttention(nn.Module):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
         x = self.model.features(x)
         x = self.gap(x).view(x.size(0), -1)  # (seq_len, n_feat)
-        a = torch.softmax(self.attention(x.T), dim=0)  # (1, seq_len)
+        a = torch.softmax(self.attention(torch.t(x)), dim=0)  # (1, seq_len)
         x = torch.sum(a.view(-1, 1) * x, dim=0)
         x = self.classifier(x)
         return x
