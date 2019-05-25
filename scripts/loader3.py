@@ -36,7 +36,7 @@ def load_volume(paths, augment=False):
     coronal = _load_volume(paths[1], augment)
     sagittal = _load_volume(paths[2], augment)
 
-    axial, coronal, sagittal
+    return axial, coronal, sagittal
 
 
 def _load_volume(path, augment=False):
