@@ -23,6 +23,7 @@ MODELS = {
     'MRNet-LSTM': MRNetLstm,
     'MRNet-BiLSTM': MRNetBiLstm,
     'MRNet-Attend': MRNetAttention,
+    'MRNet-SqueezeAttend': MRNetSqueezeAttention,
 }
 
 
