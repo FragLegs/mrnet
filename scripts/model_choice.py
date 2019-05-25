@@ -2,6 +2,7 @@
 import sys
 
 from model import *
+from model3 import *
 
 MODELS = {
     'MRNet': MRNet,
@@ -24,6 +25,9 @@ MODELS = {
     'MRNet-BiLSTM': MRNetBiLstm,
     'MRNet-Attend': MRNetAttention,
     'MRNet-SqueezeAttend': MRNetSqueezeAttention,
+
+
+    'MRNet3': MRNet3,
 }
 
 

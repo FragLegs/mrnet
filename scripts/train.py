@@ -206,11 +206,17 @@ if __name__ == '__main__':
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
+    tags = ['single']
+    if args.epochs == 1:
+        tags.append('test')
+
+
     wandb.init(
         name=args.rundir,
         config=args,
         project='mrnet',
-        dir=args.rundir
+        dir=args.rundir,
+        tags=tags
     )
 
     train(**args.__dict__)

@@ -4,7 +4,7 @@ import torch.nn as nn
 from torchvision import models
 
 
-class MRNet(nn.Module):
+class MRNet3(nn.Module):
     def __init__(self):
         super().__init__()
         self.model = models.alexnet(pretrained=True)

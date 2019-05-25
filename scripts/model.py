@@ -441,8 +441,8 @@ class MRNetSqueezeAttention(nn.Module):
         super().__init__()
         self.model = models.squeezenet1_0(pretrained=True)
         self.gap = nn.AdaptiveAvgPool2d(1)
-        self.attention = nn.Linear(256, 1)
-        self.classifier = nn.Linear(256, 1)
+        self.attention = nn.Linear(512, 1)
+        self.classifier = nn.Linear(512, 1)
 
     def forward(self, x):
         x = torch.squeeze(x, dim=0)  # only batch size 1 supported
