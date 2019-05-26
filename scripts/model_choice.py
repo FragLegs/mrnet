@@ -28,6 +28,9 @@ MODELS = {
 
 
     'MRNet3': MRNet3,
+    'MRNet3-Squeeze': MRNetSqueeze3,
+    'MRNet3-Attend': MRNetAttention3,
+    'MRNet3-SqueezeAttend': MRNetSqueezeAttention3,
 }
 
 
