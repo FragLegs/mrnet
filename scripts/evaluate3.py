@@ -5,6 +5,7 @@ import logging
 import os
 import pprint
 
+import numpy as np
 import pandas as pd
 import torch
 # import wandb
@@ -92,6 +93,30 @@ def evaluate(loader, model):
     log.info(f'AUC: {auc:0.4f}')
 
     return preds, labels, cases
+
+
+def print_eval(preds, truth, threshold=0.5):
+    int_preds = (preds > threshold).astype(int)
+    int_truth = np.array(truth).astype(int)
+
+    conf = metrics.confusion_matrix(int_truth, int_preds)
+
+    TN = float(conf[0][0])
+    FN = float(conf[1][0])
+    TP = float(conf[1][1])
+    FP = float(conf[0][1])
+
+    specificity = TN / (TN + FP)
+    sensitivity = TP / (TP + FN)
+    accuracy = (TP + TN) / (TP + TN + FP + FN)
+
+    fpr, tpr, threshold = metrics.roc_curve(truth, preds)
+    auc = metrics.auc(fpr, tpr)
+
+    print(f'Sensitivity: {sensitivity}')
+    print(f'Specificity: {specificity}')
+    print(f'Accuracy: {accuracy}')
+    print(f'AUC: {auc}')
 
 
 def parse_args():
@@ -191,3 +216,11 @@ if __name__ == '__main__':
     test_path = os.path.join(output_path, 'test_preds.csv')
     log.info(f'Writing test predictions to {test_path}')
     test.to_csv(test_path, index=False)
+
+    for diagnosis in ['abnormal', 'acl', 'meniscus']:
+        print(diagnosis)
+        print('-----------')
+        print_eval(
+            test[f'{diagnosis}_pred'].values,
+            test[f'{diagnosis}_label'].values
+        )
