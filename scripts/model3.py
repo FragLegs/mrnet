@@ -110,6 +110,70 @@ class MRNetSqueezeAttention3(nn.Module):
         x = torch.sum(a.view(-1, 1) * x, dim=0, keepdim=True)
         return x
 
+
+class MRNetAttention3Hidden(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = models.alexnet(pretrained=True)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.attention = nn.Linear(256, 1)
+        self.hidden = nn.Linear(256 * 3, 256)
+        self.activation = nn.LeakyReLU()
+        self.classifier = nn.Linear(256, 1)
+
+    def forward(self, x):
+        a, c, s = x
+
+        a = self.single_forward(a)
+        c = self.single_forward(c)
+        s = self.single_forward(s)
+
+        acs = torch.cat((a, c ,s), 1)
+        acs = self.hidden(acs)
+        acs = self.activation(acs)
+        acs = self.classifier(acs)
+        return acs
+
+    def single_forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model.features(x)
+        x = self.gap(x).view(x.size(0), -1)  # (seq_len, n_feat)
+        a = torch.softmax(self.attention(x), dim=0)  # (1, seq_len)
+        x = torch.sum(a.view(-1, 1) * x, dim=0, keepdim=True)
+        return x
+
+
+class MRNetSqueezeAttention3Hidden(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = models.squeezenet1_0(pretrained=True)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.attention = nn.Linear(512, 1)
+        self.hidden = nn.Linear(512 * 3, 512)
+        self.activation = nn.LeakyReLU()
+        self.classifier = nn.Linear(512, 1)
+
+    def forward(self, x):
+        a, c, s = x
+
+        a = self.single_forward(a)
+        c = self.single_forward(c)
+        s = self.single_forward(s)
+
+        acs = torch.cat((a, c ,s), 1)
+        acs = self.hidden(acs)
+        acs = self.activation(acs)
+        acs = self.classifier(acs)
+        return acs
+
+    def single_forward(self, x):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = self.model.features(x)
+        x = self.gap(x).view(x.size(0), -1)  # (seq_len, n_feat)
+        a = torch.softmax(self.attention(x), dim=0)  # (1, seq_len)
+        x = torch.sum(a.view(-1, 1) * x, dim=0, keepdim=True)
+        return x
+
 # class MRNetVGG(nn.Module):
 #     def __init__(self):
 #         super().__init__()
