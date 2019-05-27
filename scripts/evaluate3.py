@@ -12,7 +12,7 @@ import torch
 from sklearn import metrics
 from torch.autograd import Variable
 
-from loader import load_data
+from loader3 import load_data
 from model_choice import MODELS
 
 
