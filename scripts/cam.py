@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 
 def get_weights(model):
-    return model.classifier.weight.numpy().reshape(-1)  # n_channel
+    return model.classifier.weight.data.numpy().reshape(-1)  # n_channel
 
 
 def get_features(model, volume):
@@ -32,22 +32,20 @@ def get_features(model, volume):
         print(idx)
     else:
         a = torch.argmax(x, 0).view(-1).data.cpu().numpy()
-        idx = Counter(a)[0][0]
+        idx = Counter(a)[0]
         print(idx)
 
     return features.data.cpu().numpy(), idx
 
 
 def get_CAM(model, volume):
-    features, idx = get_features(model, volume)  # n_seq, n_channel, w, h
+    features, idx = get_features(model, volume)  # n_channel, w, h
     weights = get_weights(model)
 
-    n_seq, n_channel, width, height = features.shape
-    features = features.reshape(n_seq, n_channel, width * height)
+    n_channel, width, height = features.shape
+    features = features.reshape(n_channel, width * height)
 
-    cams = weights @ features  # n_seq, w * h
-
-    cam = cams[idx]
+    cam = weights @ features  # w * h
     cam = cam.reshape(width, height)
     cam -= np.min(cam)
     cam /= np.max(cam)
@@ -99,6 +97,31 @@ def get_model_path(model_name, diagnosis, series):
     return model_path
 
 
+def denorm(img, mean=58.09, std=49.73):
+    img = img * std
+    img = img + mean
+    return img
+
+
+def create_and_save_CAM(model, batch, output_path):
+    vol, label, case = batch
+    case = case[0][:-len('.npy')]
+    label = int(label.view(-1).data.numpy()[0])
+    cam, idx = get_CAM(model, vol)
+
+    _, n_seq, n_channel, width, height = vol.shape
+
+    img = vol.view(n_seq, n_channel, width, height).data.numpy()[idx]
+    heatmap = cv2.applyColorMap(cam, cv2.COLORMAP_JET)
+    img = denorm(np.moveaxis(img, 0, 2))
+    colored = 0.3 * heatmap + 0.5 * img
+
+    img_path = 'result-{}-{}.jpg'.format(case, label)
+    img_path = os.path.join(output_path, img_path)
+    cv2.imwrite(img_path, colored)
+    return img_path
+
+
 def main(model_name,
          diagnosis,
          series,
@@ -114,15 +137,7 @@ def main(model_name,
     model = get_model(model_name, model_path, gpu)
 
     for batch in test_loader:
-        vol, label, case = batch
-        cam, idx = get_CAM(model, vol)
-        img = vol[idx]
-        heatmap = cv2.applyColorMap(cam, cv2.COLORMAP_JET)
-        colored = 0.3 * heatmap + 0.5 * img
-
-        img_path = 'result-{}-{}.jpg'.format(case[:-len('.npy')], label)
-        img_path = os.path.join(output_path, img_path)
-        cv2.imwrite(img_path, colored)
+        create_and_save_CAM(model, batch, output_path)
         break
 
 
