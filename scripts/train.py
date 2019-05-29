@@ -210,7 +210,6 @@ if __name__ == '__main__':
     if args.epochs == 1:
         tags.append('test')
 
-
     wandb.init(
         name=args.rundir,
         config=args,

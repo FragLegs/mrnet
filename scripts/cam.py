@@ -86,8 +86,20 @@ def get_model(model_name, model_path, gpu):
     return model
 
 
+def get_model_path(model_name, diagnosis, series):
+    models_dir = f'runs/{model_name}/{series}/{diagnosis}'
+    most_recent = sorted(os.listdir(models_dir))[-1]
+    most_recent_path = os.path.join(models_dir, most_recent)
+    model_paths = sorted([
+        fn for fn in os.listdir(most_recent_path)
+        if fn.startswith('val')
+    ])
+    model_path = os.path.join(most_recent_path, model_paths[0])
+
+    return model_path
+
+
 def main(model_name,
-         model_path,
          diagnosis,
          series,
          gpu,
@@ -97,6 +109,7 @@ def main(model_name,
     os.makedirs(output_path, exist_ok=True)
 
     test_loader = get_data(diagnosis, series, gpu)
+    model_path = get_model_path(model_name, diagnosis, series)
     model = get_model(model_name, model_path, gpu)
 
     for batch in test_loader:
