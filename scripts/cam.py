@@ -128,7 +128,6 @@ def main(model_name,
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('model_name')
-    parser.add_argument('model_path')
     parser.add_argument(
         '-d',
         '--diagnosis',
