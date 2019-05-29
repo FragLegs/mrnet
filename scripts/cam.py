@@ -106,6 +106,7 @@ def main(model_name,
          output_path,
          **kwargs):
 
+    output_path = os.path.join(output_path, model_name)
     os.makedirs(output_path, exist_ok=True)
 
     test_loader = get_data(diagnosis, series, gpu)
@@ -128,6 +129,7 @@ def main(model_name,
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('model_name')
+    parser.add_argument('output_path')
     parser.add_argument(
         '-d',
         '--diagnosis',
@@ -141,7 +143,6 @@ def parse_args():
         default='all'
     )
     parser.add_argument('--gpu', action='store_true')
-    parser.add_argument('output_path')
 
     verbosity_help = 'Verbosity level (default: %(default)s)'
     choices = [
