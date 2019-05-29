@@ -108,11 +108,11 @@ def denorm(img, mean=58.09, std=49.73):
     return img
 
 
-def create_and_save_CAM(model, batch, output_path):
+def create_and_save_CAM(model, batch, output_path, idx=None):
     vol, label, case = batch
     case = case[0][:-len('.npy')]
     label = int(label.view(-1).data.numpy()[0])
-    cam, idx = get_CAM(model, vol)
+    cam, idx = get_CAM(model, vol, idx)
 
     _, n_seq, n_channel, width, height = vol.shape
 
@@ -121,7 +121,9 @@ def create_and_save_CAM(model, batch, output_path):
     img = denorm(np.moveaxis(img, 0, 2))
     colored = 0.3 * heatmap + 0.5 * img
 
-    img_path = 'result-{}-{}.jpg'.format(case, label)
+    pred = torch.sigmoid(model.forward(vol)).data.cpu().numpy()[0][0]
+
+    img_path = 'result-{}-t{}-p{:.3f}-i{}.jpg'.format(case, label, pred, idx)
     img_path = os.path.join(output_path, img_path)
     cv2.imwrite(img_path, colored)
     return img_path
