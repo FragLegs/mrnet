@@ -39,6 +39,7 @@ def get_features(model, volume):
 
 
 def get_CAM(model, volume):
+    final_dim = (volume.shape[-2], volume.shape[-1])
     features, idx = get_features(model, volume)  # n_channel, w, h
     weights = get_weights(model)
 
@@ -52,7 +53,7 @@ def get_CAM(model, volume):
     cam -= np.min(cam)
     cam /= np.max(cam)
     cam = np.uint8(255 * cam)
-    return cv2.resize(cam, (256, 256)), idx
+    return cv2.resize(cam, final_dim), idx
 
 
 def get_data(diagnosis, series, gpu):
