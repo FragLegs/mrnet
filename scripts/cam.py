@@ -108,7 +108,12 @@ def denorm(img, mean=58.09, std=49.73):
     return img
 
 
-def create_and_save_CAM(model, batch, output_path, idx=None):
+def create_and_save_CAM(model,
+                        batch,
+                        output_path,
+                        diagnosis,
+                        series,
+                        idx=None):
     vol, label, case = batch
     case = case[0][:-len('.npy')]
     label = int(label.view(-1).data.numpy()[0])
@@ -123,7 +128,9 @@ def create_and_save_CAM(model, batch, output_path, idx=None):
 
     pred = torch.sigmoid(model.forward(vol)).data.cpu().numpy()[0][0]
 
-    img_path = 'result-{}-t{}-p{:.3f}-i{}.jpg'.format(case, label, pred, idx)
+    img_path = 'result-{}-{}-{}-t{}-p{:.3f}-i{}.jpg'.format(
+        case, diagnosis, series, label, pred, idx
+    )
     img_path = os.path.join(output_path, img_path)
     cv2.imwrite(img_path, colored)
     return img_path
@@ -144,7 +151,7 @@ def main(model_name,
     model = get_model(model_name, model_path, gpu)
 
     for batch in test_loader:
-        create_and_save_CAM(model, batch, output_path)
+        create_and_save_CAM(model, batch, output_path, diagnosis, series)
         break
 
 
