@@ -85,7 +85,7 @@ def get_model(model_name, model_path, gpu):
 
 
 def get_model_path(model_name, diagnosis, series):
-    models_dir = f'runs/{model_name}/{series}/{diagnosis}'
+    models_dir = f'/mnt/runs/{model_name}/{series}/{diagnosis}'
     most_recent = sorted(os.listdir(models_dir))[-1]
     most_recent_path = os.path.join(models_dir, most_recent)
     model_paths = sorted([
