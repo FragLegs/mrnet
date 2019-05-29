@@ -42,6 +42,8 @@ def get_CAM(model, volume):
     features, idx = get_features(model, volume)  # n_channel, w, h
     weights = get_weights(model)
 
+    features = features[idx]
+
     n_channel, width, height = features.shape
     features = features.reshape(n_channel, width * height)
 
