@@ -38,11 +38,13 @@ def get_features(model, volume):
     return features.data.cpu().numpy(), idx
 
 
-def get_CAM(model, volume):
+def get_CAM(model, volume, idx=None):
     final_dim = (volume.shape[-2], volume.shape[-1])
-    features, idx = get_features(model, volume)  # n_channel, w, h
+    features, max_idx = get_features(model, volume)  # n_channel, w, h
     weights = get_weights(model)
 
+    if idx is None:
+        idx = max_idx
     features = features[idx]
 
     n_channel, width, height = features.shape
