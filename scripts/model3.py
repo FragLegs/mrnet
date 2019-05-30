@@ -83,6 +83,34 @@ class MRNetSqueeze3(nn.Module):
         return x
 
 
+class MRNetSqueeze3Sep(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model_a = models.squeezenet1_0(pretrained=True)
+        self.model_b = models.squeezenet1_0(pretrained=True)
+        self.model_c = models.squeezenet1_0(pretrained=True)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(512 * 3, 1)
+
+    def forward(self, x):
+        a, c, s = x
+
+        a = self.single_forward(a, self.model_a)
+        c = self.single_forward(c, self.model_c)
+        s = self.single_forward(s, self.model_s)
+
+        acs = torch.cat((a, c ,s), 1)
+        acs = self.classifier(acs)
+        return acs
+
+    def single_forward(self, x, model):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = model.features(x)
+        x = self.gap(x).view(x.size(0), -1)
+        x = torch.max(x, 0, keepdim=True)[0]
+        return x
+
+
 class MRNetAttention3(nn.Module):
     def __init__(self):
         super().__init__()
@@ -111,6 +139,38 @@ class MRNetAttention3(nn.Module):
         return x
 
 
+class MRNetAttention3Sep(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model_a = models.alexnet(pretrained=True)
+        self.model_c = models.alexnet(pretrained=True)
+        self.model_s = models.alexnet(pretrained=True)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.attention_a = nn.Linear(256, 1)
+        self.attention_c = nn.Linear(256, 1)
+        self.attention_s = nn.Linear(256, 1)
+        self.classifier = nn.Linear(256 * 3, 1)
+
+    def forward(self, x):
+        a, c, s = x
+
+        a = self.single_forward(a, self.model_a, self.attention_a)
+        c = self.single_forward(c, self.model_c, self.attention_c)
+        s = self.single_forward(s, self.model_s, self.attention_s)
+
+        acs = torch.cat((a, c ,s), 1)
+        acs = self.classifier(acs)
+        return acs
+
+    def single_forward(self, x, model, attention):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = model.features(x)
+        x = self.gap(x).view(x.size(0), -1)  # (seq_len, n_feat)
+        a = torch.softmax(attention(x), dim=0)  # (1, seq_len)
+        x = torch.sum(a.view(-1, 1) * x, dim=0, keepdim=True)
+        return x
+
+
 class MRNetSqueezeAttention3(nn.Module):
     def __init__(self):
         super().__init__()
@@ -135,6 +195,38 @@ class MRNetSqueezeAttention3(nn.Module):
         x = self.model.features(x)
         x = self.gap(x).view(x.size(0), -1)  # (seq_len, n_feat)
         a = torch.softmax(self.attention(x), dim=0)  # (1, seq_len)
+        x = torch.sum(a.view(-1, 1) * x, dim=0, keepdim=True)
+        return x
+
+
+class MRNetSqueezeAttention3Sep(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model_a = models.squeezenet1_0(pretrained=True)
+        self.model_b = models.squeezenet1_0(pretrained=True)
+        self.model_c = models.squeezenet1_0(pretrained=True)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.attention_a = nn.Linear(512, 1)
+        self.attention_c = nn.Linear(512, 1)
+        self.attention_s = nn.Linear(512, 1)
+        self.classifier = nn.Linear(512 * 3, 1)
+
+    def forward(self, x):
+        a, c, s = x
+
+        a = self.single_forward(a, self.model_a, self.attention_a)
+        c = self.single_forward(c, self.model_c, self.attention_c)
+        s = self.single_forward(s, self.model_s, self.attention_s)
+
+        acs = torch.cat((a, c ,s), 1)
+        acs = self.classifier(acs)
+        return acs
+
+    def single_forward(self, x, model, attention):
+        x = torch.squeeze(x, dim=0)  # only batch size 1 supported
+        x = model.features(x)
+        x = self.gap(x).view(x.size(0), -1)  # (seq_len, n_feat)
+        a = torch.softmax(attention(x), dim=0)  # (1, seq_len)
         x = torch.sum(a.view(-1, 1) * x, dim=0, keepdim=True)
         return x
 

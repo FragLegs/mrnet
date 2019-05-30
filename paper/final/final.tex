@@ -28,7 +28,7 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{MRNet with Alternate Pretrained Features}
+\title{Attention is All You Knee}
 
 \author{Shayne Miel\\
 Stanford University\\
@@ -49,95 +49,56 @@ Stanford, CA, USA\\
 \maketitle
 %\thispagestyle{empty}
 
-%%%%%%%%% ABSTRACT
-% \begin{abstract}
-%    The ABSTRACT is to be in fully-justified italicized text, at the top
-%    of the left-hand column, below the author and affiliation
-%    information. Use the word ``Abstract'' as the title, in 12-point
-%    Times, boldface type, centered relative to the column, initially
-%    capitalized. The abstract is to be in 10-point, single-spaced type.
-%    Leave two blank lines after the Abstract, then begin the main text.
-%    Look at previous CVPR abstracts to get a feel for style and length.
-% \end{abstract}
+%%%%%%%% ABSTRACT
+\begin{abstract}
+   Improving the accuracy with which automated methods can identify injuries in
+   MRIs of the knee would lead to time and cost savings for doctors and patients.
+   I show that by fine-tuning a pretrained neural network to extract features
+   and then using a self-attention mechanism to combine features from multiple
+   frames of the MRI scan, I can improve upon the current state of the art on
+   the MRNet data set.
+\end{abstract}
 
 %%%%%%%%% BODY TEXT
 \section{Introduction}
+% Explain the problem and why it is important. Discuss your motivation for pursuing this problem. Give some background if necessary. Clearly state what the input and output is. Be very explicit: "The input to our algorithm is a {image, video, patient age, 3D video, etc.}. We then use a {SVM, CNN, GAN, etc.} to output a predicted {age, cancer type, restaurant, ramen, etc.}." This is very important since different teams have different inputs/outputs spanning different application domains. Being explicit about this makes it easier for readers.
 
-Reading and interpreting MRIs is a time-consuming process. Even with trained
-professionals, it is easy for a clinician to misdiagnose an injury based on
-an MRI reading. Improving the automated identification of abnormalities in
-knee MRIs
-could help prioritize which MRIs to examine first, as well as provide better early
-results for patients whose scans appear normal. Model predictions could
-also provide a ``second opinion'' which would reduce the possibility of missed
-abnormalities. This could represent a large cost savings for hospitals and
-an increased level of care for patients.
+Reading and interpreting MRIs is a time-consuming process. Even with trained professionals, it is easy for a clinician to misdiagnose an injury based on an MRI reading. Improving the automated identification of abnormalities in knee MRIs could help prioritize which MRIs to examine first, as well as provide better early results for patients whose scans appear normal. Model predictions could also provide a ``second opinion'' which would reduce the possibility of missed abnormalities. This could represent a large cost savings for hospitals and an increased level of care for patients.
 
-\section{Problem statement}
+\subsection{Problem statement}
 
-Given a set of three MRI series (axial, coronal, and sagittal) of a patient's
-knee, we wish to predict the presence of injuries that will require surgery. In
-particular, we wish to predict whether the knee is healthy, has a meniscal tear,
-has an ACL tear, or has any other abnormality. Since these injuries can co-occur,
-we wish to predict three independent binary values: abnormal, acl tear, and meniscus
-tear.
+An MRI (magnetic resonance image) is ...
+
+Given a set of three MRI series (axial, coronal, and sagittal) of a patient's knee, we wish to predict the presence of injuries that will require surgery. In particular, we wish to predict whether the knee is healthy, has a meniscal tear, has an ACL tear, or has any other abnormality. Since these injuries can co-occur, we wish to predict three independent binary values: abnormal, acl tear, and meniscus tear.
 
 
 \section{Related work}
+% You should find existing papers, group them into categories based on their approaches, and talk about exemplary ones in each category: Discuss strengths and weaknesses. In your opinion, which approaches were clever/good? What is the state-of-the-art? Do most people perform the task by hand? You should aim to have at least 10 references in the related work. Include previous attempts by others at your problem, previous technical methods, or previous learning algorithms. Google Scholar is very useful for this: https://scholar.google.com/ (you can click “cite” and it generates MLA, APA, BibTeX, etc.) You can also try http://www.arxiv-sanity.com/ to search for recent arXiv papers.
 
-The main purpose of this study is to replicate the results achieved by Bien, et
-al's MRNet model \cite{bien2018deep}. They use a pretrained AlexNet \cite{krizhevsky2012imagenet}
-model to extract features from each 2D slice of the 3D MRI volume, followed by
-a global
-average pooling per slice to flatten the image, and a max pooling across the
-volume. Finally,
-a fully connected layer and sigmoid activation are used to predict a binary
-label for each series. Those three predictions (axial, coronal, and sagittal) are
-then used as features in a simple logistic regression to predict the final label
-in question.
-This process is repeated for each of the three independent labels.
+The main purpose of this study is to replicate the results achieved by Bien, et al's MRNet model \cite{bien2018deep}. They use a pretrained AlexNet \cite{krizhevsky2012imagenet} model to extract features from each 2D slice of the 3D MRI volume, followed by a global average pooling per slice to flatten the image, and a max pooling across the volume. Finally, a fully connected layer and sigmoid activation are used to predict a binary label for each series. Those three predictions (axial, coronal, and sagittal) are then used as features in a simple logistic regression to predict the final label in question. This process is repeated for each of the three independent labels.
 
-An important aspect of the MRNet model is the data augmentation done during training.
-Every volume is randomly flipped horizontally, shifted horizontally by -25 to 25
-pixels, and rotated by -25 to 25 degrees each time it is seen during training.
-This helps prevent the model from overfitting the small data set.
+An important aspect of the MRNet model is the data augmentation done during training. Every volume is randomly flipped horizontally, shifted horizontally by -25 to 25 pixels, and rotated by -25 to 25 degrees each time it is seen during training. This helps prevent the model from overfitting the small data set.
 
 
-\section{Technical approach}
+\section{Methods}
+% Describe your learning algorithms, proposed algorithm(s), or theoretical proof(s). Make sure to include relevant mathematical notation. For example, say what the softmax function is or include your loss equation. It is okay to use formulas from the lecture notes. For each algorithm, give a brief description (2-3 sentences) of how it works. Again, we are looking for your understanding of how these deep learning algorithms work. Although the teaching staff probably know the algorithms, future readers may not (reports will be posted on the class website). Additionally, if you are using a niche or cutting-edge algorithm (e.g. binary network, SURF features, or anything else not covered in the class), you may want to explain your algorithm using several paragraphs. Note: Theory/algorithms projects may have an appendix showing extended proofs (see appendix description below). Assume the reader has completed CS 231N. You don't need to explain filters and max-pooling, but if you do something like stochastic strides, then you should explain that.
 
 My goals for this project are fairly simple:
 \begin{enumerate}
    \item Reproduce the results obtained by Bien, et al. in \cite{bien2018deep}.
    \item Experiment with using different pretrained networks to extract features,
-   specifically replacing AlexNet with GoogLeNet \cite{szegedy2015going} as Chi, et al.
-   did for ultrasound images \cite{chi2017thyroid},
-   ResNet \cite{he2016deep} as done in \cite{korfiatis2017residual},
-   and Inception-v3 \cite{szegedy2016rethinking} as done in \cite{kim2018artificial}.
-   \item If time allows, try replacing the logistic regression ensemble with
-   a direct concatenation of the features from each of the three series before
-   going through the fully connected layer.
+   specifically replacing AlexNet with GoogLeNet \cite{szegedy2015going} as Chi, et al. did for ultrasound images \cite{chi2017thyroid}, ResNet \cite{he2016deep} as done in \cite{korfiatis2017residual}, and Inception-v3 \cite{szegedy2016rethinking} as done in \cite{kim2018artificial}.
+   \item If time allows, try replacing the logistic regression ensemble with a direct concatenation of the features from each of the three series before going through the fully connected layer.
 \end{enumerate}
 
-Unfortunately, while Bien, et al. did release code for the architecture of
-their MRNet model, they did not release the data loading, hyperparameters, data
-augmentation, ensembling, or training, or evaluation code.
-This means that more of the effort for this project will be focused on simply
-reproducing their results.\footnote{I wrote to the authors hoping that they
-would share their code privately so that I could spend more time on enhancements,
-but they said that the code is not avaialble.}
+Unfortunately, while Bien, et al. did release code for the architecture of their MRNet model, they did not release the data loading, hyperparameters, data augmentation, ensembling, or training, or evaluation code. This means that more of the effort for this project will be focused on simply reproducing their results.\footnote{I wrote to the authors hoping that they would share their code privately so that I could spend more time on enhancements, but they said that the code is not avaialble.}
 
-However, they did release source code for training MRNet on a set of external
-validation data from the 2017 Štajduhar et al. study \cite{vstajduhar2017semi}.
-This provides a good starting place for trying replicate their pipeline on
-the MRNet dataset.
+However, they did release source code for training MRNet on a set of external validation data from the 2017 Štajduhar et al. study \cite{vstajduhar2017semi}. This provides a good starting place for trying replicate their pipeline on the MRNet dataset.
 
 \section{Dataset}
+% Give details about your dataset: how many training/validation/test examples do you have? Is there any preprocessing you did? What about normalization or data augmentation? What is the resolution of your images? How is your time-series data discretized? Include a citation to where you got your dataset from. Depending on available space, show some examples from your dataset. You should also talk about the features you used. If you extracted features using Fourier transforms, word2vec, histogram of oriented gradients (HOG), PCA, ICA, etc. make sure to talk about it. Try to include examples of your data in the report (e.g. include an image, show a waveform, price graph, etc.).
 
-The MRI data provided in the
-\href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge}
-contains scans from 3 MRI types (sagittal plane T2, coronal plane T1, and axial
-plane PD) with 3 labels per MRI (abnormality, ACL tear, and meniscal tear) for
-1,250 examinations.
+The MRI data provided in the \href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge} contains scans from 3 MRI types (sagittal plane T2, coronal plane T1, and axial plane PD) with 3 labels per MRI (abnormality, ACL tear, and meniscal tear) for 1,250 examinations.
 
 
 \begin{table}
@@ -165,51 +126,48 @@ Diagnosis & Label & Train & Validation & Test \\
 \end{table}
 
 
-They have designated a training/validation split and have withheld the test set
-for leaderboard evaluation. In order to assess the
-changes I will be making, I am calling their validation set the test set, and
-splitting their training set into a training and validation set. Counts of
-cases and labels for each set can be seen in Table \ref{tab:dataset}.
+They have designated a training/validation split and have withheld the test set for leaderboard evaluation. In order to assess the changes I will be making, I am calling their validation set the test set, and splitting their training set into a training and validation set. Counts of cases and labels for each set can be seen in Table \ref{tab:dataset}.
 
 Note that this data has already been preprocessed as described in \cite{bien2018deep}:
 \begin{quotation}
 \noindent
-   Images were extracted from Digital Imaging and Communications in Medicine
-   (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network
-   Graphics (PNG) format using the Python programming language (version 2.7)
-   and the pydicom library (version 0.9.9).
+   Images were extracted from Digital Imaging and Communications in Medicine (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network Graphics (PNG) format using the Python programming language (version 2.7) and the pydicom library (version 0.9.9).
 
-   To account for variable pixel intensity scales within the MRI series, a
-   histogram-based intensity standardization algorithm was applied to the images.
-   For each series, a representative intensity distribution was learned from the
-   training set exams. Then, the parameters of this distribution were used to
-   adjust the pixel intensities of exams in all datasets (training, tuning, and
-   validation). Under this transformation, pixels with similar values correspond
-   to similar tissue types. After intensity standardization, pixel values were
-   clipped between 0 and 255, the standard range for PNG images.
+   To account for variable pixel intensity scales within the MRI series, a histogram-based intensity standardization algorithm was applied to the images. For each series, a representative intensity distribution was learned from the training set exams. Then, the parameters of this distribution were used to adjust the pixel intensities of exams in all datasets (training, tuning, and validation). Under this transformation, pixels with similar values correspond to similar tissue types. After intensity standardization, pixel values were clipped between 0 and 255, the standard range for PNG images.
 \end{quotation}
-\section{Preliminary results}
+\section{Experiments/Results/Discussions}
+% You should also briefly give details about what hyperparameters you chose (e.g. why did you use X learning rate for gradient descent or did you use Adam, what was your mini-batch size and why) and how you chose them. Did you do cross-validation, if so, how many folds? This should not take more than 1-2 paragraphs. If you want to list more details, please do so in the supplemental material.
 
-I have been able to successfully recreate the data loading and training pipeline,
-as well as the data augmentation steps, ensembling, and evaluation code.
-The hyperparameters and training process are the same for every model. It is unclear
-whether the current hyperparameters are the optimal ones, but the results look
-promising.
-Figure \ref{fig:mrnet_loss} shows the loss curves from the baseline MRNet
-model for training and validation on each series and diagnosis.
+% Before you list your results, make sure to list and explain what your primary metrics are: accuracy, mAP, inception/mode scores, etc. Provide equations for the metrics if necessary. For results, you want to have a mixture of tables and plots. If you are solving a classification problem, you should include a confusion matrix or AUC/AUPRC curves. Include performance metrics such as precision, recall, and accuracy. For regression problems, state the at least the average error. For reinforcement learning and control, have appropriate metrics as well.
 
-The AUC values for training and validation at each
-epoch can be seen in Figure \ref{fig:mrnet_auc}. The models appear to be learning
-and generalizing well. The validation scores are noisy though, which is most likely
-due to the extremely small data set sizes and imbalanced classes.
+% You should have both quantitative and qualitative results. To reiterate, you must have both quantitative and qualitative results! This includes unsupervised learning (talk with the TAs on how to quantify unsupervised methods). Include visualizations of results, heatmaps, saliency maps, examples of where your algorithm failed and a discussion of why certain algorithms failed or succeeded. In addition, explain whether you think you have overfitted to your training set and what, if anything, you did to mitigate that. Make sure to discuss the figures/tables in your main text throughout this section. Your plots should include legends, axis labels, and have font sizes that are readable when printed.
 
-Table \ref{tab:results} shows the AUC on the test set as reported in
-\cite{bien2018deep} and the test set (their validation set) with my reproduction
-of the MRNet model. I do not have access to the test set that they used for
-reporting results, so I do not expect to get exactly the same results. The AUC
-is fairly close for all three diagnoses. My scores are slightly lower on
-ACL and Meniscus tears, which is most likely due to the smaller data set size and
-non-optimal hyperparameters.
+% Here’s a list of qualitative & quantitative methods for analysis that might be helpful in your project. None of these are necessary nor will be explicitly looked for by graders – rather, we wanted to provide guidance on analysis methods:
+
+% Saliency maps
+
+% Class visualization
+
+% t-SNE
+
+% Confusion matrices
+
+% Common qualitative errors
+
+% GANs: compare the generated output to NN in training set (quant and qualitative)
+
+% GANs: image quality metrics like Inception and Mode scores
+
+% VAE: Reporting measures like Annealed Importance Sampling (AIS)
+
+I have been able to successfully recreate the data loading and training pipeline, as well as the data augmentation steps, ensembling, and evaluation code. The hyperparameters and training process are the same for every model. It is unclear whether the current hyperparameters are the optimal ones, but the results look promising. Figure \ref{fig:mrnet_loss} shows the loss curves from the baseline MRNet model for training and validation on each series and diagnosis.
+
+The AUC values for training and validation at each epoch can be seen in Figure \ref{fig:mrnet_auc}. The models appear to be learning and generalizing well. The validation scores are noisy though, which is most likely due to the extremely small data set sizes and imbalanced classes.
+
+Table \ref{tab:results} shows the AUC on the test set as reported in \cite{bien2018deep} and the test set (their validation set) with my reproduction of the MRNet model. I do not have access to the test set that they used for reporting results, so I do not expect to get exactly the same results. The AUC is fairly close for all three diagnoses. My scores are slightly lower on ACL and Meniscus tears, which is most likely due to the smaller data set size and non-optimal hyperparameters.
+
+\section{Conclusion/Future Work}
+% Summarize your report and reiterate key points. Which algorithms were the highest-performing?  Why do you think that some algorithms worked better than others? For future work, if you had more time, more team members, or more compute, what would you explore?
 
 \begin{figure*}
 \begin{center}
