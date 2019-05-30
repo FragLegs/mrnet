@@ -87,8 +87,8 @@ class MRNetSqueeze3Sep(nn.Module):
     def __init__(self):
         super().__init__()
         self.model_a = models.squeezenet1_0(pretrained=True)
-        self.model_b = models.squeezenet1_0(pretrained=True)
         self.model_c = models.squeezenet1_0(pretrained=True)
+        self.model_s = models.squeezenet1_0(pretrained=True)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(512 * 3, 1)
 
@@ -203,8 +203,8 @@ class MRNetSqueezeAttention3Sep(nn.Module):
     def __init__(self):
         super().__init__()
         self.model_a = models.squeezenet1_0(pretrained=True)
-        self.model_b = models.squeezenet1_0(pretrained=True)
         self.model_c = models.squeezenet1_0(pretrained=True)
+        self.model_s = models.squeezenet1_0(pretrained=True)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.attention_a = nn.Linear(512, 1)
         self.attention_c = nn.Linear(512, 1)
