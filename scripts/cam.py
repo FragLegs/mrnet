@@ -33,7 +33,7 @@ def get_features(model, volume):
     else:
         a = torch.argmax(x, 0).view(-1).data.cpu().numpy()
         print(a.shape)
-        idx = Counter(a).most_common(1)[0]
+        idx = Counter(a)[0]
 
     return features.data.cpu().numpy(), idx
 
