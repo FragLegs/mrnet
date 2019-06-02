@@ -28,12 +28,12 @@ def get_features(model, volume):
 
     if 'Attention' in name:
         m = torch.softmax(model.attention(x), dim=0).data.cpu().numpy()
+        print(m.shape)
         idx = np.argmax(m)
-        print(idx)
     else:
         a = torch.argmax(x, 0).view(-1).data.cpu().numpy()
+        print(a.shape)
         idx = Counter(a).most_common(1)[0]
-        print(idx)
 
     return features.data.cpu().numpy(), idx
 
