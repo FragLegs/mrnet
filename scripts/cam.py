@@ -32,7 +32,7 @@ def get_features(model, volume):
         print(idx)
     else:
         a = torch.argmax(x, 0).view(-1).data.cpu().numpy()
-        idx = Counter(a)[0]
+        idx = Counter(a).most_common(1)[0]
         print(idx)
 
     return features.data.cpu().numpy(), idx
@@ -136,11 +136,12 @@ def create_and_save_CAM(model,
     return img_path
 
 
-def main(model_name,
+def main(#model_name,
          diagnosis,
          series,
          gpu,
          output_path,
+         idx,
          **kwargs):
 
     output_path = os.path.join(output_path, model_name)
@@ -157,8 +158,14 @@ def main(model_name,
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('model_name')
+    #parser.add_argument('model_name')
     parser.add_argument('output_path')
+    parser.add_argument(
+        '-i',
+        '--idx',
+        type=int,
+        default=88
+    )
     parser.add_argument(
         '-d',
         '--diagnosis',

@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}\itemsep=-1pt
+\begin{thebibliography}{10}\itemsep=-1pt
 
 \bibitem{bien2018deep}
 N.~Bien, P.~Rajpurkar, R.~L. Ball, J.~Irvin, A.~Park, E.~Jones, M.~Bereket,
@@ -13,6 +13,13 @@ J.~Chi, E.~Walia, P.~Babyn, J.~Wang, G.~Groot, and M.~Eramian.
   deep convolutional neural network.
 \newblock {\em Journal of digital imaging}, 30(4):477--486, 2017.
 
+\bibitem{figueiredo2018use}
+S.~Figueiredo, L.~S. Castelo, A.~D. Pereira, L.~Machado, J.~A. Silva, and
+  A.~Sa.
+\newblock Use of mri by radiologists and orthopaedic surgeons to detect
+  intra-articular injuries of the knee.
+\newblock {\em Revista brasileira de ortopedia}, 53(1):28--32, 2018.
+
 \bibitem{he2016deep}
 K.~He, X.~Zhang, S.~Ren, and J.~Sun.
 \newblock Deep residual learning for image recognition.
@@ -24,6 +31,11 @@ D.~Kim and T.~MacKinnon.
 \newblock Artificial intelligence in fracture detection: transfer learning from
   deep convolutional neural networks.
 \newblock {\em Clinical radiology}, 73(5):439--445, 2018.
+
+\bibitem{kolata2011}
+G.~Kolata.
+\newblock Sports medicine said to overuse m.r.i.’s, October 2011.
+\newblock [Online; posted 28-October-2011].
 
 \bibitem{korfiatis2017residual}
 P.~Korfiatis, T.~L. Kline, D.~H. Lachance, I.~F. Parney, J.~C. Buckner, and
@@ -38,12 +50,18 @@ A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton.
 \newblock In {\em Advances in neural information processing systems}, pages
   1097--1105, 2012.
 
-\bibitem{vstajduhar2017semi}
-I.~{\v{S}}tajduhar, M.~Mamula, D.~Mileti{\'c}, and G.~{\"U}nal.
-\newblock Semi-automated detection of anterior cruciate ligament injury from
-  mri.
-\newblock {\em Computer methods and programs in biomedicine}, 140:151--164,
-  2017.
+\bibitem{orlando2015diagnosis}
+N.~Orlando~J{\'u}nior, M.~G. d.~S. Le{\~a}o, and N.~H. C.~d. Oliveira.
+\newblock Diagnosis of knee injuries: comparison of the physical examination
+  and magnetic resonance imaging with the findings from arthroscopy.
+\newblock {\em Revista brasileira de ortopedia}, 50(6):712--719, 2015.
+
+\bibitem{smith2012diagnostic}
+T.~Smith, M.~Lewis, F.~Song, A.~Toms, S.~Donell, and C.~Hing.
+\newblock The diagnostic accuracy of anterior cruciate ligament rupture using
+  magnetic resonance imaging: a meta-analysis.
+\newblock {\em European Journal of Orthopaedic Surgery \& Traumatology},
+  22(4):315--326, 2012.
 
 \bibitem{szegedy2015going}
 C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan,

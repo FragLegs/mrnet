@@ -63,21 +63,35 @@ Stanford, CA, USA\\
 \section{Introduction} % (0.5-1 page)
 % Explain the problem and why it is important. Discuss your motivation for pursuing this problem. Give some background if necessary. Clearly state what the input and output is. Be very explicit: "The input to our algorithm is a {image, video, patient age, 3D video, etc.}. We then use a {SVM, CNN, GAN, etc.} to output a predicted {age, cancer type, restaurant, ramen, etc.}." This is very important since different teams have different inputs/outputs spanning different application domains. Being explicit about this makes it easier for readers.
 
-An MRI (magnetic resonance image) is ...
+Magnetic resonance imaging (MRI) is a method of obtaining three dimensional images of the inside of an object by using strong magnets to align the protons in the object and then radio frequency currents to disrupt and measure that alignment. An MRI sequence is a series of two dimensional images that can be stacked to recreate the three dimensional object. There are three sequence types, each corresponding to an orientation of the ``camera'' that captures the two dimensional slices. The axial sequence captures slices of the object that are horizontal to the ground; the coronal sequence captures vertical slices as viewed from the front of the object; and the sagittal sequence captures vertical slices as viewed from the side of the object.
 
-Reading and interpreting MRIs, however, is a time-consuming process. Even with trained professionals, it is easy for a clinician to misdiagnose an injury based on an MRI reading. Improving the automated identification of abnormalities in knee MRIs could help prioritize which MRIs to examine first, as well as provide better early results for patients whose scans appear normal. Model predictions could also provide a ``second opinion'' which would reduce the possibility of missed abnormalities. This could represent a large cost savings for hospitals and an increased level of care for patients.
+MRI can be a useful tool when diagnosing knee injuries\cite{orlando2015diagnosis,figueiredo2018use,smith2012diagnostic}, however, analyzing the images is a time-consuming process and even with trained professionals, it is easy for a clinician to misdiagnose an injury based on an MRI reading\cite{kolata2011}. Improving the automated identification of abnormalities in knee MRIs could help prioritize which MRIs to examine first, as well as provide better early results for patients whose scans appear normal. Model predictions could also provide a ``second opinion'' which would reduce the possibility of missed abnormalities. This could represent a large cost savings for hospitals and an increased level of care for patients.
 
-
-Given a set of three MRI series (axial, coronal, and sagittal) of a patient's knee, we wish to predict the presence of injuries that will require surgery. In particular, we wish to predict whether the knee is healthy, has a meniscal tear, has an ACL tear, or has any other abnormality. Since these injuries can co-occur, we wish to predict three independent binary values: abnormal, acl tear, and meniscus tear.
+The problem addressed in this paper is as follows: given a set of three MRI sequences (axial, coronal, and sagittal) of a patient's knee, can we predict the presence of injuries that will require surgery? In particular, we wish to predict whether the knee is healthy, has a meniscal tear, has an ACL tear, or has any other abnormality. Since these injuries can co-occur, we wish to predict three independent binary values: abnormal, acl tear, and meniscus tear. Past research has proven that MRI scans are accurate and sensitive tools for detecting these kinds of injuries in a non-invasive manner\cite{boeve1991magnetic,felli2016comparison,yaqoob2015diagnostic}.
 
 
 \section{Related work} % (0.5-1 page)
 % You should find existing papers, group them into categories based on their approaches, and talk about exemplary ones in each category: Discuss strengths and weaknesses. In your opinion, which approaches were clever/good? What is the state-of-the-art? Do most people perform the task by hand? You should aim to have at least 10 references in the related work. Include previous attempts by others at your problem, previous technical methods, or previous learning algorithms. Google Scholar is very useful for this: https://scholar.google.com/ (you can click “cite” and it generates MLA, APA, BibTeX, etc.) You can also try http://www.arxiv-sanity.com/ to search for recent arXiv papers.
 
+The current state-of-the-art for detecting injuries in MRI scans of the knee is MRNet\cite{bien2018deep}. Their method uses a deep convolutional neural network to predict a binary label per-sequence, ensembled via a simple logistic regression over the per-sequence probabilities to predict the final label.
+
+For each image in each sequence, they use a pretrained AlextNet to extract features from the image. AlexNet is a deep convolutional neural network that achieves a good accuracy on the ImageNet dataset\cite{krizhevsky2012imagenet}. By using a
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
 The main purpose of this study is to replicate the results achieved by Bien, et al's MRNet model \cite{bien2018deep}. They use a pretrained AlexNet \cite{krizhevsky2012imagenet} model to extract features from each 2D slice of the 3D MRI volume, followed by a global average pooling per slice to flatten the image, and a max pooling across the volume. Finally, a fully connected layer and sigmoid activation are used to predict a binary label for each series. Those three predictions (axial, coronal, and sagittal) are then used as features in a simple logistic regression to predict the final label in question. This process is repeated for each of the three independent labels.
 
-An important aspect of the MRNet model is the data augmentation done during training. Every volume is randomly flipped horizontally, shifted horizontally by -25 to 25 pixels, and rotated by -25 to 25 degrees each time it is seen during training. This helps prevent the model from overfitting the small data set.
 
+Talk about SqueezeNet. Talk about ways that it differes from AlexNet.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Talk about self-attention.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Talk about other work on MRIs.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
 \section{Methods} % (2 pages)
 % Describe your learning algorithms, proposed algorithm(s), or theoretical proof(s). Make sure to include relevant mathematical notation. For example, say what the softmax function is or include your loss equation. It is okay to use formulas from the lecture notes. For each algorithm, give a brief description (2-3 sentences) of how it works. Again, we are looking for your understanding of how these deep learning algorithms work. Although the teaching staff probably know the algorithms, future readers may not (reports will be posted on the class website). Additionally, if you are using a niche or cutting-edge algorithm (e.g. binary network, SURF features, or anything else not covered in the class), you may want to explain your algorithm using several paragraphs. Note: Theory/algorithms projects may have an appendix showing extended proofs (see appendix description below). Assume the reader has completed CS 231N. You don't need to explain filters and max-pooling, but if you do something like stochastic strides, then you should explain that.
@@ -90,15 +104,30 @@ My goals for this project are fairly simple:
    \item If time allows, try replacing the logistic regression ensemble with a direct concatenation of the features from each of the three series before going through the fully connected layer.
 \end{enumerate}
 
-Unfortunately, while Bien, et al. did release code for the architecture of their MRNet model, they did not release the data loading, hyperparameters, data augmentation, ensembling, or training, or evaluation code. This means that more of the effort for this project will be focused on simply reproducing their results.\footnote{I wrote to the authors hoping that they would share their code privately so that I could spend more time on enhancements, but they said that the code is not avaialble.}
+Explain that all experiments can be described as modifications to MRNet.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
-However, they did release source code for training MRNet on a set of external validation data from the 2017 Štajduhar et al. study \cite{vstajduhar2017semi}. This provides a good starting place for trying replicate their pipeline on the MRNet dataset.
+Replace AlexNet with SqueezeNet. Math
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Replace max pooling across the series with attention. Math
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Replace logistic regression with end-to-end ensembling. Math
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+All experiments use the same loss function as in MRNet. Math.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
 \section{Dataset} % (0.5-1 pages)
 % Give details about your dataset: how many training/validation/test examples do you have? Is there any preprocessing you did? What about normalization or data augmentation? What is the resolution of your images? How is your time-series data discretized? Include a citation to where you got your dataset from. Depending on available space, show some examples from your dataset. You should also talk about the features you used. If you extracted features using Fourier transforms, word2vec, histogram of oriented gradients (HOG), PCA, ICA, etc. make sure to talk about it. Try to include examples of your data in the report (e.g. include an image, show a waveform, price graph, etc.).
 
 The MRI data provided in the \href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge} contains scans from 3 MRI types (sagittal plane T2, coronal plane T1, and axial plane PD) with 3 labels per MRI (abnormality, ACL tear, and meniscal tear) for 1,250 examinations.
 
+
+An important aspect of the MRNet model is the data augmentation done during training. Every volume is randomly flipped horizontally, shifted horizontally by -25 to 25 pixels, and rotated by -25 to 25 degrees each time it is seen during training. This helps prevent the model from overfitting the small data set.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
 \begin{table}
 \begin{center}
@@ -159,14 +188,46 @@ Note that this data has already been preprocessed as described in \cite{bien2018
 
 % VAE: Reporting measures like Annealed Importance Sampling (AIS)
 
+Hyperparameters and Adam - because MRNet paper. Quick experiemnts showed 1e-5 were a good learning rate. Quick experiments showed all learning was done by 40 epochs
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Primary metrics:
+- Average AUC over three diagnoses
+
+For each diagnosis:
+- AUC
+- Specificity
+- Sensitivity
+- Accuracy
+
 I have been able to successfully recreate the data loading and training pipeline, as well as the data augmentation steps, ensembling, and evaluation code. The hyperparameters and training process are the same for every model. It is unclear whether the current hyperparameters are the optimal ones, but the results look promising. Figure \ref{fig:mrnet_loss} shows the loss curves from the baseline MRNet model for training and validation on each series and diagnosis.
 
 The AUC values for training and validation at each epoch can be seen in Figure \ref{fig:mrnet_auc}. The models appear to be learning and generalizing well. The validation scores are noisy though, which is most likely due to the extremely small data set sizes and imbalanced classes.
 
 Table \ref{tab:results} shows the AUC on the test set as reported in \cite{bien2018deep} and the test set (their validation set) with my reproduction of the MRNet model. I do not have access to the test set that they used for reporting results, so I do not expect to get exactly the same results. The AUC is fairly close for all three diagnoses. My scores are slightly lower on ACL and Meniscus tears, which is most likely due to the smaller data set size and non-optimal hyperparameters.
 
-\section{Conclusion/Future Work}
+Show class activation map for MRNet
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Show 4x4 class activation map
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Show cross-method accuracy heatmap
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+\section{Conclusion/Future Work} % (1-3 paragraphs)
 % Summarize your report and reiterate key points. Which algorithms were the highest-performing?  Why do you think that some algorithms worked better than others? For future work, if you had more time, more team members, or more compute, what would you explore?
+
+In this paper we...
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+The best performing model was...
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+
+Future work should include:
+- experimenting with more complex pretrained networks
+- using cross-series attention
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
 \begin{figure*}
 \begin{center}
@@ -198,6 +259,10 @@ MRNet (milestone) & 0.951 & 0.949 & 0.839 \\
 \caption{AUC on the test set}
 \label{tab:results}
 \end{table*}
+
+\section{Contributions \& Acknowledgements}
+
+Compute power generously donated by Turnitin.
 
 {\small
 \bibliographystyle{ieee}
