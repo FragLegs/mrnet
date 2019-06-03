@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}\itemsep=-1pt
 
+\bibitem{agoes2017fine}
+A.~S. Agoes, Z.~Hu, and N.~Matsunaga.
+\newblock Fine tuning based squeezenet for vehicle classification.
+\newblock In {\em Proceedings of the International Conference on Advances in
+  Image Processing}, pages 14--18. ACM, 2017.
+
 \bibitem{bien2018deep}
 N.~Bien, P.~Rajpurkar, R.~L. Ball, J.~Irvin, A.~Park, E.~Jones, M.~Bereket,
   B.~N. Patel, K.~W. Yeom, K.~Shpanskaya, et~al.
@@ -7,11 +13,30 @@ N.~Bien, P.~Rajpurkar, R.~L. Ball, J.~Irvin, A.~Park, E.~Jones, M.~Bereket,
   Development and retrospective validation of mrnet.
 \newblock {\em PLoS medicine}, 15(11):e1002699, 2018.
 
+\bibitem{boeve1991magnetic}
+B.~F. Boeve, R.~Davidson, and J.~E. Staab.
+\newblock Magnetic resonance imaging in the evaluation of knee injuries.
+\newblock {\em Southern medical journal}, 84(9):1123--1127, 1991.
+
 \bibitem{chi2017thyroid}
 J.~Chi, E.~Walia, P.~Babyn, J.~Wang, G.~Groot, and M.~Eramian.
 \newblock Thyroid nodule classification in ultrasound images by fine-tuning
   deep convolutional neural network.
 \newblock {\em Journal of digital imaging}, 30(4):477--486, 2017.
+
+\bibitem{durmucs2017disease}
+H.~Durmu{\c{s}}, E.~O. G{\"u}ne{\c{s}}, and M.~K{\i}rc{\i}.
+\newblock Disease detection on the leaves of the tomato plants by using deep
+  learning.
+\newblock In {\em 2017 6th International Conference on Agro-Geoinformatics},
+  pages 1--5. IEEE, 2017.
+
+\bibitem{felli2016comparison}
+L.~Felli, G.~Garlaschi, A.~Muda, A.~Tagliafico, M.~Formica, A.~Zanirato, and
+  M.~Alessio-Mazzola.
+\newblock Comparison of clinical, mri and arthroscopic assessments of chronic
+  acl injuries, meniscal tears and cartilage defects.
+\newblock {\em Musculoskeletal surgery}, 100(3):231--238, 2016.
 
 \bibitem{figueiredo2018use}
 S.~Figueiredo, L.~S. Castelo, A.~D. Pereira, L.~Machado, J.~A. Silva, and
@@ -25,6 +50,12 @@ K.~He, X.~Zhang, S.~Ren, and J.~Sun.
 \newblock Deep residual learning for image recognition.
 \newblock In {\em Proceedings of the IEEE conference on computer vision and
   pattern recognition}, pages 770--778, 2016.
+
+\bibitem{iandola2016squeezenet}
+F.~N. Iandola, S.~Han, M.~W. Moskewicz, K.~Ashraf, W.~J. Dally, and K.~Keutzer.
+\newblock Squeezenet: Alexnet-level accuracy with 50x fewer parameters and< 0.5
+  mb model size.
+\newblock {\em arXiv preprint arXiv:1602.07360}, 2016.
 
 \bibitem{kim2018artificial}
 D.~Kim and T.~MacKinnon.
@@ -50,11 +81,27 @@ A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton.
 \newblock In {\em Advances in neural information processing systems}, pages
   1097--1105, 2012.
 
+\bibitem{luong2015effective}
+M.-T. Luong, H.~Pham, and C.~D. Manning.
+\newblock Effective approaches to attention-based neural machine translation.
+\newblock {\em arXiv preprint arXiv:1508.04025}, 2015.
+
+\bibitem{numpy}
+T.~E. Oliphant.
+\newblock A guide to numpy, 2006--.
+\newblock [Online; accessed <today>].
+
 \bibitem{orlando2015diagnosis}
 N.~Orlando~J{\'u}nior, M.~G. d.~S. Le{\~a}o, and N.~H. C.~d. Oliveira.
 \newblock Diagnosis of knee injuries: comparison of the physical examination
   and magnetic resonance imaging with the findings from arthroscopy.
 \newblock {\em Revista brasileira de ortopedia}, 50(6):712--719, 2015.
+
+\bibitem{qian2018machine}
+X.~Qian, E.~W. Patton, J.~Swaney, Q.~Xing, and T.~Zeng.
+\newblock Machine learning on cataracts classification using squeezenet.
+\newblock In {\em 2018 4th International Conference on Universal Village (UV)},
+  pages 1--3. IEEE, 2018.
 
 \bibitem{smith2012diagnostic}
 T.~Smith, M.~Lewis, F.~Song, A.~Toms, S.~Donell, and C.~Hing.
@@ -75,5 +122,17 @@ C.~Szegedy, V.~Vanhoucke, S.~Ioffe, J.~Shlens, and Z.~Wojna.
 \newblock Rethinking the inception architecture for computer vision.
 \newblock In {\em Proceedings of the IEEE conference on computer vision and
   pattern recognition}, pages 2818--2826, 2016.
+
+\bibitem{tan2018deep}
+Z.~Tan, M.~Wang, J.~Xie, Y.~Chen, and X.~Shi.
+\newblock Deep semantic role labeling with self-attention.
+\newblock In {\em Thirty-Second AAAI Conference on Artificial Intelligence},
+  2018.
+
+\bibitem{yaqoob2015diagnostic}
+J.~Yaqoob, M.~S. Alam, and N.~Khalid.
+\newblock Diagnostic accuracy of magnetic resonance imaging in assessment of
+  meniscal and acl tear: Correlation with arthroscopy.
+\newblock {\em Pakistan journal of medical sciences}, 31(2):263, 2015.
 
 \end{thebibliography}

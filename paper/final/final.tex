@@ -54,7 +54,7 @@ Stanford, CA, USA\\
    Improving the accuracy with which automated methods can identify injuries in
    MRIs of the knee would lead to time and cost savings for doctors and patients.
    I show that by fine-tuning a pretrained neural network to extract features
-   and then using a self-attention mechanism to combine features from multiple
+   and then using an attention mechanism to combine features from multiple
    frames of the MRI scan, I can improve upon the current state of the art on
    the MRNet data set.
 \end{abstract}
@@ -67,10 +67,11 @@ Magnetic resonance imaging (MRI) is a method of obtaining three dimensional imag
 
 MRI can be a useful tool when diagnosing knee injuries\cite{orlando2015diagnosis,figueiredo2018use,smith2012diagnostic}, however, analyzing the images is a time-consuming process and even with trained professionals, it is easy for a clinician to misdiagnose an injury based on an MRI reading\cite{kolata2011}. Improving the automated identification of abnormalities in knee MRIs could help prioritize which MRIs to examine first, as well as provide better early results for patients whose scans appear normal. Model predictions could also provide a ``second opinion'' which would reduce the possibility of missed abnormalities. This could represent a large cost savings for hospitals and an increased level of care for patients.
 
-The problem addressed in this paper is as follows: given a set of three MRI sequences (axial, coronal, and sagittal) of a patient's knee, can we predict the presence of injuries that will require surgery? In particular, we wish to predict whether the knee is healthy, has a meniscal tear, has an ACL tear, or has any other abnormality. Since these injuries can co-occur, we wish to predict three independent binary values: abnormal, acl tear, and meniscus tear. Past research has proven that MRI scans are accurate and sensitive tools for detecting these kinds of injuries in a non-invasive manner\cite{boeve1991magnetic,felli2016comparison,yaqoob2015diagnostic}.
+The problem addressed in this paper is as follows: given a set of three MRI sequences (axial, coronal, and sagittal) of a patient's knee, can we predict the presence of injuries that will require surgery? In particular, we wish to predict whether the knee is healthy, has an ACL tear, has a meniscal tear, or has any other abnormality. Since these injuries can co-occur, we wish to predict three independent binary values: abnormal, acl tear, and meniscus tear. Past research has proven that MRI scans are accurate and sensitive tools for detecting these kinds of injuries in a non-invasive manner\cite{boeve1991magnetic,felli2016comparison,yaqoob2015diagnostic}.
 
 
-\section{Related work} % (0.5-1 page)
+\section{Related work}
+\label{related-work} % (0.5-1 page)
 % You should find existing papers, group them into categories based on their approaches, and talk about exemplary ones in each category: Discuss strengths and weaknesses. In your opinion, which approaches were clever/good? What is the state-of-the-art? Do most people perform the task by hand? You should aim to have at least 10 references in the related work. Include previous attempts by others at your problem, previous technical methods, or previous learning algorithms. Google Scholar is very useful for this: https://scholar.google.com/ (you can click “cite” and it generates MLA, APA, BibTeX, etc.) You can also try http://www.arxiv-sanity.com/ to search for recent arXiv papers.
 
 The current state-of-the-art for detecting injuries in MRI scans of the knee is MRNet\cite{bien2018deep}. Their method uses a deep convolutional neural network to predict a binary label per-sequence, ensembled via a simple logistic regression over the per-sequence probabilities to predict the final label.
@@ -90,6 +91,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nul
 Talk about self-attention.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{../images/diagram/network.png}
+\end{center}
+   \caption{An abstract view of the sequence-specific networks.}
+\label{fig:network}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{../images/diagram/ensemble.png}
+\end{center}
+   \caption{Ensembling predictions from the sequence-specific networks to generate an injury prediction.}
+\label{fig:ensemble}
+\end{figure*}
+
 Talk about other work on MRIs.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
 
@@ -104,47 +121,90 @@ My goals for this project are fairly simple:
    \item If time allows, try replacing the logistic regression ensemble with a direct concatenation of the features from each of the three series before going through the fully connected layer.
 \end{enumerate}
 
-Explain that all experiments can be described as modifications to MRNet.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+Figure \ref{fig:network} shows an abstract process for turning a single MRI sequence into an injury prediction. On the left side of the diagram, a series of $n$ images, each a $\mathbb{R}^{3 \times 224 \times 224}$ matrix, are fed into the network as a single batch. The feature extractor converts each of these images into a $\mathbb{R}^{c \times w \times h}$ matrix, where $c$ is the number of channels and $w$ and $h$ are the width and height, respectively. These features are then flattened into a series of $\mathbb{R}^c$ vectors in the global average pooling layer. Finally, the full batch of $n$ vectors are flattened into a single $\mathbb{R}^c$ vector in the sequence reduction layer. This vector is then passed through a linear layer and a sigmoid activation to arrive at a probability for whether the entire MRI sequence indicates the injury in question.
 
-Replace AlexNet with SqueezeNet. Math
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+Concretely, if we describe the feature extraction layer as a function, $f: \mathbb{R}^{n \times 3 \times 244 \times 244} \rightarrow \mathbb{R}^{n \times c \times w \times h}$, and the sequence reduction layer as a function $g: \mathbb{R}^{n \times c} \rightarrow \mathbb{R}^c$, then the entire network can be written as:
 
-Replace max pooling across the series with attention. Math
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+$$ gap_{jk}(x) = \frac{\sum_{i=1}^n x_{j,k}^{(i)}}{n} $$
 
-Replace logistic regression with end-to-end ensembling. Math
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+\begin{equation}
+\label{eq:network}
+p = \sigma(g(gap(f(x))))
+\end{equation}
 
-All experiments use the same loss function as in MRNet. Math.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+where $p$ is the predicted probability and $\sigma$ is the sigmoid function: $\frac{1}{1 + e^{-x}}$
+
+Because we have access to multiple MRI sequences per patient, this entire process is repeated for each of the axial, coronal, and sagittal sequences, and the three probabilities are then fed into a logistic regression classifier to arrive at a final injury prediction, as shown in Figure \ref{fig:ensemble}.
+
+The current state-of-the-art system, MRNet - which was described in detail in Section \ref{related-work}, can be described as using parts of a pretrained AlexNet for the feature extractor layer, and an element-wise maximum to flatten the sequence in the sequence reduction layer.
+
+\subsection{SqueezeNet}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{../images/fire/fire.png}
+\end{center}
+   \caption{Illustration of a fire layer. Taken directly from ``SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and $<$0.5 MB model size''\cite{iandola2016squeezenet}}
+\label{fig:fire}
+\end{figure}
+
+SqueezeNet is a deep convolutional neural network that achieves high performance on the ImageNet challenge. It is composed of a series of ``fire'' layers, each of which consists of a layer of $1 \times 1$ convolutional filters (the squeeze layer), followed by a ReLU and then a mix of $1 \times 1$ and $3 \times 3$ convolutional layers (the expand layer) whose outputs are concatenated before going through a final ReLU activation. An illustration of a fire layer is shown in Figure \ref{fig:fire}. These layers are interspersed with max pooling layers before the 1st, 4th, and 8th fire layers, and the entire network begins with a traditional $7 \times 7$ convolutional layer.
+
+Fine-tuning a SqueezeNet model that has been pretrained on the ImageNet data set is a method that has been used successfully to classify vehicles\cite{agoes2017fine}, crop disease\cite{durmucs2017disease}, and cataracts\cite{qian2018machine}. By removing the final dropout, convolution, ReLU and adaptive average pooling layers from the pretrained network, we can use it as a drop-in replacement for the feature extraction layer in Figure \ref{fig:network}.
+
+\subsection{Attention}
+Attention is a mechanism that has traditionally been applied as a summarization method of the hidden states in a recurrent neural network. Given some query $\textbf{Q}$, a set of keys $\textbf{K}$, and a set of values $\textbf{V}$, the attention score can be calculated as
+
+$$s = (\textbf{Q}\textbf{K}^T)\textbf{V}$$
+$$\textbf{A}_i = \frac{e^{s_i}}{\sum_{j=1}^k e^{s_j}}$$
+ as described by Tan, et al.\cite{tan2018deep}, whose work was derived from Luong et. al's location-based attention\cite{luong2015effective}.
+
+In the case of an RNN, the query is often the final hidden state, the keys are either the input embeddings or the hidden states at each time step, and the values are the hidden states at each time step. A final representation of the entire sequence can then be generated by taking the weighted sum of the values times the attention vector, $result = \textbf{A} \textbf{V}^T$.
+
+For the experiments in this paper, we eschew the use of an RNN and simply use the attention-weighted sum across frames of the MRI sequence to generate the final representation of the sequence. In this case, the query is a learned parameter of the network, while the keys and values are both the output of the global average pooling layer for each frame in the sequence. This allows us to use the attention-weighted sum as the sequence-reduction layer:
+
+$$ g(x) = \textbf{A} x^T$$
+
+Because of the imbalanced class sizes, we train all of the sequence-specific models with a weighted binary cross-entropy loss:
+
+$$ L = -\frac{1}{N} \sum_{i=0}^N w_i \big(y_i log(p_i) + (1 - y_i) log(1 - p_i)\big)$$
+
+where $w_i$ is the fraction of the instances in the data set that have label $y_i$, and $p_i$ is the output of the network described by Equation \ref{eq:network} for sequence $i$.
 
 \section{Dataset} % (0.5-1 pages)
 % Give details about your dataset: how many training/validation/test examples do you have? Is there any preprocessing you did? What about normalization or data augmentation? What is the resolution of your images? How is your time-series data discretized? Include a citation to where you got your dataset from. Depending on available space, show some examples from your dataset. You should also talk about the features you used. If you extracted features using Fourier transforms, word2vec, histogram of oriented gradients (HOG), PCA, ICA, etc. make sure to talk about it. Try to include examples of your data in the report (e.g. include an image, show a waveform, price graph, etc.).
 
-The MRI data provided in the \href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge} contains scans from 3 MRI types (sagittal plane T2, coronal plane T1, and axial plane PD) with 3 labels per MRI (abnormality, ACL tear, and meniscal tear) for 1,250 examinations.
+The MRI data provided in the \href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge} contains scans from 3 MRI types (axial, coronal, and sagittal) with 3 labels per MRI (abnormality, ACL tear, and meniscal tear) for 1,250 examinations.
 
+The released data has already been split into a training and validation set, and a test set has been withheld for leaderboard purposes. In order to evaluate my methods for this paper, I have further divided the training set into training and evaluation sets, and am using the validation set for all reported metrics. Counts of cases and labels for each set can be seen in Table \ref{tab:dataset}.
 
-An important aspect of the MRNet model is the data augmentation done during training. Every volume is randomly flipped horizontally, shifted horizontally by -25 to 25 pixels, and rotated by -25 to 25 degrees each time it is seen during training. This helps prevent the model from overfitting the small data set.
+\subsection{Preprocessing}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+The data is provided as a collection of numpy\cite{numpy} 3-dimensional matrices, one per sequence per case. They have already been extracted from the Digital Imaging and Communications in Medicine (DICOM) files and scaled to $256 \times 256$ images.
+
+During training, we crop the images to $224 \times 224$ to match the expected input size for a pretrained ImageNet model. We then standardize each input sequence by subtracting the minimum pixel value and dividing by the range observed in the sequence, then rescale the image to a $0-256$ range of pixel values. Finally, we normalize the sequence by subtracting the data set mean ($58.09$) and dividing by the data set standard deviation ($49.73$).
+
+\subsection{Augmentation}
+
+In order to prevent overfitting the small data set, we perform data augmentation during training. Every image is randomly flipped horizontally, shifted horizontally by -25 to 25 pixels, and rotated by -25 to 25 degrees each time it is seen during training. Note that the same transformation is applied to every image in a given sequence.
 
 \begin{table}
 \begin{center}
 \begin{tabular}{|lc|c|c|c|}
 \hline
-Diagnosis & Label & Train & Validation & Test \\
+Diagnosis & Label & Training & Evaluation & Validation \\
 \hline\hline
-\multirow{ 3}{*}{Abnormal} & Positive & 817 & 96 & 95 \\
-                           & Negative & 193 & 24 & 25 \\
+\multirow{ 3}{*}{Abnormal} & Positive & 835 & 78 & 95 \\
+                           & Negative & 175 & 42 & 25 \\
                            & Total & 1010 & 120 & 120 \\
 \hline
-\multirow{ 3}{*}{ACL}      & Positive & 193 & 15 & 54 \\
-                           & Negative & 817 & 105 & 66 \\
+\multirow{ 3}{*}{ACL}      & Positive & 167 & 41 & 54 \\
+                           & Negative & 843 & 79 & 66 \\
                            & Total & 1010 & 120 & 120 \\
 \hline
-\multirow{ 3}{*}{Meniscus} & Positive & 357 & 40 & 52 \\
-                           & Negative & 653 & 80 & 68 \\
+\multirow{ 3}{*}{Meniscus} & Positive & 353 & 44 & 52 \\
+                           & Negative & 657 & 76 & 68 \\
                            & Total & 1010 & 120 & 120 \\
 \hline
 \end{tabular}
@@ -153,16 +213,6 @@ Diagnosis & Label & Train & Validation & Test \\
 \label{tab:dataset}
 \end{table}
 
-
-They have designated a training/validation split and have withheld the test set for leaderboard evaluation. In order to assess the changes I will be making, I am calling their validation set the test set, and splitting their training set into a training and validation set. Counts of cases and labels for each set can be seen in Table \ref{tab:dataset}.
-
-Note that this data has already been preprocessed as described in \cite{bien2018deep}:
-\begin{quotation}
-\noindent
-   Images were extracted from Digital Imaging and Communications in Medicine (DICOM) files, scaled to $256 \times 256$ pixels, and converted to Portable Network Graphics (PNG) format using the Python programming language (version 2.7) and the pydicom library (version 0.9.9).
-
-   To account for variable pixel intensity scales within the MRI series, a histogram-based intensity standardization algorithm was applied to the images. For each series, a representative intensity distribution was learned from the training set exams. Then, the parameters of this distribution were used to adjust the pixel intensities of exams in all datasets (training, tuning, and validation). Under this transformation, pixels with similar values correspond to similar tissue types. After intensity standardization, pixel values were clipped between 0 and 255, the standard range for PNG images.
-\end{quotation}
 \section{Experiments/Results/Discussions} % (2-3 pages)
 % You should also briefly give details about what hyperparameters you chose (e.g. why did you use X learning rate for gradient descent or did you use Adam, what was your mini-batch size and why) and how you chose them. Did you do cross-validation, if so, how many folds? This should not take more than 1-2 paragraphs. If you want to list more details, please do so in the supplemental material.
 
@@ -218,8 +268,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nul
 \section{Conclusion/Future Work} % (1-3 paragraphs)
 % Summarize your report and reiterate key points. Which algorithms were the highest-performing?  Why do you think that some algorithms worked better than others? For future work, if you had more time, more team members, or more compute, what would you explore?
 
-In this paper we...
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+This paper explores the use of pretrained SqueezeNet feature extractors and self-attention mechanisms to predict injuries from MRI sequences of knees. The best performing model
 
 The best performing model was...
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
@@ -231,32 +280,72 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nul
 
 \begin{figure*}
 \begin{center}
-\includegraphics[width=0.5\linewidth]{../images/MRNet-aug_loss.png}
+\includegraphics[width=0.9\linewidth]{../images/cams/4x4.png}
 \end{center}
-   \caption{Baseline loss for each diagnosis and series.}
-\label{fig:mrnet_loss}
+   \caption{Class activation maps from the four networks for the axial sequence of case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting.}
+\label{fig:cam_4x4}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
-\includegraphics[width=0.5\linewidth]{../images/MRNet-aug_auc.png}
+\includegraphics[width=0.9\linewidth]{../images/corr/corr.png}
 \end{center}
-   \caption{Baseline AUC for each diagnosis and series.}
+   \caption{Correlation between predictions on the validation set.}
 \label{fig:mrnet_auc}
 \end{figure*}
 
 \begin{table*}[bp]
 \begin{center}
-\begin{tabular}{|l|c|c|c|}
+\begin{tabular}{|l|c|c|c||c|}
 \hline
-Model & Abnormal & ACL & Meniscus \\
+Model & Abnormal & ACL & Meniscus & Average \\
 \hline\hline
-MRNet (reported) & 0.937 & 0.965 & 0.847 \\
-MRNet (milestone) & 0.951 & 0.949 & 0.839 \\
+MRNet (reported) & 0.937 & 0.965 & 0.847 & 0.916 \\
+\hline
+MRNet & \textbf{0.940} & 0.960 & 0.839 & 0.913 \\
+MRNet-Squeeze & 0.925 & \textbf{0.974} & 0.829 & 0.910 \\
+MRNet-Attend & 0.925 & 0.910 & 0.838  & 0.891\\
+MRNet-SqueezeAttend & 0.936 & 0.925 & \textbf{0.885} & \textbf{0.915}\\
 \hline
 \end{tabular}
 \end{center}
-\caption{AUC on the test set}
+\caption{AUC on the validation set}
+\label{tab:results}
+\end{table*}
+
+\begin{table*}[bp]
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Prediction & Specificity & Sensitivity & Accuracy \\
+\hline
+\multicolumn{4}{l}{\textbf{Abnormality} }\\
+\hline
+MRNet (reported) & 0.714 & 0.879 & 0.850 \\
+MRNet & 0.440 & 0.968 & 0.858 \\
+MRNet-Squeeze & 0.560 & 0.968 & 0.883 \\
+MRNet-Attend & 0.480 & 0.979 & 0.875  \\
+MRNet-SqueezeAttend & 0.440 & 0.968 & 0.858 \\
+\hline
+\multicolumn{4}{l}{\textbf{ACL tear} }\\
+\hline
+MRNet (reported) & 0.968 & 0.759 & 0.867 \\
+MRNet & 0.894 & 0.907 & 0.900 \\
+MRNet-Squeeze & 0.909 & 0.963 & 0.933 \\
+MRNet-Attend & 0.803 & 0.778 &  0.792 \\
+MRNet-SqueezeAttend & 0.864 & 0.852 & 0.858 \\
+\hline
+\multicolumn{4}{l}{\textbf{Meniscus tear} }\\
+\hline
+MRNet (reported) & 0.741 & 0.710 & 0.725 \\
+MRNet & 0.721 & 0.788 & 0.750 \\
+MRNet-Squeeze & 0.735 & 0.731 & 0.733 \\
+MRNet-Attend & 0.691 & 0.846 &  0.758 \\
+MRNet-SqueezeAttend & 0.794 & 0.750 & 0.775 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Metrics on the validation set}
 \label{tab:results}
 \end{table*}
 
