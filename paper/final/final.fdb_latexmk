@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex final"] 1559699471 "final.aux" "final.bbl" "final" 1559699577
+["bibtex final"] 1559699471 "final.aux" "final.bbl" "final" 1559699719
   "./ieee.bst" 1411502228 19623 f9cd22458ca68af2567100f1aed905e8 ""
   "egbib.bib" 1559699469 16153 775637d025f626cdedfa13527d6a276e ""
-  "final.aux" 1559699576 8612 3b15598d48f59ecf4d5174bf00c99780 ""
+  "final.aux" 1559699719 8612 3b15598d48f59ecf4d5174bf00c99780 ""
   "final.bcf" 0 -1 0 ""
   (generated)
   "final.blg"
   "final.bbl"
-["pdflatex"] 1559699576 "final.tex" "/home/smiel/projects/mrnet/paper/final/final.pdf" "final" 1559699577
+["pdflatex"] 1559699718 "final.tex" "/home/smiel/projects/mrnet/paper/final/final.pdf" "final" 1559699719
   "../images/cams/4x4.png" 1559503653 1259426 ffe04830efb2f0b1d1150013c8f5f300 ""
   "../images/corr2/corr2.png" 1559661703 108648 6c7453f6493487f461acf98cfedd9d27 ""
   "../images/diagram/ensemble-of-ensembles.png" 1559657929 125352 c8ebc563ecdd7f726cbe0306e78c29fc ""
@@ -15,7 +15,7 @@
   "../images/diagram/network2.png" 1559671608 43709 08b05e9cc9fb879968cc31487ce0b01c ""
   "../images/fire/fire.png" 1559587451 38432 f97fefe47b0e48af75aebcd980bacb1c ""
   "/etc/texmf/web2c/texmf.cnf" 1533053732 1101 af7716885e081ab43982cab7b4672c1a ""
-  "/home/smiel/projects/mrnet/paper/final/final.aux" 1559699576 8612 3b15598d48f59ecf4d5174bf00c99780 ""
+  "/home/smiel/projects/mrnet/paper/final/final.aux" 1559699719 8612 3b15598d48f59ecf4d5174bf00c99780 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -129,12 +129,12 @@
   "cvpr.sty" 1473049876 8185 dd8231e8a92c383d16b745afe2ab996b ""
   "cvpr_eso.sty" 1411502228 3878 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1411502228 9460 d2935ae95b5cd343fcf5887ff530288d ""
-  "final.aux" 1559699576 8612 3b15598d48f59ecf4d5174bf00c99780 ""
+  "final.aux" 1559699719 8612 3b15598d48f59ecf4d5174bf00c99780 ""
   "final.bbl" 1559699471 7631 0b4516619c07de6cdf965f619368c85f "bibtex final"
-  "final.tex" 1559699576 53656 bf8bac2cd7b1c84c9b2eee52732d879e ""
+  "final.tex" 1559699718 53658 2abd390c69a7d1050732cc67a33985f4 ""
   (generated)
-  "final.log"
-  "/home/smiel/projects/mrnet/paper/final/final.pdf"
   "final.pdf"
   "/home/smiel/projects/mrnet/paper/final/final.log"
+  "final.log"
   "final.aux"
+  "/home/smiel/projects/mrnet/paper/final/final.pdf"

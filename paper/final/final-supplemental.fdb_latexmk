@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1559699265 "final-supplemental.tex" "/home/smiel/projects/mrnet/paper/final/final-supplemental.pdf" "final-supplemental" 1559699265
+["pdflatex"] 1559701735 "final-supplemental.tex" "/home/smiel/projects/mrnet/paper/final/final-supplemental.pdf" "final-supplemental" 1559701735
   "/etc/texmf/web2c/texmf.cnf" 1533053732 1101 af7716885e081ab43982cab7b4672c1a ""
-  "/home/smiel/projects/mrnet/paper/final/final-supplemental.aux" 1559699265 662 b2b94621371df8d9296b8bf5bec1b851 ""
+  "/home/smiel/projects/mrnet/paper/final/final-supplemental.aux" 1559701735 662 b2b94621371df8d9296b8bf5bec1b851 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvb.tfm" 1136768653 2300 14616918391efa49ac8b481a75fbdc1a ""
@@ -65,11 +65,11 @@
   "cvpr.sty" 1473049876 8185 dd8231e8a92c383d16b745afe2ab996b ""
   "cvpr_eso.sty" 1411502228 3878 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1411502228 9460 d2935ae95b5cd343fcf5887ff530288d ""
-  "final-supplemental.aux" 1559699265 662 b2b94621371df8d9296b8bf5bec1b851 ""
-  "final-supplemental.tex" 1559699265 1026 532c96365ba67b66c579e0a9f1951b47 ""
+  "final-supplemental.aux" 1559701735 662 b2b94621371df8d9296b8bf5bec1b851 ""
+  "final-supplemental.tex" 1559701734 1043 e2aad97157bdf8ceffede15b599e72b4 ""
   (generated)
-  "/home/smiel/projects/mrnet/paper/final/final-supplemental.pdf"
-  "final-supplemental.pdf"
   "final-supplemental.log"
-  "/home/smiel/projects/mrnet/paper/final/final-supplemental.log"
+  "/home/smiel/projects/mrnet/paper/final/final-supplemental.pdf"
   "final-supplemental.aux"
+  "/home/smiel/projects/mrnet/paper/final/final-supplemental.log"
+  "final-supplemental.pdf"
