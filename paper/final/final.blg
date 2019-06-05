@@ -4,45 +4,45 @@ The top-level auxiliary file: final.aux
 The style file: ieee.bst
 Database file #1: egbib.bib
 Warning--can't use both volume and number fields in han2018mri
-You've used 29 entries,
+You've used 30 entries,
             2120 wiz_defined-function locations,
-            667 strings with 10281 characters,
-and the built_in function-call counts, 11870 in all, are:
-= -- 1117
-> -- 750
+            671 strings with 10433 characters,
+and the built_in function-call counts, 12076 in all, are:
+= -- 1136
+> -- 757
 < -- 9
-+ -- 298
-- -- 266
-* -- 916
-:= -- 1986
-add.period$ -- 91
-call.type$ -- 29
-change.case$ -- 219
++ -- 301
+- -- 268
+* -- 922
+:= -- 2020
+add.period$ -- 94
+call.type$ -- 30
+change.case$ -- 223
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 393
-empty$ -- 807
-format.name$ -- 266
-if$ -- 2428
+cite$ -- 31
+duplicate$ -- 400
+empty$ -- 829
+format.name$ -- 268
+if$ -- 2473
 int.to.chr$ -- 0
-int.to.str$ -- 29
+int.to.str$ -- 30
 missing$ -- 27
-newline$ -- 148
-num.names$ -- 58
-pop$ -- 237
+newline$ -- 153
+num.names$ -- 60
+pop$ -- 246
 preamble$ -- 1
-purify$ -- 190
+purify$ -- 193
 quote$ -- 0
-skip$ -- 280
+skip$ -- 287
 stack$ -- 0
-substring$ -- 621
-swap$ -- 99
+substring$ -- 626
+swap$ -- 100
 text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 116
+type$ -- 120
 warning$ -- 1
-while$ -- 102
-width$ -- 31
-write$ -- 316
+while$ -- 104
+width$ -- 32
+write$ -- 326
 (There was 1 warning)
