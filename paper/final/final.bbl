@@ -6,6 +6,13 @@ A.~S. Agoes, Z.~Hu, and N.~Matsunaga.
 \newblock In {\em Proceedings of the International Conference on Advances in
   Image Processing}, pages 14--18. ACM, 2017.
 
+\bibitem{alkadi20182}
+R.~Alkadi, A.~El-Baz, F.~Taher, and N.~Werghi.
+\newblock A 2.5 d deep learning-based approach for prostate cancer detection on
+  t2-weighted magnetic resonance imaging.
+\newblock In {\em Proceedings of the European Conference on Computer Vision
+  (ECCV)}, pages 0--0, 2018.
+
 \bibitem{bien2018deep}
 N.~Bien, P.~Rajpurkar, R.~L. Ball, J.~Irvin, A.~Park, E.~Jones, M.~Bereket,
   B.~N. Patel, K.~W. Yeom, K.~Shpanskaya, et~al.
@@ -18,11 +25,10 @@ B.~F. Boeve, R.~Davidson, and J.~E. Staab.
 \newblock Magnetic resonance imaging in the evaluation of knee injuries.
 \newblock {\em Southern medical journal}, 84(9):1123--1127, 1991.
 
-\bibitem{chi2017thyroid}
-J.~Chi, E.~Walia, P.~Babyn, J.~Wang, G.~Groot, and M.~Eramian.
-\newblock Thyroid nodule classification in ultrasound images by fine-tuning
-  deep convolutional neural network.
-\newblock {\em Journal of digital imaging}, 30(4):477--486, 2017.
+\bibitem{imagenet_cvpr09}
+J.~Deng, W.~Dong, R.~Socher, L.-J. Li, K.~Li, and L.~Fei-Fei.
+\newblock {ImageNet: A Large-Scale Hierarchical Image Database}.
+\newblock In {\em CVPR09}, 2009.
 
 \bibitem{durmucs2017disease}
 H.~Durmu{\c{s}}, E.~O. G{\"u}ne{\c{s}}, and M.~K{\i}rc{\i}.
@@ -45,11 +51,24 @@ S.~Figueiredo, L.~S. Castelo, A.~D. Pereira, L.~Machado, J.~A. Silva, and
   intra-articular injuries of the knee.
 \newblock {\em Revista brasileira de ortopedia}, 53(1):28--32, 2018.
 
-\bibitem{he2016deep}
-K.~He, X.~Zhang, S.~Ren, and J.~Sun.
-\newblock Deep residual learning for image recognition.
-\newblock In {\em Proceedings of the IEEE conference on computer vision and
-  pattern recognition}, pages 770--778, 2016.
+\bibitem{grovik2019deep}
+E.~Gr{\o}vik, D.~Yi, M.~Iv, E.~Tong, D.~L. Rubin, and G.~Zaharchuk.
+\newblock Deep learning enables automatic detection and segmentation of brain
+  metastases on multi-sequence mri.
+\newblock {\em arXiv preprint arXiv:1903.07988}, 2019.
+
+\bibitem{han2018mri}
+L.~Han and M.~R. Kamdar.
+\newblock Mri to mgmt: predicting methylation status in glioblastoma patients
+  using convolutional recurrent neural networks.
+\newblock In {\em Pac Symp Biocomput}, volume~23, pages 331--42. World
+  Scientific, 2018.
+
+\bibitem{hosseini2016alzheimer}
+E.~Hosseini-Asl, G.~Gimel'farb, and A.~El-Baz.
+\newblock Alzheimer's disease diagnostics by a deeply supervised adaptable 3d
+  convolutional network.
+\newblock {\em arXiv preprint arXiv:1607.00556}, 2016.
 
 \bibitem{iandola2016squeezenet}
 F.~N. Iandola, S.~Han, M.~W. Moskewicz, K.~Ashraf, W.~J. Dally, and K.~Keutzer.
@@ -57,29 +76,27 @@ F.~N. Iandola, S.~Han, M.~W. Moskewicz, K.~Ashraf, W.~J. Dally, and K.~Keutzer.
   mb model size.
 \newblock {\em arXiv preprint arXiv:1602.07360}, 2016.
 
-\bibitem{kim2018artificial}
-D.~Kim and T.~MacKinnon.
-\newblock Artificial intelligence in fracture detection: transfer learning from
-  deep convolutional neural networks.
-\newblock {\em Clinical radiology}, 73(5):439--445, 2018.
+\bibitem{khvostikov20183d}
+A.~Khvostikov, K.~Aderghal, J.~Benois-Pineau, A.~Krylov, and G.~Catheline.
+\newblock 3d cnn-based classification using smri and md-dti images for
+  alzheimer disease studies.
+\newblock {\em arXiv preprint arXiv:1801.05968}, 2018.
 
 \bibitem{kolata2011}
 G.~Kolata.
 \newblock Sports medicine said to overuse m.r.i.’s, October 2011.
 \newblock [Online; posted 28-October-2011].
 
-\bibitem{korfiatis2017residual}
-P.~Korfiatis, T.~L. Kline, D.~H. Lachance, I.~F. Parney, J.~C. Buckner, and
-  B.~J. Erickson.
-\newblock Residual deep convolutional neural network predicts mgmt methylation
-  status.
-\newblock {\em Journal of digital imaging}, 30(5):622--628, 2017.
-
 \bibitem{krizhevsky2012imagenet}
 A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton.
 \newblock Imagenet classification with deep convolutional neural networks.
 \newblock In {\em Advances in neural information processing systems}, pages
   1097--1105, 2012.
+
+\bibitem{lin2013network}
+M.~Lin, Q.~Chen, and S.~Yan.
+\newblock Network in network.
+\newblock {\em arXiv preprint arXiv:1312.4400}, 2013.
 
 \bibitem{luong2015effective}
 M.-T. Luong, H.~Pham, and C.~D. Manning.
@@ -89,7 +106,7 @@ M.-T. Luong, H.~Pham, and C.~D. Manning.
 \bibitem{numpy}
 T.~E. Oliphant.
 \newblock A guide to numpy, 2006--.
-\newblock [Online; accessed <today>].
+\newblock [Online; accessed 02-June-2019].
 
 \bibitem{orlando2015diagnosis}
 N.~Orlando~J{\'u}nior, M.~G. d.~S. Le{\~a}o, and N.~H. C.~d. Oliveira.
@@ -103,6 +120,19 @@ X.~Qian, E.~W. Patton, J.~Swaney, Q.~Xing, and T.~Zeng.
 \newblock In {\em 2018 4th International Conference on Universal Village (UV)},
   pages 1--3. IEEE, 2018.
 
+\bibitem{qin2019convolutional}
+C.~Qin, J.~Schlemper, J.~Caballero, A.~N. Price, J.~V. Hajnal, and D.~Rueckert.
+\newblock Convolutional recurrent neural networks for dynamic mr image
+  reconstruction.
+\newblock {\em IEEE transactions on medical imaging}, 38(1):280--290, 2019.
+
+\bibitem{roth2015improving}
+H.~R. Roth, L.~Lu, J.~Liu, J.~Yao, A.~Seff, K.~Cherry, L.~Kim, and R.~M.
+  Summers.
+\newblock Improving computer-aided detection using convolutional neural
+  networks and random view aggregation.
+\newblock {\em IEEE transactions on medical imaging}, 35(5):1170--1181, 2015.
+
 \bibitem{smith2012diagnostic}
 T.~Smith, M.~Lewis, F.~Song, A.~Toms, S.~Donell, and C.~Hing.
 \newblock The diagnostic accuracy of anterior cruciate ligament rupture using
@@ -110,18 +140,12 @@ T.~Smith, M.~Lewis, F.~Song, A.~Toms, S.~Donell, and C.~Hing.
 \newblock {\em European Journal of Orthopaedic Surgery \& Traumatology},
   22(4):315--326, 2012.
 
-\bibitem{szegedy2015going}
-C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan,
-  V.~Vanhoucke, and A.~Rabinovich.
-\newblock Going deeper with convolutions.
-\newblock In {\em Proceedings of the IEEE conference on computer vision and
-  pattern recognition}, pages 1--9, 2015.
-
-\bibitem{szegedy2016rethinking}
-C.~Szegedy, V.~Vanhoucke, S.~Ioffe, J.~Shlens, and Z.~Wojna.
-\newblock Rethinking the inception architecture for computer vision.
-\newblock In {\em Proceedings of the IEEE conference on computer vision and
-  pattern recognition}, pages 2818--2826, 2016.
+\bibitem{vstajduhar2017semi}
+I.~{\v{S}}tajduhar, M.~Mamula, D.~Mileti{\'c}, and G.~{\"U}nal.
+\newblock Semi-automated detection of anterior cruciate ligament injury from
+  mri.
+\newblock {\em Computer methods and programs in biomedicine}, 140:151--164,
+  2017.
 
 \bibitem{tan2018deep}
 Z.~Tan, M.~Wang, J.~Xie, Y.~Chen, and X.~Shi.
@@ -129,10 +153,29 @@ Z.~Tan, M.~Wang, J.~Xie, Y.~Chen, and X.~Shi.
 \newblock In {\em Thirty-Second AAAI Conference on Artificial Intelligence},
   2018.
 
+\bibitem{wei2018flair}
+W.~Wei, E.~Poirion, B.~Bodini, S.~Durrleman, O.~Colliot, B.~Stankoff, and
+  N.~Ayache.
+\newblock Flair mr image synthesis by using 3d fully convolutional networks for
+  multiple sclerosis.
+\newblock In {\em ISMRM-ESMRMB 2018-Joint Annual Meeting}, pages 1--6, 2018.
+
 \bibitem{yaqoob2015diagnostic}
 J.~Yaqoob, M.~S. Alam, and N.~Khalid.
 \newblock Diagnostic accuracy of magnetic resonance imaging in assessment of
   meniscal and acl tear: Correlation with arthroscopy.
 \newblock {\em Pakistan journal of medical sciences}, 31(2):263, 2015.
+
+\bibitem{zhou2016learning}
+B.~Zhou, A.~Khosla, A.~Lapedriza, A.~Oliva, and A.~Torralba.
+\newblock Learning deep features for discriminative localization.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 2921--2929, 2016.
+
+\bibitem{zou20173d}
+L.~Zou, J.~Zheng, C.~Miao, M.~J. Mckeown, and Z.~J. Wang.
+\newblock 3d cnn based automatic diagnosis of attention deficit hyperactivity
+  disorder using functional and structural mri.
+\newblock {\em IEEE Access}, 5:23626--23636, 2017.
 
 \end{thebibliography}

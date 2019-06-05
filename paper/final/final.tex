@@ -9,6 +9,7 @@
 \usepackage{multirow}
 \usepackage[utf8]{inputenc}
 \usepackage{stfloats}
+\usepackage{afterpage}
 
 % Include other packages here, before hyperref.
 
@@ -24,11 +25,11 @@
 
 % Pages are numbered in submission mode, and unnumbered in camera-ready
 %\ifcvprfinal\pagestyle{empty}\fi
-\setcounter{page}{4321}
+\setcounter{page}{1}
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{Attention is All You Knee}
+\title{Ensembled Transfer Learning for MRI Injury Prediction}
 
 \author{Shayne Miel\\
 Stanford University\\
@@ -53,8 +54,7 @@ Stanford, CA, USA\\
 \begin{abstract}
    Improving the accuracy with which automated methods can identify injuries in
    MRIs of the knee would lead to time and cost savings for doctors and patients.
-   I show that by fine-tuning a pretrained neural network to extract features
-   and then using an attention mechanism to combine features from multiple
+   I show that by ensembling a collection of transfer learning models that use pretrained neural networks for feature extraction, as well as a mixture of max pooling and an attention mechanisms to combine features from multiple
    frames of the MRI scan, I can improve upon the current state of the art on
    the MRNet data set.
 \end{abstract}
@@ -74,54 +74,39 @@ The problem addressed in this paper is as follows: given a set of three MRI sequ
 \label{related-work} % (0.5-1 page)
 % You should find existing papers, group them into categories based on their approaches, and talk about exemplary ones in each category: Discuss strengths and weaknesses. In your opinion, which approaches were clever/good? What is the state-of-the-art? Do most people perform the task by hand? You should aim to have at least 10 references in the related work. Include previous attempts by others at your problem, previous technical methods, or previous learning algorithms. Google Scholar is very useful for this: https://scholar.google.com/ (you can click “cite” and it generates MLA, APA, BibTeX, etc.) You can also try http://www.arxiv-sanity.com/ to search for recent arXiv papers.
 
-The current state-of-the-art for detecting injuries in MRI scans of the knee is MRNet\cite{bien2018deep}. Their method uses a deep convolutional neural network to predict a binary label per-sequence, ensembled via a simple logistic regression over the per-sequence probabilities to predict the final label.
+There are two main challenges when trying to use automated methods on MRI sequences. The first is that each MRI image has high information content because it is a 3-dimensional image of the patient. Determining how to extract meaning from a variable length series of images is not trivial. By contrast, the second challenge is that MRIs are difficult and expensive to collect, which means that MRI data sets are too small for most deep learning approaches. This means that deep learning models must be constrained to a limited number of updates to prevent overfitting.
 
-For each image in each sequence, they use a pretrained AlextNet to extract features from the image. AlexNet is a deep convolutional neural network that achieves a good accuracy on the ImageNet dataset\cite{krizhevsky2012imagenet}. By using a
+Most recent deep learning MRI work deals with the 3-dimensional nature of MRI images by using 3D-CNNs, which take the idea of $(channel, width, height)$ convolutions that are swept across a 2-dimensional image and extends them to $(time, channel, width, height)$ convolutions that are swept across the 3-dimensional image
+\cite{hosseini2016alzheimer,wei2018flair,khvostikov20183d,zou20173d}. These models are limited, however, by the number of parameters required for 3D-CNNs and the need to train them from scratch.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+Another common method is the so-called 2.5D approach, where models are trained on sliding windows of the input sequence \cite{roth2015improving,alkadi20182,grovik2019deep}. This works well for sequence-to-sequence problems, but doesn't help when you need to reduce the MRI to a single prediction.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+RNNs provide yet another avenue for processing a series of 2-D images, as done in \cite{qin2019convolutional,han2018mri}. However, the need to train from scratch and the number of parameters in these kinds of models still presents a very real challenge for small data sets.
 
-The main purpose of this study is to replicate the results achieved by Bien, et al's MRNet model \cite{bien2018deep}. They use a pretrained AlexNet \cite{krizhevsky2012imagenet} model to extract features from each 2D slice of the 3D MRI volume, followed by a global average pooling per slice to flatten the image, and a max pooling across the volume. Finally, a fully connected layer and sigmoid activation are used to predict a binary label for each series. Those three predictions (axial, coronal, and sagittal) are then used as features in a simple logistic regression to predict the final label in question. This process is repeated for each of the three independent labels.
-
-
-Talk about SqueezeNet. Talk about ways that it differes from AlexNet.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-Talk about self-attention.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
+The closest model to the ones in this paper is Bien et al.'s MRNet\cite{bien2018deep}, which is the current state-of-the-art MRNet for diagnosing injuries in MRI scans of the knee. Their method uses conventional convolutional neural networks, which allows them to jump start the training process by pretraining an AlexNet\cite{krizhevsky2012imagenet} network on a large data set like ImageNet\cite{imagenet_cvpr09}. The sequence of images are each fed through the pretrained network to generate an $(s \times c \times w \times h)$ tensor, where $s$ is the sequence length, $c$ is the channel depth, $w$ is the width and $h$ is the height. The width and height dimensions are reduced via global average pooling\cite{lin2013network}, so that they are left with an $(s \times c)$ tensor. Those features are then reduced via max pooling over the sequence and fed through a linear classifier and sigmoid activation to predict a probability for the sequence. Three sequence-level probabilities (axial, coronal, and sagittal) are then sent to a logistic regression classifier to obtain a final diagnosis probability.
 
 \begin{figure*}
 \begin{center}
-\includegraphics[width=0.6\linewidth]{../images/diagram/network.png}
+\includegraphics[width=0.6\linewidth]{../images/diagram/network2.png}
 \end{center}
    \caption{An abstract view of the sequence-specific networks.}
 \label{fig:network}
 \end{figure*}
 
-\begin{figure*}
-\begin{center}
-\includegraphics[width=0.6\linewidth]{../images/diagram/ensemble.png}
-\end{center}
-   \caption{Ensembling predictions from the sequence-specific networks to generate an injury prediction.}
-\label{fig:ensemble}
-\end{figure*}
-
-Talk about other work on MRIs.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
 \section{Methods} % (2 pages)
 % Describe your learning algorithms, proposed algorithm(s), or theoretical proof(s). Make sure to include relevant mathematical notation. For example, say what the softmax function is or include your loss equation. It is okay to use formulas from the lecture notes. For each algorithm, give a brief description (2-3 sentences) of how it works. Again, we are looking for your understanding of how these deep learning algorithms work. Although the teaching staff probably know the algorithms, future readers may not (reports will be posted on the class website). Additionally, if you are using a niche or cutting-edge algorithm (e.g. binary network, SURF features, or anything else not covered in the class), you may want to explain your algorithm using several paragraphs. Note: Theory/algorithms projects may have an appendix showing extended proofs (see appendix description below). Assume the reader has completed CS 231N. You don't need to explain filters and max-pooling, but if you do something like stochastic strides, then you should explain that.
 
-My goals for this project are fairly simple:
-\begin{enumerate}
-   \item Reproduce the results obtained by Bien, et al. in \cite{bien2018deep}.
-   \item Experiment with using different pretrained networks to extract features,
-   specifically replacing AlexNet with GoogLeNet \cite{szegedy2015going} as Chi, et al. did for ultrasound images \cite{chi2017thyroid}, ResNet \cite{he2016deep} as done in \cite{korfiatis2017residual}, and Inception-v3 \cite{szegedy2016rethinking} as done in \cite{kim2018artificial}.
-   \item If time allows, try replacing the logistic regression ensemble with a direct concatenation of the features from each of the three series before going through the fully connected layer.
-\end{enumerate}
+% My goals for this project are fairly simple:
+% \begin{enumerate}
+%    \item Reproduce the results obtained by Bien, et al. in \cite{bien2018deep}.
+%    \item Experiment with using different pretrained networks to extract features,
+%    specifically replacing AlexNet with GoogLeNet \cite{szegedy2015going} as Chi, et al. did for ultrasound images \cite{chi2017thyroid}, ResNet \cite{he2016deep} as done in \cite{korfiatis2017residual}, and Inception-v3 \cite{szegedy2016rethinking} as done in \cite{kim2018artificial}.
+%    \item If time allows, try replacing the logistic regression ensemble with a direct concatenation of the features from each of the three series before going through the fully connected layer.
+% \end{enumerate}
 
-Figure \ref{fig:network} shows an abstract process for turning a single MRI sequence into an injury prediction. On the left side of the diagram, a series of $n$ images, each a $\mathbb{R}^{3 \times 224 \times 224}$ matrix, are fed into the network as a single batch. The feature extractor converts each of these images into a $\mathbb{R}^{c \times w \times h}$ matrix, where $c$ is the number of channels and $w$ and $h$ are the width and height, respectively. These features are then flattened into a series of $\mathbb{R}^c$ vectors in the global average pooling layer. Finally, the full batch of $n$ vectors are flattened into a single $\mathbb{R}^c$ vector in the sequence reduction layer. This vector is then passed through a linear layer and a sigmoid activation to arrive at a probability for whether the entire MRI sequence indicates the injury in question.
+\subsection{Sequence Network}
+
+Figure \ref{fig:network} shows an abstract process for turning a single MRI sequence into an injury prediction. On the left side of the diagram, a series of $n$ images, each a $\mathbb{R}^{3 \times 224 \times 224}$ matrix, are fed into the network as a single batch. The feature extractor converts each of these images into a $\mathbb{R}^{c \times w \times h}$ matrix, where $c$ is the number of channels and $w$ and $h$ are the width and height, respectively. These features are then flattened into a series of $\mathbb{R}^c$ vectors in the global average pooling layer. Finally, the full batch of $n$ vectors are flattened into a single $\mathbb{R}^c$ vector in the sequence reduction layer. This vector is then passed through a linear layer and a sigmoid activation in the classification layer to arrive at a probability for whether the entire MRI sequence indicates the injury in question.
 
 Concretely, if we describe the feature extraction layer as a function, $f: \mathbb{R}^{n \times 3 \times 244 \times 244} \rightarrow \mathbb{R}^{n \times c \times w \times h}$, and the sequence reduction layer as a function $g: \mathbb{R}^{n \times c} \rightarrow \mathbb{R}^c$, then the entire network can be written as:
 
@@ -129,14 +114,12 @@ $$ gap_{jk}(x) = \frac{\sum_{i=1}^n x_{j,k}^{(i)}}{n} $$
 
 \begin{equation}
 \label{eq:network}
-p = \sigma(g(gap(f(x))))
+p = \sigma(g(gap(f(x))) W_c + b_c)
 \end{equation}
 
-where $p$ is the predicted probability and $\sigma$ is the sigmoid function: $\frac{1}{1 + e^{-x}}$
+where $p$ is the predicted probability, $W_c \in \mathbb{R}^{c \times 1}$ and $b_c \in \mathbb{R}^c$ are the weights and biases of the classification layer and $\sigma$ is the sigmoid function: $\frac{1}{1 + e^{-x}}$
 
-Because we have access to multiple MRI sequences per patient, this entire process is repeated for each of the axial, coronal, and sagittal sequences, and the three probabilities are then fed into a logistic regression classifier to arrive at a final injury prediction, as shown in Figure \ref{fig:ensemble}.
-
-The current state-of-the-art system, MRNet - which was described in detail in Section \ref{related-work}, can be described as using parts of a pretrained AlexNet for the feature extractor layer, and an element-wise maximum to flatten the sequence in the sequence reduction layer.
+The current state-of-the-art system, MRNet - which was discussed in detail in Section \ref{related-work}, can be described as using parts of a pretrained AlexNet for the feature extractor layer, and an element-wise maximum to flatten the sequence in the sequence reduction layer.
 
 \subsection{SqueezeNet}
 
@@ -172,12 +155,36 @@ $$ L = -\frac{1}{N} \sum_{i=0}^N w_i \big(y_i log(p_i) + (1 - y_i) log(1 - p_i)\
 
 where $w_i$ is the fraction of the instances in the data set that have label $y_i$, and $p_i$ is the output of the network described by Equation \ref{eq:network} for sequence $i$.
 
+\subsection{Sequence Ensembling}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{../images/diagram/ensemble.png}
+\end{center}
+   \caption{Ensembling predictions from the sequence-specific networks to generate an injury prediction.}
+\label{fig:ensemble}
+\end{figure}
+
+Because we have access to multiple MRI sequences per patient, separate networks can be trained for each of the axial, coronal, and sagittal sequences. The three probabilities are then fed into a logistic regression classifier to arrive at a final injury prediction, as shown in Figure \ref{fig:ensemble}.
+
+\subsection{Model and Sequence Ensembling}
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{../images/diagram/ensemble-of-ensembles.png}
+\end{center}
+   \caption{Ensembling predictions from multiple sequence-specific network types to generate an injury prediction.}
+\label{fig:ensemble-of-ensembles}
+\end{figure}
+
+In addition to this per-model sequence ensembling, we can also use the sequence predictions from \textit{multiple model types} as features for a logistic regression model, as shown in Figure \ref{fig:ensemble-of-ensembles}, as a meta-ensemble.
+
 \section{Dataset} % (0.5-1 pages)
 % Give details about your dataset: how many training/validation/test examples do you have? Is there any preprocessing you did? What about normalization or data augmentation? What is the resolution of your images? How is your time-series data discretized? Include a citation to where you got your dataset from. Depending on available space, show some examples from your dataset. You should also talk about the features you used. If you extracted features using Fourier transforms, word2vec, histogram of oriented gradients (HOG), PCA, ICA, etc. make sure to talk about it. Try to include examples of your data in the report (e.g. include an image, show a waveform, price graph, etc.).
 
 The MRI data provided in the \href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge} contains scans from 3 MRI types (axial, coronal, and sagittal) with 3 labels per MRI (abnormality, ACL tear, and meniscal tear) for 1,250 examinations.
 
-The released data has already been split into a training and validation set, and a test set has been withheld for leaderboard purposes. In order to evaluate my methods for this paper, I have further divided the training set into training and evaluation sets, and am using the validation set for all reported metrics. Counts of cases and labels for each set can be seen in Table \ref{tab:dataset}.
+The released data has already been split into a training and validation set, and a test set has been withheld for leaderboard purposes. In order to evaluate my methods for this paper, I have further divided the training set into training and tuning sets, and am using the validation set for all reported metrics. Counts of cases and labels for each set can be seen in Table \ref{tab:dataset}.
 
 \subsection{Preprocessing}
 
@@ -193,8 +200,8 @@ In order to prevent overfitting the small data set, we perform data augmentation
 \begin{center}
 \begin{tabular}{|lc|c|c|c|}
 \hline
-Diagnosis & Label & Training & Evaluation & Validation \\
-\hline\hline
+Diagnosis & Label & Training & Tuning & Validation \\
+\hline
 \multirow{ 3}{*}{Abnormal} & Positive & 835 & 78 & 95 \\
                            & Negative & 175 & 42 & 25 \\
                            & Total & 1010 & 120 & 120 \\
@@ -213,7 +220,7 @@ Diagnosis & Label & Training & Evaluation & Validation \\
 \label{tab:dataset}
 \end{table}
 
-\section{Experiments/Results/Discussions} % (2-3 pages)
+\section{Results} % (2-3 pages)
 % You should also briefly give details about what hyperparameters you chose (e.g. why did you use X learning rate for gradient descent or did you use Adam, what was your mini-batch size and why) and how you chose them. Did you do cross-validation, if so, how many folds? This should not take more than 1-2 paragraphs. If you want to list more details, please do so in the supplemental material.
 
 % Before you list your results, make sure to list and explain what your primary metrics are: accuracy, mAP, inception/mode scores, etc. Provide equations for the metrics if necessary. For results, you want to have a mixture of tables and plots. If you are solving a classification problem, you should include a confusion matrix or AUC/AUPRC curves. Include performance metrics such as precision, recall, and accuracy. For regression problems, state the at least the average error. For reinforcement learning and control, have appropriate metrics as well.
@@ -237,75 +244,75 @@ Diagnosis & Label & Training & Evaluation & Validation \\
 % GANs: image quality metrics like Inception and Mode scores
 
 % VAE: Reporting measures like Annealed Importance Sampling (AIS)
-
-Hyperparameters and Adam - because MRNet paper. Quick experiemnts showed 1e-5 were a good learning rate. Quick experiments showed all learning was done by 40 epochs
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-Primary metrics:
-- Average AUC over three diagnoses
-
-For each diagnosis:
-- AUC
-- Specificity
-- Sensitivity
-- Accuracy
-
-I have been able to successfully recreate the data loading and training pipeline, as well as the data augmentation steps, ensembling, and evaluation code. The hyperparameters and training process are the same for every model. It is unclear whether the current hyperparameters are the optimal ones, but the results look promising. Figure \ref{fig:mrnet_loss} shows the loss curves from the baseline MRNet model for training and validation on each series and diagnosis.
-
-The AUC values for training and validation at each epoch can be seen in Figure \ref{fig:mrnet_auc}. The models appear to be learning and generalizing well. The validation scores are noisy though, which is most likely due to the extremely small data set sizes and imbalanced classes.
-
-Table \ref{tab:results} shows the AUC on the test set as reported in \cite{bien2018deep} and the test set (their validation set) with my reproduction of the MRNet model. I do not have access to the test set that they used for reporting results, so I do not expect to get exactly the same results. The AUC is fairly close for all three diagnoses. My scores are slightly lower on ACL and Meniscus tears, which is most likely due to the smaller data set size and non-optimal hyperparameters.
-
-Show class activation map for MRNet
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-Show 4x4 class activation map
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-Show cross-method accuracy heatmap
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-\section{Conclusion/Future Work} % (1-3 paragraphs)
-% Summarize your report and reiterate key points. Which algorithms were the highest-performing?  Why do you think that some algorithms worked better than others? For future work, if you had more time, more team members, or more compute, what would you explore?
-
-This paper explores the use of pretrained SqueezeNet feature extractors and self-attention mechanisms to predict injuries from MRI sequences of knees. The best performing model
-
-The best performing model was...
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-Future work should include:
-- experimenting with more complex pretrained networks
-- using cross-series attention
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed magna non nulla tincidunt suscipit. Cras semper, sapien vitae maximus viverra, arcu ex efficitur massa, sodales finibus sem lorem id erat. Cras scelerisque, erat eu dignissim finibus, ipsum lacus tincidunt leo, nec fringilla nunc nisl eget diam. Nulla vitae interdum dolor. Vestibulum non finibus mauris, a ornare libero. Etiam a aliquet neque, ut dictum ante. Mauris ex massa, sagittis a viverra sed, lacinia vitae ante. Cras id arcu viverra turpis cursus porttitor in et ligula.
-
-\begin{figure*}
+\begin{table*}
 \begin{center}
-\includegraphics[width=0.9\linewidth]{../images/cams/4x4.png}
-\end{center}
-   \caption{Class activation maps from the four networks for the axial sequence of case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting.}
-\label{fig:cam_4x4}
-\end{figure*}
-
-\begin{figure*}
-\begin{center}
-\includegraphics[width=0.9\linewidth]{../images/corr/corr.png}
-\end{center}
-   \caption{Correlation between predictions on the validation set.}
-\label{fig:mrnet_auc}
-\end{figure*}
-
-\begin{table*}[bp]
-\begin{center}
-\begin{tabular}{|l|c|c|c||c|}
+\begin{tabular}{|l|c|c|}
 \hline
-Model & Abnormal & ACL & Meniscus & Average \\
-\hline\hline
-MRNet (reported) & 0.937 & 0.965 & 0.847 & 0.916 \\
+Name & Feature Extraction Layer & Sequence Reduction Layer \\
 \hline
-MRNet & \textbf{0.940} & 0.960 & 0.839 & 0.913 \\
-MRNet-Squeeze & 0.925 & \textbf{0.974} & 0.829 & 0.910 \\
-MRNet-Attend & 0.925 & 0.910 & 0.838  & 0.891\\
-MRNet-SqueezeAttend & 0.936 & 0.925 & \textbf{0.885} & \textbf{0.915}\\
+MRNet & AlexNet & Max pooling \\
+MRNet-Squeeze & SqueezeNet & Max pooling \\
+MRNet-Attend & AlexNet & Attention \\
+MRNet-SqueezeAttend & SqueezeNet & Attention \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Model combinations used in experiments.}
+\label{tab:models}
+\end{table*}
+
+Referring to the abstract network image shown in Figure \ref{fig:network}, Table \ref{tab:models} shows the combinations of feature extraction and sequence reduction techniques used in the experiments in this paper. In each case, a pretrained network that was tuned on ImageNet was used to extract features. The pretrained network was fine-tuned on the MRNet data along with the other layers of the model.
+
+In addition to these models, I include results from ensembling the sequence-specific predictions of all four models, as described in Figure \ref{fig:ensemble-of-ensembles}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Optimization Method & Adam \\
+Weight Decay & 0.01 \\
+\hline
+Learning Rate Schedule & Reduce on plateau \\
+Initial Learning Rate & 0.00001 \\
+Max Patience & 5 \\
+Factor & 0.3 \\
+\hline
+Max Epochs & 40 \\
+\hline
+Logistic Regression Penalty & L2 \\
+Logistic Regression Lambda & 1.0 \\
+\hline
+
+\end{tabular}
+\end{center}
+\caption{Hyperparameters for all experiments.}
+\label{tab:hyperparams}
+\end{table}
+
+Table \ref{tab:hyperparams} shows the hyperparameters used for all experiments. Most of these hyperparameters were drawn from the original MRNet paper, although Initial Learning Rate and Max Epochs were determined with brief experiments on the axial sequence and abnormal label. Due to the processing time required to run these models, extensive hyperparameter optimization was not feasible, although this would be a potential are for future work.
+
+The primary metric used to compare models is Area Under the ROC Curve (AUC). In particular, averaging the AUC of the three labels determines a final metric for each model. In addition, I report the specificity, sensitivity, and accuracy of the four models on each label, using a $0.5$ threshold to turn probabilities into label predictions.
+
+Table \ref{tab:results} shows the AUC for each model on each injury prediction, as well as averaged across all injuries. Each of the individual model types perform well on some of the injury categories, but none of them excel at all injuries. For detecting any kind of abnormality, the original MRNet implementation gets the highest AUC $(0.940)$. MRNet-Squeeze is the best model for detecting ACL injuries $(0.974)$, while MRNet-SqueezeAttend achieves the highest AUC on the Meniscal tear category $(0.885)$.
+
+By using all four model types together, however, I can capture that varying performance on the three injuries to create an ensembled model that outperforms any of the individual models. The ensembled model achieves nearly the highest AUC on all individual injury types, and significantly outperforms the others with an average AUC of $0.931$.
+
+MRNet (reported) is the AUC reported by Bien, et al.\cite{bien2018deep}, and is not directly comparable to the values shown here because the released data is a subset of the data used in their experiments.
+
+\begin{table*}[h!]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+Model & Average & Abnormal & ACL & Meniscus \\
+\hline
+MRNet (reported) & 0.916 & 0.937 & 0.965 & 0.847 \\
+\hline
+MRNet & 0.913 & \textbf{0.940} & 0.960 & 0.839 \\
+MRNet-Squeeze & 0.910 & 0.925 & 0.974 & 0.829 \\
+MRNet-Attend & 0.891 & 0.925 & 0.910 & 0.838 \\
+MRNet-SqueezeAttend & 0.915 & 0.936 & 0.925 & \textbf{0.885}\\
+\hline
+Ensemble & \textbf{0.931} & 0.939 & \textbf{0.976} & 0.876 \\
 \hline
 \end{tabular}
 \end{center}
@@ -313,7 +320,9 @@ MRNet-SqueezeAttend & 0.936 & 0.925 & \textbf{0.885} & \textbf{0.915}\\
 \label{tab:results}
 \end{table*}
 
-\begin{table*}[bp]
+Table \ref{tab:metrics} shows the specificity, sensitivity, and accuracy of each model, as well as the human performance of expert radiologists, as reported by Bien et al.\cite{bien2018deep}. Once again, the experiments in this paper are not directly comparable to the reported human values because of differing data sets, especially on these metrics since class imbalance can have an outsized effect on precision and recall. On these metrics, the final ensemble achieves state of the art on some injury types and not others.
+
+\begin{table*}[h!]
 \begin{center}
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -321,43 +330,143 @@ Prediction & Specificity & Sensitivity & Accuracy \\
 \hline
 \multicolumn{4}{l}{\textbf{Abnormality} }\\
 \hline
+Radiologist & 0.844 & 0.905 & 0.894 \\
 MRNet (reported) & 0.714 & 0.879 & 0.850 \\
+\hline
 MRNet & 0.440 & 0.968 & 0.858 \\
 MRNet-Squeeze & 0.560 & 0.968 & 0.883 \\
 MRNet-Attend & 0.480 & 0.979 & 0.875  \\
 MRNet-SqueezeAttend & 0.440 & 0.968 & 0.858 \\
 \hline
+Ensemble & 0.480 & 0.958 & 0.858 \\
+\hline
 \multicolumn{4}{l}{\textbf{ACL tear} }\\
 \hline
+Radiologist & 0.933 & 0.906 & 0.920 \\
 MRNet (reported) & 0.968 & 0.759 & 0.867 \\
+\hline
 MRNet & 0.894 & 0.907 & 0.900 \\
 MRNet-Squeeze & 0.909 & 0.963 & 0.933 \\
 MRNet-Attend & 0.803 & 0.778 &  0.792 \\
 MRNet-SqueezeAttend & 0.864 & 0.852 & 0.858 \\
 \hline
+Ensemble & 0.909 & 0.981 & 0.942 \\
+\hline
 \multicolumn{4}{l}{\textbf{Meniscus tear} }\\
 \hline
+Radiologist & 0.882 & 0.820 & 0.849 \\
 MRNet (reported) & 0.741 & 0.710 & 0.725 \\
+\hline
 MRNet & 0.721 & 0.788 & 0.750 \\
 MRNet-Squeeze & 0.735 & 0.731 & 0.733 \\
 MRNet-Attend & 0.691 & 0.846 &  0.758 \\
 MRNet-SqueezeAttend & 0.794 & 0.750 & 0.775 \\
+
+\hline
+Ensemble & 0.735 & 0.865 & 0.792 \\
 \hline
 \end{tabular}
 \end{center}
 \caption{Metrics on the validation set}
-\label{tab:results}
+\label{tab:metrics}
 \end{table*}
+
+\begin{figure*}[h!]
+\begin{center}
+\includegraphics[width=0.9\linewidth]{../images/corr2/corr2.png}
+\end{center}
+   \caption{Correlation between sequence-specific predictions on the validation set.}
+\label{fig:corr}
+\end{figure*}
+
+
+
+It is interesting to consider the differences between the four models, especially at the level of the sequence-specific predictions (i.e. the values that get fed into the logistic regression classifier). If the sequence-specific predictions for each diagnosis are highly correlated, then we would not expect the multi-model ensemble to outperform the individual models. Figure \ref{fig:corr} shows the correlation between the sequence-specific predictions on the validation set for the four models. There is a strong correlation between the sequence-specific predictions on some diagnosis/sequence combinations (for instance, Abnormal/Axial and ACL/Sagittal), but on other combinations the correlation is quite low (ACL/Coronal, Meniscus/Axial). These areas of low correlation are likely useful signals for the multi-model ensemble.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Model & Frame \\
+\hline
+MRNet & 11 \\
+MRNet-Squeeze & 7 \\
+MRNet-Attend & 20 \\
+MRNet-SqueezeAttend & 6 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{The most focused on frame of the axial sequence for each model when predicting whether Case 1218 has an ACL tear.}
+\label{tab:frames}
+\end{table}
+
+Another way to look at the differences between models is to examine, for a particular diagnosis/sequence combination, what areas of the MRI each model is focusing on. If we consider a specific instance in the validation set, Case 1218, and look at a specific diagnosis/sequence pair, ACL/Axial, we can ask which image from the sequence each model is most interested in. For the models that use attention (MRNet-Attend and MRNet-SqueezeAttend) that simply means asking for the argmax of the calculated attention vector. For MRNet and MRNet-Squeeze, the sequence reduction layer takes the maximum value over the sequence for each location in the features vector. For those models, we can say that the frame with the most maximum values is the one that the model is ``most interested'' in. Table \ref{tab:frames} shows the most interesting frame of the axial sequence for each model when asked to predict whether Case 1218 has an ACL tear.
+
+We can go further though, and examine the class activation map (CAM) for each of those frames for each model. A class activation map is a way of visualizing where in the image a model is focusing its (implicit) attention\cite{zhou2016learning}. To calculate the CAM for the frames listed in Table \ref{tab:frames}, we use $W_c$ from Equation \ref{eq:network} to compute a weighted average of the $c$ $\mathbb{R}^{w \times h}$ feature maps generated by running the single frame through the feature extraction layer of the sequence-specific model. That is, let $F$ be the $\mathbb{R}^{c \times w \times h}$ tensor returned by running a frame through the feature extraction layer. Then we calculate an image $I \in \mathbb{R}^{w \times h}$:
+
+$$I_{i,j} = \frac{1}{c} \sum_{a=1}^c W_{c_a} F_{i, j}$$
+
+By scaling this image up to the original MRI image size $(256 \times 256)$ and using the values as a colormap to overlay on the image, we can create a visualization of where the model's attention is focused for each frame. Figure \ref{fig:cam_4x4} shows the CAM for the four models (across the columns) for the 11th, 7th, 20th, and 6th frame, i.e. each model's ``most interesting'' frame (across the rows).
+
+\begin{figure*}[h!]
+\begin{center}
+\includegraphics[width=0.9\linewidth]{../images/cams/4x4.png}
+\end{center}
+   \caption{Class activation maps from the four networks for the axial sequence of Case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting.}
+\label{fig:cam_4x4}
+\end{figure*}
+
+
+\section{Conclusion/Future Work} % (1-3 paragraphs)
+% Summarize your report and reiterate key points. Which algorithms were the highest-performing?  Why do you think that some algorithms worked better than others? For future work, if you had more time, more team members, or more compute, what would you explore?
+
+The experiments in this paper use transfer learning to predict injury diagnoses from MRI sequences of the knee. I compare pretrained AlexNet and SqueezeNet models as feature extractors and max pooling versus attention mechanisms to reduce the information across the sequence. Finally, I use a logistic regression, trained on the sequence-specific predictions, to predict the probability of the diagnosis for the patient.
+
+I show that all of the models have different strengths and weaknesses, some achieving higher AUC scores than others on each diagnosis. Furthermore, I show that by ensembling not just different sequence predictions, but multiple sequence predictions from multiple sequence models, I can outperform the current state of the art on the MRNet data set.
+
+There is still a lot left to explore here though. Future work should include examining how to get greater diversity in the sequence-specific models. Some possibilities for decreasing the correlation between predictions are:
+\begin{itemize}
+\item Using other pretrained feature extractors in the Feature Extraction layer.
+\item Swapping the order of the Global Average Pooling layer and the Sequence
+Reduction layer.
+\item Using more advanced methods like RNNs in the Sequence Reduction layer.
+\end{itemize}
+
+I also believe that there is a possibility of using inter-sequence attention to compute a final representation of all three sequences, but exploring that was beyond the scope of this project. Finally, an end-to-end ensemble model, instead of using logistic regression on the sequence-specific predictions, may lead to more robust models.
+
+\subsection{Failed Experiments}
+I briefly tried some of the next steps mentioned above, but was not able to achieve AUC scores as high as any of the individual models, much less the final multi-model ensemble. With more time, any one of these paths could be useful.
+
+Specifically, I tried:
+\begin{itemize}
+   \item Using a pretrained ResNet in place of AlexNet or SqueezeNet. Despite many attempts at freezing or removing various layers and adding dropout, I was not able to prevent models with feature extractor from overfitting on the sequence-specific predictions.
+   \item Using pretrained DenseNet or VGG in place of AlexNet or SqueezeNet. DenseNet and VGG both require significantly more memory than the other networks, which prevented me from using them since the model architecture requires passing all of the frames in an MRI sequence through at once.
+   \item Using LSTM and BiLSTM layers in place of max pooling or attention in the Sequence Reduction layer. Here I struggled with underfitting, even with more LSTM layers.
+   \item Training end-to-end networks instead of ensembling the sequence-specific predictions. I believe that these networks were overfitting. The average AUC scores ranged from 0.860 (MRNet-SqueezeAttend) to 0.889 (MRNet).
+\end{itemize}
+
+\appendix
 
 \section{Contributions \& Acknowledgements}
 
-Compute power generously donated by Turnitin.
+Compute power for all experiments and time to work on the project generously donated by \href{https://www.turnitin.com/}{Turnitin}. I would also like to thank Stanford cs231n TA, David Morales, for his advice and suggestions as I completed this work.
 
-{\small
+\section{Project Code}
+
+All code, notebooks, images, and LaTeX for this paper can be found in \href{https://github.com/FragLegs/mrnet}{this GitHub repo}.
+
+\section{Starter Code}
+
+Bien et al. supply \href{https://journals.plos.org/plosmedicine/article/file?type=supplementary&id=info:doi/10.1371/journal.pmed.1002699.s001}{code} for training and evaluating MRNet on a set of external
+validation data from the 2017 Štajduhar et al. study \cite{vstajduhar2017semi}. The model.py file in this package provided the architecture of the baseline MRNet model. I also used the train.py, evaluate.py, and loader.py files as starting places for my work, though they had to be heavily modified to work on the \href{https://stanfordmlgroup.github.io/competitions/mrnet/}{MRNet challenge} data.
+
+The GitHub repo linked above contains a copy of the original code in the `external\_validation\_scripts' directory.
+
+
+%{\small
 \bibliographystyle{ieee}
 \bibliography{egbib}
-}
-
+%}
 % \begin{abstract}
 %    The ABSTRACT is to be in fully-justified italicized text, at the top
 %    of the left-hand column, below the author and affiliation
