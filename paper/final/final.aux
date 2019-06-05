@@ -42,19 +42,19 @@
 \citation{knee-image}
 \citation{iandola2016squeezenet}
 \citation{iandola2016squeezenet}
+\citation{agoes2017fine}
+\citation{durmucs2017disease}
+\citation{qian2018machine}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces An abstract view of the sequence-specific networks. Image of a knee MRI taken from \cite  {knee-image}.}}{2}{figure.1}}
 \newlabel{fig:network}{{1}{2}{An abstract view of the sequence-specific networks. Image of a knee MRI taken from \cite {knee-image}}{figure.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}\hskip -1em.\nobreakspace  {}Methods}{2}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}\hskip -1em.\nobreakspace  {}Sequence Network}{2}{subsection.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Illustration of a fire layer. Taken directly from ``SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and $<$0.5 MB model size''\cite  {iandola2016squeezenet}}}{2}{figure.2}}
-\newlabel{fig:fire}{{2}{2}{Illustration of a fire layer. Taken directly from ``SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and $<$0.5 MB model size''\cite {iandola2016squeezenet}}{figure.2}{}}
 \newlabel{eq:network}{{1}{2}{\hskip -1em.~Sequence Network}{equation.3.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}\hskip -1em.\nobreakspace  {}SqueezeNet}{2}{subsection.3.2}}
-\citation{agoes2017fine}
-\citation{durmucs2017disease}
-\citation{qian2018machine}
 \citation{tan2018deep}
 \citation{luong2015effective}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Illustration of a fire layer. Image taken directly from ``SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and $<$0.5 MB model size''\cite  {iandola2016squeezenet}}}{3}{figure.2}}
+\newlabel{fig:fire}{{2}{3}{Illustration of a fire layer. Image taken directly from ``SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and $<$0.5 MB model size''\cite {iandola2016squeezenet}}{figure.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}\hskip -1em.\nobreakspace  {}Attention}{3}{subsection.3.3}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Ensembling predictions from the sequence-specific networks to generate an injury prediction.}}{3}{figure.3}}
 \newlabel{fig:ensemble}{{3}{3}{Ensembling predictions from the sequence-specific networks to generate an injury prediction}{figure.3}{}}
@@ -62,43 +62,45 @@
 \newlabel{fig:ensemble-of-ensembles}{{4}{3}{Ensembling predictions from multiple sequence-specific network types to generate an injury prediction}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}\hskip -1em.\nobreakspace  {}Sequence Ensembling}{3}{subsection.3.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}\hskip -1em.\nobreakspace  {}Model and Sequence Ensembling}{3}{subsection.3.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}\hskip -1em.\nobreakspace  {}Dataset}{3}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}\hskip -1em.\nobreakspace  {}Loss}{3}{subsection.3.6}}
 \citation{numpy}
 \citation{bien2018deep}
 \citation{bien2018deep}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces MRNet data splits and label counts.}}{4}{table.1}}
 \newlabel{tab:dataset}{{1}{4}{MRNet data splits and label counts}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}\hskip -1em.\nobreakspace  {}Dataset}{4}{section.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}\hskip -1em.\nobreakspace  {}Preprocessing}{4}{subsection.4.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}\hskip -1em.\nobreakspace  {}Augmentation}{4}{subsection.4.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}\hskip -1em.\nobreakspace  {}Results}{4}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}\hskip -1em.\nobreakspace  {}Experiments}{4}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}\hskip -1em.\nobreakspace  {}Results}{4}{section.6}}
+\citation{zhou2016learning}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Model combinations used in experiments.}}{5}{table.2}}
 \newlabel{tab:models}{{2}{5}{Model combinations used in experiments}{table.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Correlation between sequence-specific predictions on the validation set.}}{5}{figure.5}}
-\newlabel{fig:corr}{{5}{5}{Correlation between sequence-specific predictions on the validation set}{figure.5}{}}
-\citation{zhou2016learning}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Hyperparameters for all experiments.}}{6}{table.3}}
-\newlabel{tab:hyperparams}{{3}{6}{Hyperparameters for all experiments}{table.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}\hskip -1em.\nobreakspace  {}Conclusion/Future Work}{6}{section.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}\hskip -1em.\nobreakspace  {}Failed Experiments}{6}{subsection.6.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Hyperparameters for all experiments.}}{5}{table.3}}
+\newlabel{tab:hyperparams}{{3}{5}{Hyperparameters for all experiments}{table.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}\hskip -1em.\nobreakspace  {}Conclusion/Future Work}{5}{section.7}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces AUC on the validation set}}{6}{table.4}}
+\newlabel{tab:results}{{4}{6}{AUC on the validation set}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Metrics on the validation set}}{6}{table.5}}
+\newlabel{tab:metrics}{{5}{6}{Metrics on the validation set}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces The most focused on frame of the axial sequence for each model when predicting whether Case 1218 has an ACL tear.}}{6}{table.6}}
+\newlabel{tab:frames}{{6}{6}{The most focused on frame of the axial sequence for each model when predicting whether Case 1218 has an ACL tear}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}\hskip -1em.\nobreakspace  {}Failed Experiments}{6}{subsection.7.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Correlation between sequence-specific predictions on the validation set.}}{7}{figure.5}}
+\newlabel{fig:corr}{{5}{7}{Correlation between sequence-specific predictions on the validation set}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}\hskip -1em.\nobreakspace  {}Contributions \& Acknowledgements}{7}{appendix.A}}
 \citation{vstajduhar2017semi}
 \bibstyle{ieee}
 \bibdata{egbib}
 \bibcite{agoes2017fine}{1}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces AUC on the validation set}}{7}{table.4}}
-\newlabel{tab:results}{{4}{7}{AUC on the validation set}{table.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Metrics on the validation set}}{7}{table.5}}
-\newlabel{tab:metrics}{{5}{7}{Metrics on the validation set}{table.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces The most focused on frame of the axial sequence for each model when predicting whether Case 1218 has an ACL tear.}}{7}{table.6}}
-\newlabel{tab:frames}{{6}{7}{The most focused on frame of the axial sequence for each model when predicting whether Case 1218 has an ACL tear}{table.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}\hskip -1em.\nobreakspace  {}Contributions \& Acknowledgements}{7}{appendix.A}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}\hskip -1em.\nobreakspace  {}Project Code}{7}{appendix.B}}
-\@writefile{toc}{\contentsline {section}{\numberline {C}\hskip -1em.\nobreakspace  {}Starter Code}{7}{appendix.C}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Class activation maps from the four networks for the axial sequence of Case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting.}}{8}{figure.6}}
+\newlabel{fig:cam_4x4}{{6}{8}{Class activation maps from the four networks for the axial sequence of Case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting}{figure.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}\hskip -1em.\nobreakspace  {}Project Code}{8}{appendix.B}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}\hskip -1em.\nobreakspace  {}Starter Code}{8}{appendix.C}}
 \bibcite{alkadi20182}{2}
 \bibcite{bien2018deep}{3}
 \bibcite{boeve1991magnetic}{4}
 \bibcite{knee-image}{5}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Class activation maps from the four networks for the axial sequence of Case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting.}}{8}{figure.6}}
-\newlabel{fig:cam_4x4}{{6}{8}{Class activation maps from the four networks for the axial sequence of Case 1218, when asked to predict whether there is an ACL tear. From left to right, the columns are class activation maps for MRNet, MRNet-Squeeze, MRNet-Attend, and MRNet-SqueezeAttend. Each row represents the frame from the axial sequence that each network found most interesting}{figure.6}{}}
 \bibcite{imagenet_cvpr09}{6}
 \bibcite{durmucs2017disease}{7}
 \bibcite{felli2016comparison}{8}
