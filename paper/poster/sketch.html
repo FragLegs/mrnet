@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+     "http://www.w3.org/TR/html4/transitional.dtd">
+<html>
+<head>
+
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <title></title>
+  <meta name="generator" content="LibreOffice 5.1.6.2 (Linux)"/>
+  <meta name="author" content="Shayne Miel"/>
+  <meta name="created" content="2019-03-14T10:53:48.353391389"/>
+  <meta name="changedby" content="Shayne Miel"/>
+  <meta name="changed" content="2019-06-07T21:30:48.742971102"/>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#000000" vlink="#000000" alink="#000000">
+<h1>Ensembled Transfer Learning for MRI-based Knee Injury Diagnosis
+Shayne Miel smiel@stanford.edu</h1>
+<table>
+  <tr>
+    <td>
+<p><b>Model</b></p>
+    </td>
+    <td>
+<p><b>Average</b></p>
+    </td>
+    <td>
+<p><b>Abnormal</b></p>
+    </td>
+    <td>
+<p><b>ACL</b></p>
+    </td>
+    <td>
+<p><b>Meniscus</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p><u>MRNet (reported)</u></p>
+    </td>
+    <td>
+<p><u>0.916</u></p>
+    </td>
+    <td>
+<p><u>0.937</u></p>
+    </td>
+    <td>
+<p><u>0.965</u></p>
+    </td>
+    <td>
+<p><u>0.847</u></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet</p>
+    </td>
+    <td>
+<p>0.913</p>
+    </td>
+    <td>
+<p><b>0.940</b></p>
+    </td>
+    <td>
+<p>0.960</p>
+    </td>
+    <td>
+<p>0.839</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet-Squeeze</p>
+    </td>
+    <td>
+<p>0.910</p>
+    </td>
+    <td>
+<p>0.925</p>
+    </td>
+    <td>
+<p>0.974</p>
+    </td>
+    <td>
+<p>0.829</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet-Attend</p>
+    </td>
+    <td>
+<p>0.891</p>
+    </td>
+    <td>
+<p>0.925</p>
+    </td>
+    <td>
+<p>0.910</p>
+    </td>
+    <td>
+<p>0.838</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p><u>MRNet-SqueezeAttend</u></p>
+    </td>
+    <td>
+<p><u>0.915</u></p>
+    </td>
+    <td>
+<p><u>0.936</u></p>
+    </td>
+    <td>
+<p><u>0.925</u></p>
+    </td>
+    <td>
+<p><u><b>0.885</b></u></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>Ensemble</p>
+    </td>
+    <td>
+<p><b>0.931</b></p>
+    </td>
+    <td>
+<p>0.939</p>
+    </td>
+    <td>
+<p><b>0.976</b></p>
+    </td>
+    <td>
+<p>0.876</p>
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td>
+<p><b>Model</b></p>
+    </td>
+    <td>
+<p><b>Feature Extraction Layer</b></p>
+    </td>
+    <td>
+<p><b>Sequence Reduction Layer</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet [1]</p>
+    </td>
+    <td>
+<p>AlexNet</p>
+    </td>
+    <td>
+<p>Max pooling</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet-Squeeze</p>
+    </td>
+    <td>
+<p>SqueezeNet</p>
+    </td>
+    <td>
+<p>Max pooling</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet-Attend</p>
+    </td>
+    <td>
+<p>AlexNet</p>
+    </td>
+    <td>
+<p>Attention</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<p>MRNet-SqueezeAttend</p>
+    </td>
+    <td>
+<p>SqueezeNet</p>
+    </td>
+    <td>
+<p>Attention</p>
+    </td>
+  </tr>
+</table>
+<p><b>Problem formulation</b></p>
+<p>Three MRI sequences per instance: </p>
+<p>    Axial (from above), Coronal (from front), Sagittal (from side)</p>
+<p>Three independent binary labels per instance: </p>
+<p>    Is abnormal? Has ACL tear? Has meniscal tear?</p>
+<p><b>Data Set</b></p>
+<p>MRNet Challenge: </p>
+<p>    https://stanfordmlgroup.github.io/competitions/mrnet/</p>
+<p>1,250 instances: </p>
+<p>    training (1,010), tuning (120), and validation (120)</p>
+<p><b>Sequence-specific networks</b></p>
+<p>- Pretrained CNN feature extractor</p>
+<p>- Global average pooling to reduce image dimensions</p>
+<p>- Sequence reduction layer to reduce sequence of images</p>
+<p>- Classification layer to predict binary label</p>
+<p><b>Models</b></p>
+<p>3 sequence-specific networks (independently trained)</p>
+<p>Sequence-specific predictions are features for logistic regression</p>
+<p><b>Ensemble</b></p>
+<p>12 sequence-specific CNNs (4 model types x 3 sequences)</p>
+<p>Sequence-specific predictions are features for logistic regression</p>
+<p>[1] Bien, Nicholas, et al. &quot;Deep-learning-assisted diagnosis for knee magnetic resonance imaging: Development and retrospective validation of MRNet.&quot; <i>PLoS medicine</i> 15.11 (2018): e1002699.</p>
+<p>MRNet-SqueezeAttend</p>
+<p>         MRNet-Atend</p>
+<p>         MRNet-Squeeze</p>
+<p>MRNet</p>
+<p>Frame 11</p>
+<p>Frame 7</p>
+<p>Frame 20</p>
+<p>Frame 6</p>
+<p>Case 1218 – Axial, ACL</p>
+<p>AUC on validation set</p>
+</body>
+</html>
