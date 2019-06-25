@@ -52,7 +52,7 @@ def parse_args():
 
     output_path_help = 'Path to the zip file being created'
     parser.add_argument(
-        'output_path',
+        '--output_path',
         type=str,
         default='final_models/final-models.zip',
         help=output_path_help
