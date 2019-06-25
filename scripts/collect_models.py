@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 
 def collect_models(output_path):
-    output_dir = os.dirname(output_path)
+    output_dir = os.path.dirname(output_path)
     os.makedirs(output_dir, exist_ok=True)
 
     names = ['MRNet', 'MRNet-Attend', 'MRNet-Squeeze', 'MRNet-SqueezeAttend']
