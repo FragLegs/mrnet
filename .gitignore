@@ -104,3 +104,7 @@ venv.bak/
 .mypy_cache/
 
 runs/
+export/final_models/
+final_models/
+test-submission/
+export/to_codalab/
