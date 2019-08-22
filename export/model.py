@@ -5,9 +5,9 @@ from torchvision import models
 
 
 class MRNet(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.alexnet(pretrained=True)
+        self.model = models.alexnet(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(256, 1)
 
@@ -21,9 +21,9 @@ class MRNet(nn.Module):
 
 
 class MRNetSqueeze(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.squeezenet1_0(pretrained=True)
+        self.model = models.squeezenet1_0(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(512, 1)
 
@@ -37,9 +37,9 @@ class MRNetSqueeze(nn.Module):
 
 
 class MRNetAttention(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.alexnet(pretrained=True)
+        self.model = models.alexnet(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.attention = nn.Linear(256, 1)
         self.classifier = nn.Linear(256, 1)
@@ -55,9 +55,9 @@ class MRNetAttention(nn.Module):
 
 
 class MRNetSqueezeAttention(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.squeezenet1_0(pretrained=True)
+        self.model = models.squeezenet1_0(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.attention = nn.Linear(512, 1)
         self.classifier = nn.Linear(512, 1)

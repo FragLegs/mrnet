@@ -5,9 +5,9 @@ from torchvision import models
 
 
 class MRNet(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=pretrained):
         super().__init__()
-        self.model = models.alexnet(pretrained=True)
+        self.model = models.alexnet(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(256, 1)
 
@@ -21,9 +21,9 @@ class MRNet(nn.Module):
 
 
 class MRNetVGG(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.vgg11_bn(pretrained=True)
+        self.model = models.vgg11_bn(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(512, 1)
 
@@ -37,9 +37,9 @@ class MRNetVGG(nn.Module):
 
 
 class MRNetVGGFixed(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.vgg11_bn(pretrained=True)
+        self.model = models.vgg11_bn(pretrained=pretrained)
 
         for param in self.model.parameters():
             param.requires_grad = False
@@ -57,9 +57,9 @@ class MRNetVGGFixed(nn.Module):
 
 
 class MRNetDense(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.densenet121(pretrained=True)
+        self.model = models.densenet121(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(1024, 1)
 
@@ -73,9 +73,9 @@ class MRNetDense(nn.Module):
 
 
 class MRNetSqueeze(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=pretrained):
         super().__init__()
-        self.model = models.squeezenet1_0(pretrained=True)
+        self.model = models.squeezenet1_0(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(512, 1)
 
@@ -89,9 +89,9 @@ class MRNetSqueeze(nn.Module):
 
 
 class MRNetRes(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -108,9 +108,9 @@ class MRNetRes(nn.Module):
 
 
 class MRNetResFixed(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -134,9 +134,9 @@ class MRNetResFixed(nn.Module):
 
 
 class MRNetRes7(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -160,9 +160,9 @@ class MRNetRes7(nn.Module):
 
 
 class MRNetRes7_1(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -193,9 +193,9 @@ class MRNetRes7_1(nn.Module):
 
 
 class MRNetRes7_1_conv2(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -231,9 +231,9 @@ class MRNetRes7_1_conv2(nn.Module):
 
 
 class MRNetRes7Dropout(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -259,9 +259,9 @@ class MRNetRes7Dropout(nn.Module):
 
 
 class MRNetRes7Dropout75(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -287,9 +287,9 @@ class MRNetRes7Dropout75(nn.Module):
 
 
 class MRNetResCut1(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-3])
@@ -306,9 +306,9 @@ class MRNetResCut1(nn.Module):
 
 
 class MRNetResCut2(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-4])
@@ -325,9 +325,9 @@ class MRNetResCut2(nn.Module):
 
 
 class MRNetResCut1_5(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-4])
@@ -346,9 +346,9 @@ class MRNetResCut1_5(nn.Module):
 
 
 class MRNetResCut_5(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-3])
@@ -367,9 +367,9 @@ class MRNetResCut_5(nn.Module):
 
 
 class MRNetLstm(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.alexnet(pretrained=True)
+        self.model = models.alexnet(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.hidden_size = 152
         self.h0 = torch.randn(1, 1, self.hidden_size, requires_grad=True)
@@ -393,9 +393,9 @@ class MRNetLstm(nn.Module):
 
 
 class MRNetBiLstm(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.alexnet(pretrained=True)
+        self.model = models.alexnet(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.hidden_size = 152
         self.h0 = torch.randn(2, 1, self.hidden_size, requires_grad=True)
@@ -419,9 +419,9 @@ class MRNetBiLstm(nn.Module):
 
 
 class MRNetAttention(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.alexnet(pretrained=True)
+        self.model = models.alexnet(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.attention = nn.Linear(256, 1)
         self.classifier = nn.Linear(256, 1)
@@ -437,9 +437,9 @@ class MRNetAttention(nn.Module):
 
 
 class MRNetSqueezeAttention(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.model = models.squeezenet1_0(pretrained=True)
+        self.model = models.squeezenet1_0(pretrained=pretrained)
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.attention = nn.Linear(512, 1)
         self.classifier = nn.Linear(512, 1)
@@ -455,9 +455,9 @@ class MRNetSqueezeAttention(nn.Module):
 
 
 class MRNetResFixedBN(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        res = models.resnet18(pretrained=True)
+        res = models.resnet18(pretrained=pretrained)
 
         # skip avg pool and fc
         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -485,9 +485,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetRes7(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -511,9 +511,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetRes7_1(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -544,9 +544,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetRes7_1_conv2(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -582,9 +582,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetRes7Dropout(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -610,9 +610,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetRes7Dropout75(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-2])
@@ -638,9 +638,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetResCut1(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-3])
@@ -657,9 +657,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetResCut2(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-4])
@@ -676,9 +676,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetResCut1_5(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-4])
@@ -697,9 +697,9 @@ class MRNetResFixedBN(nn.Module):
 
 
 # class MRNetResCut_5(nn.Module):
-#     def __init__(self):
+#     def __init__(self, pretrained=True):
 #         super().__init__()
-#         res = models.resnet18(pretrained=True)
+#         res = models.resnet18(pretrained=pretrained)
 
 #         # skip avg pool and fc
 #         self.model = nn.Sequential(*list(res.children())[:-3])

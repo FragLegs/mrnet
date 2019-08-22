@@ -31,7 +31,7 @@ def load_models(models_path):
                     models_path, f'{diagnosis}-{model_name}-{series}'
                 )
                 print(f'Loading {model_name} from {model_path}')
-                model = MODELS[model_name]()
+                model = MODELS[model_name](pretrained=False)
                 state_dict = torch.load(model_path, map_location='cpu')
                 model.load_state_dict(state_dict)
                 model.eval()
